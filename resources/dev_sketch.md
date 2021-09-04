@@ -8,13 +8,13 @@
 
 A set of rules that define how the app functions.
 
-```js
+```json5
 // random.js
 {
     'pick_challenges': 'random',
     'civ': {
         'solo': {
-            'base_on_player_points': false
+            'base_on_player_points': false,
             'amount': 5,
             // etc. etc. etc.
         },
@@ -54,11 +54,11 @@ A set of rules that define how the app functions.
 - `[Editor Mode]` Can be changed in GUI
 - `[Editor Mode]` Can be deleted (?) in GUI
 
-```js
+```json5
 {
     'id': 'no_lumber_camps',
     'name': 'No Lumbercamps',
-    'points': 4 || {'key': 0},
+    'points': 4, // || {'key': 0},
     'desc': 'some comment about it',
     'classes': [''],
     'civs': [''],
@@ -68,12 +68,12 @@ A set of rules that define how the app functions.
 
 # Commands (solo)
 
-```js
+```json5
 {
     'id': 'even_out',
     'name': 'Even out x',
     'points': {
-        'vills':    [5, 7]
+        'vills':    [5, 7],
         'military': [4, 6]
     },
     'max_repeat': 2,
