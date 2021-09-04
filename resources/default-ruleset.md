@@ -1,6 +1,120 @@
 #Ruleset
 
-#Objects
+#Entire object example
+```json5
+{
+    "challenges": {
+        "enabled": true,
+        "pick": "random",
+        "points_distribution": {
+            "economy": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "military": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "buildings": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "technologies": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "miscellaneous": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "wild_points": {
+                "enabled": true,
+                "quantity": 50,
+                "type": "percentage"
+            }
+        }
+    },
+    "commands": {
+        "enabled": true,
+        "pick": "random",
+        "points_distribution": {
+            "economy": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "military": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "buildings": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "technologies": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "miscellaneous": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "wild_points": {
+                "enabled": true,
+                "quantity": 50,
+                "type": "percentage"
+            }
+        }
+    },
+    "civ": {
+        "defendants": {
+            "quantity": 3,
+            "type": "exact",
+            "pick": "random"
+        },
+        "challengers": {
+            "quantity": 1,
+            "type": "exact",
+            "pick": "random"
+        }
+    },
+    "map": {
+        "quantity": 1,
+        "pick": "random"
+    }
+}
+```
+
+
 ##Challenges, Commands
 ```json5
 {
@@ -118,7 +232,7 @@
     // The following options are available
     // [
     //  'random'                    # Picks a random map for you
-    //  'random_pick_defendant'     # Picks random maps for you based on quantity. Then you choose from those
+    //  'random_pick_defendants'     # Picks random maps for you based on quantity. Then you choose from those
     //  'random_pick_challengers'   # Picks random maps for you based on quantity. Then you choose from those
     //  'defendants'                # Defendants will choose the map 
     //  'challengers'               # Challenger will choose the map
