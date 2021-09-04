@@ -19,6 +19,7 @@
     "dist:all": "npm run build:prod && electron-builder --mac --linux --windows"
   },
   "dependencies": {
+    "axios": "^0.21.2",
     "core-js": "^3.6.5",
     "dotenv": "^8.2.0",
     "vue": "^3.0.0",
