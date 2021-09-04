@@ -22,8 +22,8 @@ interface RsPolicies {
 
 interface RsPointsDistribution {
     enabled: boolean;
-    min_quantity: number;
-    max_quantity: number;
+    min_quantity: number | null;
+    max_quantity: number | null;
     type: RsType;
     wild_points: boolean;
 }
