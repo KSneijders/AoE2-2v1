@@ -61,6 +61,8 @@ A set of rules that define how the app functions.
     'points': 4 || {'key': 0},
     'desc': 'some comment about it',
     'classes': [''],
+    'civs': [''],
+    'maps': ['']
 }
 ```
 
@@ -76,6 +78,8 @@ A set of rules that define how the app functions.
     },
     'max_repeat': 2,
     'classes': [''],
+    'civs': [''],
+    'maps': ['']
 }
 ```
 
