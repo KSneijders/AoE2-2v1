@@ -1,0 +1,110 @@
+{
+    "challenges": {
+        "enabled": true,
+        "pick": "random",
+        "points_distribution": {
+            "economy": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "military": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "buildings": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "technologies": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "miscellaneous": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "wild_points": {
+                "enabled": true,
+                "quantity": 50,
+                "type": "percentage"
+            }
+        }
+    },
+    "commands": {
+        "enabled": true,
+        "pick": "random",
+        "points_distribution": {
+            "economy": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "military": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "buildings": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "technologies": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "miscellaneous": {
+                "enabled": true,
+                "min_quantity": null,
+                "max_quantity": null,
+                "type": "percentage",
+                "wild_points": true
+            },
+            "wild_points": {
+                "enabled": true,
+                "quantity": 50,
+                "type": "percentage"
+            }
+        }
+    },
+    "civ": {
+        "defendants": {
+            "quantity": 3,
+            "type": "exact",
+            "pick": "random"
+        },
+        "challenger": {
+            "quantity": 1,
+            "type": "exact",
+            "pick": "random"
+        }
+    },
+    "map": {
+        "quantity": 1,
+        "pick": "random"
+    }
+}
