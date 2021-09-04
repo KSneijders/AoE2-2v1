@@ -3,7 +3,8 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import store from './store';
-import {Categories} from "@/interfaces/policies";
+import {Challenges} from "@/interfaces/policies";
+import {Ruleset} from "@/interfaces/ruleset";
 
 createApp(App)
   .use(store)
@@ -13,7 +14,7 @@ createApp(App)
 declare global {
     interface Window {
         axios: {
-            get(url: string): Promise<Categories>;
+            get(url: string): Promise<Challenges | Ruleset>;
         };
     }
 }
