@@ -1,6 +1,6 @@
 <template>
   <div class="player-details">
-
+    The profile will be shown here
   </div>
 </template>
 
@@ -26,6 +26,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
   .player-details {
+    color: white;
     padding: 15px;
   }
 </style>

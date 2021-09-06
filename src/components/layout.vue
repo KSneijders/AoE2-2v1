@@ -14,7 +14,10 @@
     <div id="player-details" class="layout-window"
          v-if="selectedTab === 0">
       <div class="profile-container">
-        <Profile />
+        <div class="test">
+          <Profile />
+
+        </div>
       </div>
     </div>
     <div id="history" class="layout-window"
@@ -31,7 +34,7 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import Profile from "@/components/profile.vue";
-import {layoutTabs} from "@/interfaces/layout-tabs";
+import layoutTabs from "@/interfaces/layout-tabs";
 
 export default defineComponent({
   name: "layout",
@@ -101,7 +104,18 @@ export default defineComponent({
     .profile-container {
       width: 40%;
       height: 80vh;
-      background-color: #2c3e50;
+      background: linear-gradient(90deg, #2c3e50 0%, #435e79 100%);
+      padding: 25px;
+      border-radius: 15px;
+      border: 1px solid rgba(82,121,67,1);;
+
+      .test {
+        width: 100%;
+        height: 100%;
+        flex-wrap: nowrap;-webkit-box-shadow: 3px 8px 29px -2px rgba(0,0,0,0.74);
+        box-shadow: 3px 8px 29px -2px rgba(0,0,0,0.74);
+        background: linear-gradient(90deg, #2c3e50 0%, #435e79 100%);
+      }
     }
   }
 
