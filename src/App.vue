@@ -1,7 +1,10 @@
 <template>
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
     <div>
+        <h1>Selected Game Mode: {{ gameMode?.title }}</h1>
 
+        <div id="game-mode-selection">
+            <GameModeSelectionMenu/>
+        </div>
     </div>
 </template>
 
@@ -10,11 +13,13 @@
 import {defineComponent} from "vue";
 import {Challenges} from "@/interfaces/policies";
 import {Ruleset} from "@/interfaces/ruleset";
+import GameModeSelectionMenu from "@/components/GameModeSelectionMenu.vue";
+import {GameModeMenuItem} from "@/interfaces/game-mode";
 
 export default defineComponent({
     name: "App",
     components: {
-
+        GameModeSelectionMenu
     },
     data() {
         return {
@@ -30,18 +35,39 @@ export default defineComponent({
     },
     methods: {
 
+    },
+    computed: {
+        gameMode: function (): GameModeMenuItem {
+            return this.$store.state.selectedGameMode;
+        }
     }
 })
 
 </script>
 
 <style lang="scss">
+body {
+    padding: 0;
+    margin: 0;
+}
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: left;
-    color: #2c3e50;
-    margin-top: 60px;
+    color: #aebac5;
+    background-color: #363636;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+$width: 40%;
+#game-mode-selection {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 50% - $width;
+    width: $width;
 }
 </style>

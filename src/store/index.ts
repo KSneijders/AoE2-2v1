@@ -1,12 +1,13 @@
-import { createStore } from 'vuex'
+import {createStore} from 'vuex'
+import {GameModeMenuItem} from "@/interfaces/game-mode";
 
 export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
+    state() {
+        return {
+            selectedGameModeIndex: {title:''} as GameModeMenuItem,
+        }
+    },
+    mutations: {},
+    actions: {},
+    modules: {}
 })
