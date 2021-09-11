@@ -26,11 +26,11 @@ export default defineComponent({
     components: {},
     props: {},
     mounted() {
-        // Execute on creation
+        this.selectGameMode(this.selectedGameModeIndex);
     },
     data() {
         return {
-            selectedGameModeIndex: -1,
+            selectedGameModeIndex: 0,
             // Todo: Move this info to local json storage when Node fs context bridge is setup
             gameModes: [
                 {
