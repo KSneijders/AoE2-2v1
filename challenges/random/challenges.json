@@ -402,6 +402,11 @@
             "id": "get_heresy",
             "classes": [
                 "castle"
+            ],
+            "civs": [
+                "aztecs","berbers","bohemians","bulgarians","byzantines","celts","cumans","ethiopians","franks","huns",
+                "incas","lithuanians","magyars","malay","malians","mayans","mongols","portuguese","saracens","spanish",
+                "teutons","turks","vikings"
             ]
         },
         {
@@ -414,11 +419,6 @@
         }
     ],
     "miscellaneous": [
-        {
-            "name": "No laming",
-            "points": 1,
-            "id": "no_laming"
-        },
         {
             "name": "Max pop",
             "points": {
