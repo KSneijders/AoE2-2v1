@@ -15,6 +15,7 @@ import {Challenges} from "@/interfaces/policies";
 import {Ruleset} from "@/interfaces/ruleset";
 import GameModeSelectionMenu from "@/components/GameModeSelectionMenu.vue";
 import {GameModeMenuItem} from "@/interfaces/game-mode";
+import ChallengeCollection from "@/classes/challenge-collection";
 
 export default defineComponent({
     name: "App",
@@ -28,10 +29,11 @@ export default defineComponent({
         }
     },
     mounted() {
-        window.axios.get('https://raw.githubusercontent.com/KSneijders/AoE2-2v1/challenges/challenges/random/challenges.json')
-            .then(content => this.challenges = content as Challenges)
-        window.axios.get('https://raw.githubusercontent.com/KSneijders/AoE2-2v1/challenges/rulesets/default.json')
-            .then(content => this.ruleset = content as Ruleset)
+        window.axios.get('https://raw.githubusercontent.com/KSneijders/AoE2-2v1/dynamics/challenges/random/challenges.json')
+            .then(content => {this.challenges = content as Challenges})
+        window.axios.get('https://raw.githubusercontent.com/KSneijders/AoE2-2v1/dynamics/rulesets/default.json')
+            .then(content => {this.ruleset = content as Ruleset})
+
     },
     methods: {
 
