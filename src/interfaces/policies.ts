@@ -1,4 +1,14 @@
+interface Policies {
+    economy: Challenge[] | Command[];
+    military: Challenge[] | Command[];
+    building: Challenge[] | Command[];
+    technologies: Challenge[] | Command[];
+    miscellaneous: Challenge[] | Command[];
+}
+
 interface Challenges {
+    [key: string]: Challenge[];
+
     economy: Challenge[];
     military: Challenge[];
     building: Challenge[];
@@ -7,13 +17,22 @@ interface Challenges {
 }
 
 interface Commands {
-    commands: Command[];
+    [key: string]: Command[];
+
+    economy: Command[];
+    military: Command[];
+    building: Command[];
+    technologies: Command[];
+    miscellaneous: Command[];
 }
 
 interface Challenge {
+    [key: string]: string | string[] | number | PointObject | undefined;
+
     id: string;
     name: string;
     points: number | PointObject;
+    selectedOption?: string;  // Added key to show which of PointObject was chosen
     desc?: string;
     dev_desc?: string;
     classes?: string[];
@@ -41,6 +60,17 @@ interface PointCommandObject {
     [key: string]: number | number[];
 }
 
-export {Challenges, Challenge, Commands, Command, PointObject, PointCommandObject}
+interface Points {
+    [key: string]: number;
+
+    economy: number;
+    military: number;
+    building: number;
+    technologies: number;
+    miscellaneous: number;
+    wildPoints: number;
+}
+
+export {Policies, Challenges, Challenge, Commands, Command, PointObject, PointCommandObject, Points}
 
 
