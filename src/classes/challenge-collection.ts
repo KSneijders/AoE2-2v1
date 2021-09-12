@@ -1,6 +1,7 @@
 import {Challenge, Challenges, PointObject, Points} from "@/interfaces/policies";
 import {randomPoints} from "@/scripts/points";
 import {sample, shuffle} from "@/scripts/arrays";
+import {jsonDeepCopy} from "@/scripts/other";
 
 class ChallengeCollection {
     private readonly maxIterations = 1000;
@@ -11,8 +12,8 @@ class ChallengeCollection {
     private shuffled: boolean;
 
     constructor(challenges: Challenges, shuffle = false) {
-        this.challenges = JSON.parse(JSON.stringify(challenges));
-        this.points = randomPoints(25, .5);
+        this.challenges = jsonDeepCopy(challenges);
+        this.points = randomPoints(25, 0);
         this.internalIndex = 0;
 
         if (shuffle) this.shuffleChallenges();
