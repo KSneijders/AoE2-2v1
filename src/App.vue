@@ -29,9 +29,9 @@ export default defineComponent({
         }
     },
     mounted() {
-        window.axios.get('https://raw.githubusercontent.com/KSneijders/AoE2-2v1/dynamics/challenges/random/challenges.json')
+        window.axios.get('https://raw.githubusercontent.com/KSneijders/AoE2-2v1/dynamics/game-modes/random/challenges.json')
             .then(content => {this.challenges = content as Challenges})
-        window.axios.get('https://raw.githubusercontent.com/KSneijders/AoE2-2v1/dynamics/rulesets/default.json')
+        window.axios.get('https://raw.githubusercontent.com/KSneijders/AoE2-2v1/dynamics/game-modes/default/ruleset.json')
             .then(content => {this.ruleset = content as Ruleset})
 
     },
