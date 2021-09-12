@@ -34,7 +34,7 @@ interface Challenge {
     points: number | PointObject;
     selectedOption?: string;  // Added key to show which of PointObject was chosen
     desc?: string;
-    dev_desc?: string;
+    'dev-desc'?: string;
     classes?: string[];
     civs?: string[];
     maps?: string[];
