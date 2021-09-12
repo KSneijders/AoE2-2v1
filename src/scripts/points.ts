@@ -1,6 +1,12 @@
 import {Points} from "@/interfaces/policies";
 import {createArray, sum} from "@/scripts/arrays";
 
+/**
+ * Generate random points based on total and wild point percentage
+ *
+ * @param totalPoints The total amount of points
+ * @param wildPointPercentage The percentage to be dedicated to wild points (0 = 0%, 0.5 = 50%, 1 = 100%)
+ */
 function randomPoints(totalPoints: number, wildPointPercentage: number): Points {
     let wildPoints = Math.floor(totalPoints * wildPointPercentage);
     totalPoints = totalPoints - wildPoints;
