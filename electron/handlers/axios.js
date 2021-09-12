@@ -15,53 +15,57 @@ async function axiosGet(url) {
     });
 }
 
-ipcMain.handle('axios:get', async (_, url) => {
-    return axiosGet(url).then(data => {
+async function getUrl(url) {
+    axiosGet(url).then(data => {
         return data
-    }).catch(e => {
+    }).catch(() => {
         console.warn(`Error retrieving '${url}'`)
-        return e
     })
+    return undefined
+}
+
+ipcMain.handle('axios:get', async (_, url) => {
+    return getUrl(url)
 })
 
 ipcMain.handle('axios:getChallenges', (_, gameMode) => {
     const challengesUrl = gameModeUrl
         .replace('__GAME_MODE__', gameMode)
         .replace('__FILE__', 'challenges')
-    return axiosGet(challengesUrl)
+    return getUrl(challengesUrl)
 })
 
 ipcMain.handle('axios:getCommands', (_, gameMode) => {
     const challengesUrl = gameModeUrl
         .replace('__GAME_MODE__', gameMode)
         .replace('__FILE__', 'commands')
-    return axiosGet(challengesUrl)
+    return getUrl(challengesUrl)
 })
 
 ipcMain.handle('axios:getRuleSet', (_, gameMode) => {
     const rulesetUrl = gameModeUrl
         .replace('__GAME_MODE__', gameMode)
         .replace('__FILE__', 'ruleset')
-    return axiosGet(rulesetUrl)
+    return getUrl(rulesetUrl)
 })
 
 ipcMain.handle('axios:getMaps', (_, gameMode) => {
     const mapsUrl = gameModeUrl
         .replace('__GAME_MODE__', gameMode)
         .replace('__FILE__', 'maps')
-    return axiosGet(mapsUrl)
+    return getUrl(mapsUrl)
 })
 
 ipcMain.handle('axios:getCivModifier', (_, gameMode) => {
     const civUrl = modifierUrl
         .replace('__GAME_MODE__', gameMode)
         .replace('__MODIFIER__', 'civs')
-    return axiosGet(civUrl)
+    return getUrl(civUrl)
 })
 
 ipcMain.handle('axios:getMapModifier', (_, gameMode) => {
     const mapUrl = modifierUrl
         .replace('__GAME_MODE__', gameMode)
         .replace('__MODIFIER__', 'maps')
-    return axiosGet(mapUrl)
+    return getUrl(mapUrl)
 })
