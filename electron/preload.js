@@ -15,4 +15,10 @@ contextBridge.exposeInMainWorld("axios", {
     getCivModifier: (gameMode) => ipcRenderer.invoke('axios:getCivModifier', gameMode),
     getMapModifier: (gameMode) => ipcRenderer.invoke('axios:getMapModifier', gameMode),
     getMaps: (gameMode) => ipcRenderer.invoke('axios:getMaps', gameMode),
-})
+});
+
+// ALL THE CONTEXT BRIDGE CONSTRUCTIONS NEED TO BE DEFINED IN: '/src/main.ts'
+contextBridge.exposeInMainWorld("fs", {
+    getProfile: (name) => ipcRenderer.invoke('fs:getProfile', name),
+    getProfileNames: (name) => ipcRenderer.invoke('fs:getProfileNames', name)
+});

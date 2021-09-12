@@ -7,9 +7,15 @@ import {Challenges, Commands} from "@/interfaces/policies";
 import {Ruleset} from "@/interfaces/ruleset";
 import {CivModifier, MapModifier} from "@/interfaces/modifiers";
 
+// Import Bootstrap an BootstrapVue CSS files (order is important)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import Profile from "@/interfaces/profile";
+
+
 createApp(App)
-  .use(store)
-  .mount('#app');
+    .use(store)
+    .mount('#app');
 
 // Register all exposed variables here (from '/electron/preload.js')
 declare global {
@@ -23,5 +29,9 @@ declare global {
             getMapModifier(gameMode: string): Promise<MapModifier[]>;
             getMaps(gameMode: string): Promise<string[]>;
         };
+        fs: {
+            getProfile(name: string): Promise<Profile>;
+            getProfileNames(): Promise<string>;
+        }
     }
 }
