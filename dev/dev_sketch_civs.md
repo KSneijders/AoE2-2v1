@@ -1,23 +1,30 @@
+File to add civ limitations to challenges. Added automatically after reading challenges.
+100% equivalent to adding them to the main challenges file directly, 
+except for the fact that this can combine civs and challenges in nice lists.
+
 ```json5
-{
-    'civ-modifiers': [
-        {
-            'civ-has-challenges': false,  // Defaults to true when left out?
-            'civs': ['aztecs', 'incas', 'mayans'],
-            'challenges': [
-                'horse_challenge1',
-                'horse_challenge2',
-                'horse_challenge3'
-            ]
-        },
-        {
-            // Also add solo civ exclusions
-            'civ-has-challenges': true,  // Defaults to true when left out?
-            'civs': [/*All the heresy civs*/],
-            'challenges': ['get_heresy']
-        }
-    ]
-}
+[
+    {
+        "civs-have-challenges": false,
+        'civs': [
+            'aztecs','incas','mayans'
+        ],
+        'challenges': [
+            'horse_challenge1',
+            'horse_challenge2',
+            'horse_challenge3'
+        ]
+    },
+    {
+        "civs-have-challenges": true,
+        'civs': [
+            /* All the heresy civs */
+        ],
+        'challenges': [
+            'get_heresy'
+        ]
+    }
+]
 ```
 
 Would be equal to:
