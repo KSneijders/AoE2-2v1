@@ -84,3 +84,6 @@ app.on('window-all-closed', () => {
 
 // Axios - Handling network requests
 require('./handlers/axios')
+
+// Fs - Handling network requests
+require('./handlers/fs')

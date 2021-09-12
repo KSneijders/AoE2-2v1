@@ -1,6 +1,6 @@
-interface layoutTabs {
+interface LayoutTabs {
     title: string;
     image: string;
 }
 
-export default layoutTabs;
+export default LayoutTabs;
