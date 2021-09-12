@@ -1,6 +1,6 @@
 [
     {
-        "civ-has-challenges": true,
+        "civs-have-challenges": true,
         "civs": [
             "aztecs","berbers","bohemians","bulgarians","byzantines","celts","cumans","ethiopians","franks","huns",
             "incas","lithuanians","magyars","malay","malians","mayans","mongols","portuguese","saracens","spanish",
@@ -9,7 +9,7 @@
         "challenges": ["get_heresy"]
     },
     {
-        "civ-has-challenges": false,
+        "civs-have-challenges": false,
         "civs": ["aztecs", "incas", "mayans"],
         "challenges": [
             "make_scouts",
@@ -19,7 +19,7 @@
         ]
     },
     {
-        "civ-has-challenges": true,
+        "civs-have-challenges": true,
         "civs": ["aztecs", "incas", "mayans"],
         "challenges": [
             "make_eagle_scouts"
