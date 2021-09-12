@@ -1,0 +1,11 @@
+[
+    {
+        "maps-allow-challenges": true,
+        "maps": [
+            "four-lakes"
+        ],
+        "challenges": [
+            "no docks"
+        ]
+    }
+]
