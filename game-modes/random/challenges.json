@@ -202,11 +202,10 @@
                 "5": 2,
                 "10": 3
             },
-            "id": "make_maa",
+            "id": "make_eagle_scouts",
             "classes": [
                 "feudal"
-            ],
-            "civs": ["mayans", "aztecs", "incas"]
+            ]
         },
         {
             "name": "Make n archers",
@@ -402,11 +401,6 @@
             "id": "get_heresy",
             "classes": [
                 "castle"
-            ],
-            "civs": [
-                "aztecs","berbers","bohemians","bulgarians","byzantines","celts","cumans","ethiopians","franks","huns",
-                "incas","lithuanians","magyars","malay","malians","mayans","mongols","portuguese","saracens","spanish",
-                "teutons","turks","vikings"
             ]
         },
         {
