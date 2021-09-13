@@ -17,7 +17,7 @@ interface RsPolicies {
         technologies: RsPointsDistribution;
         miscellaneous: RsPointsDistribution;
         wild_points: RsWildPoints;
-    }
+    };
 }
 
 interface RsPointsDistribution {
