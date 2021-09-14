@@ -1,10 +1,5 @@
-import {Challenges} from "@/interfaces/policies";
-import {strReplaceKeyValue} from "@/scripts/strings";
 import {CivModifier, MapModifier} from "@/interfaces/modifiers";
 import {Civ} from "@/enums/civs";
-
-const challengeUrl = "https://raw.githubusercontent.com/KSneijders/AoE2-2v1/dynamics/game-modes/__GAME_MODE__/__FILE__.json";
-const modifierUrl = "https://raw.githubusercontent.com/KSneijders/AoE2-2v1/dynamics/game-modes/__GAME_MODE__/challenge-modifiers/__MODIFIER__.json";
 
 interface Modifiers {
     civs: CivModifier[];
@@ -12,27 +7,22 @@ interface Modifiers {
 }
 
 async function loadModifiers(gameMode: string): Promise<Modifiers> {
-    const civUrl = strReplaceKeyValue(modifierUrl, {'__GAME_MODE__': gameMode, '__MODIFIER__': 'civs'})
-    const mapUrl = strReplaceKeyValue(modifierUrl, {'__GAME_MODE__': gameMode, '__MODIFIER__': 'maps'})
-
     return {
-        'civs': await window.axios.get(civUrl) as CivModifier[],
-        'maps': await window.axios.get(mapUrl) as MapModifier[]
+        'civs': await window.axios.getCivModifier(gameMode),
+        'maps': await window.axios.getMapModifier(gameMode)
     }
 }
 
 async function loadGameMode(gameMode: string): Promise<void> {
-    const cUrl = strReplaceKeyValue(challengeUrl, {'__GAME_MODE__': gameMode, '__FILE__': 'challenges'})
-    const mUrl = strReplaceKeyValue(challengeUrl, {'__GAME_MODE__': gameMode, '__FILE__': 'maps'})
-    const challenges = await window.axios.get(cUrl) as Challenges
-    const maps = await window.axios.get(mUrl) as string[]
+    const challenges = await window.axios.getChallenges(gameMode);
+    const maps = await window.axios.getMaps(gameMode);
 
     const modifiers = await loadModifiers(gameMode);
 
     // ----------------------------------- CIVS Modifier -----------------------------------
     const remappedCivModifiers: Record<string, CivModifier> = {};
     for (const entry of modifiers.civs) {
-        if (!entry["civs-have-challenges"]) {  // Invert civ list
+        if (!entry["civs-have-access-to-challenges"]) {  // Invert civ list
             entry.civs = Object.values(Civ).filter(c => !entry.civs.includes(c))
         }
 

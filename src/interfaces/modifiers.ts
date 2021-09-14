@@ -1,5 +1,5 @@
 interface CivModifier {
-    'civs-have-challenges': boolean;
+    'civs-have-access-to-challenges': boolean;
     civs: string[];
     challenges: string[];
 }
