@@ -1,11 +1,11 @@
 <template>
     <div id="game-mode-selection-menu">
         <div
-            v-for="(gm, index) in gameModes"
-            v-bind:key="index"
+            v-for="(gm, key) in gameModes"
+            v-bind:key="key"
             class="gm-box"
-            v-bind:class="{selected: index === selectedGameModeIndex}"
-            @click="selectGameMode(index)"
+            v-bind:class="{selected: key === selectedGameModeKey}"
+            @click="selectGameMode(key)"
         >
             <div class="gm-title">
                 <b>{{ gm.title }}</b>
@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
+import {GameModes} from "@/data/gamemodes";
 import {GameModeMenuItem} from "@/interfaces/game-mode";
 
 export default defineComponent({
@@ -26,47 +27,26 @@ export default defineComponent({
     components: {},
     props: {},
     mounted() {
-        this.selectGameMode(this.selectedGameModeIndex);
+        if (this.$store.state.selectedGameMode.id) {
+            this.selectedGameModeKey = GameModes[this.$store.state.selectedGameMode.id].id
+        } else {
+            this.selectGameMode(this.selectedGameModeKey);
+        }
     },
     data() {
         return {
-            selectedGameModeIndex: 0,
-            // Todo: Move this info to local json storage when Node fs context bridge is setup
-            gameModes: [
-                {
-                    "title": "Random",
-                    "id": "random",
-                    "desc": "Challenges or Commands, Civs and Maps are all completely randomized!"
-                },
-                {
-                    "title": "Free Pick",
-                    "id": "free",
-                    "desc": "Pick your own Challenges, Commands, Civs and the map."
-                },
-                {
-                    "title": "Another Mode",
-                    "id": "mode3",
-                    "desc": "Some description about this mode to fill the space."
-                },
-                {
-                    "title": "No Commands",
-                    "id": "no_commands",
-                    "desc": "Just no commands. More PAIN in the challenges!!!!!"
-                },
-                {
-                    "title": "No Challenges",
-                    "id": "no_challenges",
-                    "desc": "No challenges. Just a bazillion commands. "
-                },
-            ] as GameModeMenuItem[]
+            selectedGameModeKey: "random" as string,
         }
     },
     computed: {
+        gameModes: function (): Record<string, GameModeMenuItem> {
+            return GameModes;
+        }
     },
     methods: {
-        selectGameMode: function (index: number): void {
-            this.selectedGameModeIndex = index;
-            this.$store.state.selectedGameMode = this.gameModes[index];
+        selectGameMode: function (key: string): void {
+            this.selectedGameModeKey = key;
+            this.$store.state.selectedGameMode = GameModes[key];
         },
     },
     watch: {}
