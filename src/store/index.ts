@@ -4,7 +4,7 @@ import {GameModeMenuItem} from "@/interfaces/game-mode";
 export default createStore({
     state() {
         return {
-            selectedGameModeIndex: {title:''} as GameModeMenuItem,
+            selectedGameMode: {title:''} as GameModeMenuItem,
         }
     },
     mutations: {},
