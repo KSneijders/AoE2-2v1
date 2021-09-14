@@ -1,12 +1,10 @@
 [
     {
         "civs-have-challenges": true,
-        "civs": [
-            "aztecs","berbers","bohemians","bulgarians","byzantines","celts","cumans","ethiopians","franks","huns",
-            "incas","lithuanians","magyars","malay","malians","mayans","mongols","portuguese","saracens","spanish",
-            "teutons","turks","vikings"
-        ],
-        "challenges": ["get_heresy"]
+        "civs": ["aztecs", "berbers", "bohemians", "bulgarians", "byzantines", "celts", "cumans", "ethiopians", "franks", "huns", "incas", "lithuanians", "magyars", "malay", "malians", "mayans", "mongols", "portuguese", "saracens", "spanish", "teutons", "turks", "vikings"],
+        "challenges": [
+            "get_heresy"
+        ]
     },
     {
         "civs-have-challenges": false,
@@ -23,6 +21,20 @@
         "civs": ["aztecs", "incas", "mayans"],
         "challenges": [
             "make_eagle_scouts"
+        ]
+    },
+    {
+        "civs-have-challenges": false,
+        "civs": ["aztecs", "incas", "mayans", "indians"],
+        "challenges": [
+            "disable_knight_unit"
+        ]
+    },
+    {
+        "civs-have-challenges": true,
+        "civs": ["berbers", ",byzantines", "chinese", "cumans", "ethiopians", "indians", "malians", "mongols", "persians", "saracens", "tatars", "turks"],
+        "challenges": [
+            "disable_camel_unit"
         ]
     }
 ]

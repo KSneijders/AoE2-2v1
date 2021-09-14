@@ -3,8 +3,8 @@
         {
             "name": "Delete all TCs",
             "points": 5,
-            "id": "delete_all_tcs",
-            "classes": ["feudal+"]
+            "classes": ["feudal+"],
+            "id": "delete_all_tcs"
         },
         {
             "name": "Even out vills",
@@ -21,26 +21,30 @@
                 "2x": 8
             },
             "desc": "When called, Feudal players delete 30% of vills. Castle players delete 40% and Imp players delete 50% of their villager population",
-            "classes": ["feudal+"]
+            "classes": ["feudal+"],
+            "id": "kill_vills"
         },
         {
             "name": "Delete all farms & eco buildings",
             "points": 4,
-            "desc": "Lumber camps, Mills, Mining camps and Farms"
+            "desc": "Lumber camps, Mills, Mining camps and Farms",
+            "id": "delete_all_farms_and_eco_buildings"
         },
         {
             "name": "Send all vills to resources for x seconds",
             "points": {
-                "30s": 2,
-                "60s": 4
+                "2x 30s": 2,
+                "2x 60s": 4
             },
-            "desc": "Send all vills to a resource"
+            "desc": "Send all vills to a resource",
+            "id": "send_all_vills_to_resources"
         }
     ],
     "military": [
         {
             "name": "Delete all forwards",
-            "points": 7
+            "points": 6,
+            "id": "delete_all_forwards"
         },
         {
             "name": "Send all army to X",
@@ -48,14 +52,16 @@
                 "1x": 1,
                 "2x": 2,
                 "3x": 3
-            }
+            },
+            "id": "send_all_army_to_x"
         },
         {
             "name": "All players delete all military",
             "points": {
                 "1x": 5,
                 "2x": 7
-            }
+            },
+            "id": "all_players_delete_all_military"
         },
         {
             "name": "Even out military",
@@ -71,7 +77,8 @@
                 "1x": 2,
                 "2x": 4
             },
-            "desc": "This denies a single unit. If you already made such units, they are no longer allowed to fight (non attack stance). You are no longer allowed to create the unit either. BUT, if you do an upgrade which changes the unit (e.g. spearman to pikeman or non-elite to elite) you can create and use them again. Unless they block that unit too 11"
+            "desc": "This denies a single unit. If you already made such units, they are no longer allowed to fight (non attack stance). You are no longer allowed to create the unit either. BUT, if you do an upgrade which changes the unit (e.g. spearman to pikeman or non-elite to elite) you can create and use them again. Unless they block that unit too 11",
+            "id": "deny_unit"
         }
     ],
     "building": [
@@ -97,7 +104,8 @@
                 "1x": 1,
                 "2x": 2,
                 "3x": 3
-            }
+            },
+            "id": "create_gap_in_wall"
         },
         {
             "name": "Delete all buildings of type",
@@ -105,17 +113,22 @@
                 "1x": 3,
                 "2x": 5
             },
-            "desc": "Delete any building of a certain type. Exceptions are castles (krepost), towers (donjon) and TCs."
+            "desc": "Delete any building of a certain type. Exceptions are castles (krepost), towers (donjon) and TCs.",
+            "id": "delete_all_buildings_of_type"
         },
         {
             "name": "Delete all flagged buildings",
             "points": 4,
-            "classes": ["feudal+"]
+            "classes": ["feudal+"],
+            "id": "delete_all_flagged_buildings"
         },
         {
             "name": "Ping TCs",
-            "points": 1,
-            "desc": "REMEMBER to change ALT-T. X all TCs you have!"
+            "points": {
+                "3x": 1
+            },
+            "desc": "REMEMBER to change ALT-T. X all TCs you have!",
+            "id": "ping_tc"
         }
     ],
     "technologies": [
@@ -137,24 +150,29 @@
             "points": {
                 "1x": 2,
                 "2x": 4
-            }
+            },
+            "id": "cancel_queues"
         },
         {
             "name": "Deny aging until you aged",
             "points": {
                 "1x": 2,
                 "2x": 3
-            }
+            },
+            "id": "deny_aging"
         },
         {
-            "name": "Force age requirements",
-            "points": 2,
-            "desc": "You cannot add anything to the global queue that does not work towards your given age requirements until all of them are done."
+            "name": "Sacrifice 2/4/10 Trade Carts",
+            "comment": "You cannot ADD (!!!!) anything to the global queue until all trade carts have been sacrificed. This means that if you have upgrades in the queue they do not have to be cancelled! \n\nFEUDAL = 2 Carts\nCASTLE = 4 Carts\nIMP = 10 Carts",
+            "dev-comment": "Trade cart creation time is 51s.",
+            "points": 3,
+            "id": "sacrifice_trade_carts"
         },
         {
             "name": "Request information",
             "points": 1,
-            "desc": "Send an image of the top of your screen. This has to include all 4 resources, pop & villager count, the age bar, your production queue"
+            "desc": "Send an image of the top of your screen. This has to include all 4 resources, pop & villager count, the age bar, your production queue",
+            "id": "request_info"
         }
     ]
 }

@@ -124,7 +124,10 @@
             "name": "All farms must touch a mill",
             "points": 5,
             "id": "all_farms_must_touch_mill",
-            "desc": "Farms don't have to actually touch the mill. Just max of 4 per mill and none at TC."
+            "desc": "Farms don't have to actually touch the mill. Just max of 4 per mill and none at TC.",
+            "classes": [
+                "game-changing"
+            ]
         },
         {
             "name": "Max farms",
@@ -252,17 +255,49 @@
             "classes": [
                 "castle"
             ]
+        },
+        {
+            "name": "Disable Militia line",
+            "id": "disable_militia_line",
+            "points": 1
+        },
+        {
+            "name": "Disable Spearman line",
+            "id": "disable_spearman_line",
+            "points": 2
+        },
+        {
+            "name": "Disable Scout line",
+            "id": "disable_scout_unit",
+            "points": 2
+        },
+        {
+            "name": "Disable Knight line",
+            "id": "disable_knight_unit",
+            "points": 3
+        },
+        {
+            "name": "Disable Skirmisher line",
+            "id": "disable_skirmisher_unit",
+            "points": 2
+        },
+        {
+            "name": "Disable Archer line",
+            "id": "disable_archer_unit",
+            "points": 3
+        },
+        {
+            "name": "Disable Ram line",
+            "id": "disable_ram_unit",
+            "points": 1
+        },
+        {
+            "name": "Disable Mangonal line",
+            "id": "disable_mangonal_unit",
+            "points": 2
         }
     ],
     "building": [
-        {
-            "name": "Every building twice",
-            "points": 8,
-            "classes": [
-                "game-changing"
-            ],
-            "id": "every_building_twice"
-        },
         {
             "name": "No walls",
             "points": 4,
@@ -285,21 +320,6 @@
             "id": "no_towers_donjons"
         },
         {
-            "name": "No barracks",
-            "points": 4,
-            "id": "no_barracks"
-        },
-        {
-            "name": "No archery range",
-            "points": 6,
-            "id": "no_archery_range"
-        },
-        {
-            "name": "No stable",
-            "points": 6,
-            "id": "no_stable"
-        },
-        {
             "name": "No university",
             "points": 1,
             "id": "no_university"
@@ -313,11 +333,6 @@
             "name": "No castles / kreposts",
             "points": 5,
             "id": "no_castle"
-        },
-        {
-            "name": "No siege workshop",
-            "points": 4,
-            "id": "no_siege_workshop"
         },
         {
             "name": "No market",
@@ -339,9 +354,33 @@
             "classes": [
                 "instant"
             ]
+        },
+        {
+            "name": "Make n houses",
+            "points": {
+                "15": 2,
+                "20": 3
+            },
+            "id": "make_n_houses",
+            "classes": [
+                "dark"
+            ]
         }
     ],
     "technologies": [
+        {
+            "name": "No blacksmith techs",
+            "id": "no_blacksmith_techs",
+            "points": 9
+        },
+        {
+            "name": "Get all blacksmith techs",
+            "points": 4,
+            "id": "get_all_blacksmith_techs",
+            "classes": [
+                "feudal", "castle"
+            ]
+        },
         {
             "name": "No current age blacksmith techs",
             "points": 5,
