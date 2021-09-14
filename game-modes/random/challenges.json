@@ -268,32 +268,37 @@
         },
         {
             "name": "Disable Scout line",
-            "id": "disable_scout_unit",
+            "id": "disable_scout_line",
             "points": 2
         },
         {
             "name": "Disable Knight line",
-            "id": "disable_knight_unit",
+            "id": "disable_knight_line",
             "points": 3
         },
         {
+            "name": "Disable Camel line",
+            "id": "disable_camel_line",
+            "points": 1
+        },
+        {
             "name": "Disable Skirmisher line",
-            "id": "disable_skirmisher_unit",
+            "id": "disable_skirmisher_line",
             "points": 2
         },
         {
             "name": "Disable Archer line",
-            "id": "disable_archer_unit",
+            "id": "disable_archer_line",
             "points": 3
         },
         {
             "name": "Disable Ram line",
-            "id": "disable_ram_unit",
+            "id": "disable_ram_line",
             "points": 1
         },
         {
             "name": "Disable Mangonal line",
-            "id": "disable_mangonal_unit",
+            "id": "disable_mangonal_line",
             "points": 2
         }
     ],
