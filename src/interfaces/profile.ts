@@ -1,5 +1,5 @@
 interface Profile {
-    name: string,
+    name: string;
     points: number;
 }
 

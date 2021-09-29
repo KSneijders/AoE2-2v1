@@ -1,5 +1,6 @@
 import {CivModifier, MapModifier} from "@/interfaces/modifiers";
 import {Civ} from "@/enums/civs";
+import {Challenges} from "@/interfaces/policies";
 
 interface Modifiers {
     civs: CivModifier[];
@@ -13,13 +14,13 @@ async function loadModifiers(gameMode: string): Promise<Modifiers> {
     }
 }
 
-async function loadGameMode(gameMode: string): Promise<void> {
+async function loadGameMode(gameMode: string): Promise<Challenges> {
     const challenges = await window.axios.getChallenges(gameMode);
     const maps = await window.axios.getMaps(gameMode);
 
     const modifiers = await loadModifiers(gameMode);
 
-    // ----------------------------------- CIVS Modifier -----------------------------------
+    // ----------------------------------- CIVS Modifier ----------------------------------- \\
     const remappedCivModifiers: Record<string, CivModifier> = {};
     for (const entry of modifiers.civs) {
         if (!entry["civs-have-access-to-challenges"]) {  // Invert civ list
@@ -39,7 +40,7 @@ async function loadGameMode(gameMode: string): Promise<void> {
         }
     }
 
-    // ----------------------------------- MAPS Modifier -----------------------------------
+    // ----------------------------------- MAPS Modifier ----------------------------------- \\
     const remappedMapModifiers: Record<string, MapModifier> = {};
     for (const entry of modifiers.maps) {
         if (!entry["maps-allow-challenges"]) {  // Invert civ list
@@ -58,6 +59,8 @@ async function loadGameMode(gameMode: string): Promise<void> {
             }
         }
     }
+
+    return challenges
 }
 
 export {loadGameMode}

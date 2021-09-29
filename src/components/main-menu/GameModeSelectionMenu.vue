@@ -27,7 +27,7 @@ export default defineComponent({
     components: {},
     props: {},
     mounted() {
-        if (this.$store.state.selectedGameMode.id) {
+        if (this.$store.state.selectedGameMode?.id) {
             this.selectedGameModeKey = GameModes[this.$store.state.selectedGameMode.id].id
         } else {
             this.selectGameMode(this.selectedGameModeKey);
@@ -45,6 +45,7 @@ export default defineComponent({
     },
     methods: {
         selectGameMode: function (key: string): void {
+            if (this.selectedGameModeKey === key) key = "";
             this.selectedGameModeKey = key;
             this.$store.state.selectedGameMode = GameModes[key];
         },
@@ -63,10 +64,10 @@ export default defineComponent({
     padding: 10px;
     background: linear-gradient(90deg, #8ba5be 0%, #9db6d0 100%);
     border: 5px solid #203241;
+    user-select: none;
 
     .gm-box {
         width: 80%;
-        height: 80px;
         margin: 0 0 5px 0;
         border: 2px solid #7696b6;
         padding: 10px;

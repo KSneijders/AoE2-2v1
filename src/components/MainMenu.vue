@@ -3,8 +3,13 @@
         <div id="user-profile">
             <UserProfile :profile="profile"/>
         </div>
-        <div id="game-mode-selection">
-            <GameModeSelectionMenu/>
+        <div id="game-mode-selection-wrapper">
+            <div id="game-mode-selection">
+                <GameModeSelectionMenu/>
+            </div>
+            <div v-if="gameModeSelected" id="start-button">
+                Start!
+            </div>
         </div>
     </div>
 </template>
@@ -30,7 +35,11 @@ export default defineComponent({
     // data() {
     //   // Data
     // },
-    computed: {},
+    computed: {
+        gameModeSelected: function(): boolean {
+            return !!this.$store.state.selectedGameMode;
+        }
+    },
     methods: {},
     watch: {}
 })
@@ -43,13 +52,34 @@ export default defineComponent({
         width: 30%;
     }
 
-    $width: 40%;
-    #game-mode-selection {
+    #game-mode-selection-wrapper {
         display: block;
         position: absolute;
-        top: 50%;
-        right: 50% - $width;
-        width: $width;
+        bottom: 50px;
+        right: 50px;
+        width: 40%;
+        height: 400px;
+
+        #start-button {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            color: whitesmoke;
+            text-align: center;
+            font-weight: bold;
+            user-select: none;
+
+            padding: 10px;
+            font-size: 25px;
+            background: linear-gradient(90deg, #2c3e50 0%, #435e79 100%);
+            border: 5px solid #203241;
+
+            &:hover {
+                background: linear-gradient(90deg, #445b72 0%, #597693 100%);
+                cursor: pointer;
+            }
+        }
     }
 }
 </style>

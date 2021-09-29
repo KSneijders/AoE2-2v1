@@ -3,21 +3,34 @@ import {randomPoints} from "@/scripts/points";
 import {sample, shuffle} from "@/scripts/arrays";
 import {jsonDeepCopy} from "@/scripts/other";
 
+interface IdMap {
+    [key: string]: (string | number)[];
+}
+
 class ChallengeCollection {
     private readonly maxIterations = 1000;
 
     challenges: Challenges;
     private points: Points;
-    private internalIndex: number;
     private shuffled: boolean;
+    private readonly challengeIdMap: IdMap;
 
     constructor(challenges: Challenges, shuffle = false) {
         this.challenges = jsonDeepCopy(challenges);
+        this.challengeIdMap = {};
         this.points = randomPoints(25, 0);
-        this.internalIndex = 0;
-
-        if (shuffle) this.shuffleChallenges();
         this.shuffled = shuffle;
+
+        this.initiateIdMap();
+        if (shuffle) this.shuffleChallenges();
+    }
+
+    initiateIdMap(): void {
+        for (const category of Object.keys(this.challenges)) {
+            for (const [index, challenge] of this.challenges[category].entries()) {
+                this.challengeIdMap[challenge.id] = [category, index]
+            }
+        }
     }
 
     shuffleChallenges(): void {
@@ -67,7 +80,7 @@ class ChallengeCollection {
             }
 
             if (cost <= spendable) {
-                const wildPointCost = Math.min(Math.floor(cost / 2), this.points.wildPoints);
+                const wildPointCost = Math.min(Math.floor(cost / 2), this.points['wildPoints']);
 
                 this.points['wildPoints'] -= wildPointCost;
                 this.points[key] -= (cost - wildPointCost);
