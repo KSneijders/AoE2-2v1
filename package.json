@@ -1,7 +1,7 @@
 {
-  "name": "electron-vue3-ts-quick-start",
+  "name": "aoe2-2v1",
   "version": "0.1.0",
-  "description": "Electron Vue3 Typscript Quick Start",
+  "description": "",
   "author": "You",
   "private": true,
   "main": "electron/main.js",
