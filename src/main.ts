@@ -4,6 +4,7 @@ import {createApp} from 'vue';
 import App from './App.vue';
 import store from './store';
 import {Challenges, Commands} from "@/interfaces/policies";
+import {OnlineLimiters} from "@/interfaces/limiters";
 import {Ruleset} from "@/interfaces/ruleset";
 import {CivModifier, MapModifier} from "@/interfaces/modifiers";
 
@@ -23,6 +24,7 @@ declare global {
         axios: {
             get(url: string): Promise<never>;
             getChallenges(gameMode: string): Promise<Challenges>;
+            getChallengeLimiters(gameMode: string): Promise<OnlineLimiters>;
             getCommands(gameMode: string): Promise<Commands>;
             getRuleSet(gameMode: string): Promise<Ruleset>;
             getCivModifier(gameMode: string): Promise<CivModifier[]>;

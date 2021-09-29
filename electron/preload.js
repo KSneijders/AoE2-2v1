@@ -10,6 +10,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld("axios", {
     get: (url) => ipcRenderer.invoke('axios:get', url),
     getChallenges: (gameMode) => ipcRenderer.invoke('axios:getChallenges', gameMode),
+    getChallengeLimiters: (gameMode) => ipcRenderer.invoke('axios:getChallengeLimiters', gameMode),
     getCommands: (gameMode) => ipcRenderer.invoke('axios:getCommands', gameMode),
     getRuleSet: (gameMode) => ipcRenderer.invoke('axios:getRuleSet', gameMode),
     getCivModifier: (gameMode) => ipcRenderer.invoke('axios:getCivModifier', gameMode),
