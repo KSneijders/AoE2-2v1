@@ -24,7 +24,7 @@
         "no_mining_camps":                  ["no_mining_upgrades"],
         "no_lumber_camps":                  ["no_lumber_upgrades", "no_extra_tcs"],
         "no_mills":                         ["no_mill_upgrades", "all_farms_must_touch_mill"],
-        "no_market":                        ["no_stone", "send_all_x_resource", "send_resource_to_solo"],
+        "no_market":                        ["no_stone", "send_resource_to_solo"],
         "no_university":                    ["no_ballistics", "get_murder_holes"],
         "no_monastery":                     ["get_heresy", "sacrifice_10_monks"],
         "no_eco_upgrades":                  ["no_mining_upgrades", "no_lumber_upgrades", "no_mill_upgrades", "no_wheelbarrow_line"],
