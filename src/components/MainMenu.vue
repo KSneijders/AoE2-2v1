@@ -45,7 +45,7 @@ export default defineComponent({
     },
     methods: {
         clickedStart: async function(): Promise<void> {
-            const [challenges, limiters] = await loadGameMode(this.$store.state.selectedGameMode.id)
+            const {challenges, limiters} = await loadGameMode(this.$store.state.selectedGameMode.id)
             const cc = new ChallengeCollection(challenges, limiters, true)
             console.log(cc.getRandomChallenges())
         }

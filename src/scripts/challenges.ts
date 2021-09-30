@@ -3,6 +3,7 @@ import {Civ} from "@/enums/civs";
 import {Challenges} from "@/interfaces/policies";
 import {Limiters} from "@/interfaces/limiters";
 import {getDefault} from "@/scripts/objects";
+import {GameModeContent} from "@/interfaces/game-mode";
 
 interface Modifiers {
     civs: CivModifier[];
@@ -16,7 +17,7 @@ async function loadModifiers(gameMode: string): Promise<Modifiers> {
     }
 }
 
-async function loadGameMode(gameMode: string): Promise<(Challenges | Limiters)[]> {
+async function loadGameMode(gameMode: string): Promise<GameModeContent> {
     const challenges = await window.axios.getChallenges(gameMode);
     const onlineLimiters = await window.axios.getChallengeLimiters(gameMode);
     const maps = await window.axios.getMaps(gameMode);
@@ -79,7 +80,10 @@ async function loadGameMode(gameMode: string): Promise<(Challenges | Limiters)[]
         }
     }
 
-    return [challenges, limiters]
+    return {
+        challenges: challenges,
+        limiters: limiters
+    }
 }
 
 export {loadGameMode}
