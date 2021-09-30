@@ -71,6 +71,16 @@ interface Points {
     wildPoints: number;
 }
 
-export {Policies, Challenges, Challenge, Commands, Command, PointObject, PointCommandObject, Points}
+interface CategoryPoints {
+    [key: string]: number;
+
+    economy: number;
+    military: number;
+    building: number;
+    technologies: number;
+    miscellaneous: number;
+}
+
+export {Policies, Challenges, Challenge, Commands, Command, PointObject, PointCommandObject, Points, CategoryPoints}
 
 

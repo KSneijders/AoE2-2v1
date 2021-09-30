@@ -16,12 +16,12 @@ async function axiosGet(url) {
 }
 
 async function getUrl(url) {
-    axiosGet(url).then(data => {
+    return axiosGet(url).then(data => {
         return data
     }).catch(() => {
         console.warn(`Error retrieving '${url}'`)
+        return undefined
     })
-    return undefined
 }
 
 ipcMain.handle('axios:get', async (_, url) => {
@@ -32,6 +32,13 @@ ipcMain.handle('axios:getChallenges', (_, gameMode) => {
     const challengesUrl = gameModeUrl
         .replace('__GAME_MODE__', gameMode)
         .replace('__FILE__', 'challenges')
+    return getUrl(challengesUrl)
+})
+
+ipcMain.handle('axios:getChallengeLimiters', (_, gameMode) => {
+    const challengesUrl = gameModeUrl
+        .replace('__GAME_MODE__', gameMode)
+        .replace('__FILE__', 'challenge-limiters')
     return getUrl(challengesUrl)
 })
 

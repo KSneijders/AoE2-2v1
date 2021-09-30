@@ -7,7 +7,10 @@
             <div id="game-mode-selection">
                 <GameModeSelectionMenu/>
             </div>
-            <div v-if="gameModeSelected" id="start-button">
+            <div id="start-button"
+                v-if="gameModeSelected"
+                @click="clickedStart"
+            >
                 Start!
             </div>
         </div>
@@ -20,6 +23,8 @@ import {defineComponent, PropType} from "vue";
 import Profile from "@/interfaces/profile";
 import UserProfile from "@/components/main-menu/UserProfile.vue";
 import GameModeSelectionMenu from "@/components/main-menu/GameModeSelectionMenu.vue";
+import {loadGameMode} from "@/scripts/challenges";
+import ChallengeCollection from "@/classes/challenge-collection";
 
 export default defineComponent({
     name: "MainMenu",
@@ -29,9 +34,7 @@ export default defineComponent({
             type: Object as PropType<Profile>
         }
     },
-    mounted() {
-        // Execute on creation
-    },
+    // mounted() {},
     // data() {
     //   // Data
     // },
@@ -40,7 +43,14 @@ export default defineComponent({
             return !!this.$store.state.selectedGameMode;
         }
     },
-    methods: {},
+    methods: {
+        clickedStart: async function(): Promise<void> {
+            const {challenges, limiters} = await loadGameMode(this.$store.state.selectedGameMode.id)
+            const cc = new ChallengeCollection(challenges, limiters, true)
+            const rc = cc.getRandomChallenges()
+            console.log(rc)
+        }
+    },
     watch: {}
 })
 

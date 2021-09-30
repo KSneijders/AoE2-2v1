@@ -1,6 +1,9 @@
 import {CivModifier, MapModifier} from "@/interfaces/modifiers";
 import {Civ} from "@/enums/civs";
 import {Challenges} from "@/interfaces/policies";
+import {Limiters} from "@/interfaces/limiters";
+import {getDefault} from "@/scripts/objects";
+import {GameModeContent} from "@/interfaces/game-mode";
 
 interface Modifiers {
     civs: CivModifier[];
@@ -14,8 +17,9 @@ async function loadModifiers(gameMode: string): Promise<Modifiers> {
     }
 }
 
-async function loadGameMode(gameMode: string): Promise<Challenges> {
+async function loadGameMode(gameMode: string): Promise<GameModeContent> {
     const challenges = await window.axios.getChallenges(gameMode);
+    const onlineLimiters = await window.axios.getChallengeLimiters(gameMode);
     const maps = await window.axios.getMaps(gameMode);
 
     const modifiers = await loadModifiers(gameMode);
@@ -60,7 +64,26 @@ async function loadGameMode(gameMode: string): Promise<Challenges> {
         }
     }
 
-    return challenges
+    // ----------------------------------- Limiters ----------------------------------- \\
+    const limiters: Limiters = {};
+    for (const mu of onlineLimiters["mutually-exclusive"]) {
+        for (let i = 0; i < mu.length; i++) {
+            getDefault(limiters, mu[i], []).push(...mu.filter(k => k !== mu[i]))
+        }
+    }
+
+    const otm = onlineLimiters["one-to-many"]
+    for (const key of Object.keys(otm)) {
+        getDefault(limiters, key, []).push(...otm[key])
+        for (const item of otm[key]) {
+            getDefault(limiters, item, []).push(key)
+        }
+    }
+
+    return {
+        challenges: challenges,
+        limiters: limiters
+    }
 }
 
 export {loadGameMode}
