@@ -13,7 +13,7 @@ function randomPoints(totalPoints: number, wildPointPercentage: number): Points 
 
     const randoms = createArray(5).map(() => Math.random())
     const randomSum = sum(randoms)
-    const randomPoints = randoms.map(r => r / randomSum * totalPoints)
+    const randomPoints = randoms.map(r => Math.floor(r / randomSum * totalPoints))
     const randomPointsSum = sum(randomPoints)
 
     wildPoints += (totalPoints - randomPointsSum)

@@ -83,7 +83,7 @@ class ChallengeCollection {
     private chooseFirstAllowedChallenge(key: string, ignoreIndexes: IgnoreIndexes, indexProgress: CategoryPoints): Challenge | undefined {
         const spendable = this.getSpendable(key);
 
-        for (let i = indexProgress[key]; i < this.challenges[key].length; i++) {
+        for (let i = indexProgress[key] + 1; i < this.challenges[key].length; i++) {
             if (ignoreIndexes[key].includes(i)) continue
             indexProgress[key] = i;
 
