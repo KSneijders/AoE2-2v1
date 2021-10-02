@@ -13,6 +13,9 @@
                 Start!
             </div>
         </div>
+        <div id="game-overlay" v-if="gameModeStarted">
+            <GameStartOverlay/>
+        </div>
     </div>
 </template>
 
@@ -28,13 +31,19 @@ import {State} from '@vue/runtime-core';
 
 export default defineComponent({
     name: "MainMenu",
-    components: {UserProfile, GameModeSelectionMenu},
+    components: {
+        UserProfile,
+        GameModeSelectionMenu,
+        GameStartOverlay
+    },
     props: {
         profile: {
             type: Object as PropType<Profile>
         }
     },
-    // mounted() {},
+    // mounted() {
+    //     this.gameModeStart();
+    // },
     // data() {
     //   // Data
     // },
@@ -64,6 +73,14 @@ export default defineComponent({
 #main-menu {
     #user-profile {
         width: 30%;
+    }
+
+    #game-overlay {
+        position: fixed;
+        top: 10vh;
+        left: 10%;
+        height: 80vh;
+        width: 80%;
     }
 
     #game-mode-selection-wrapper {
