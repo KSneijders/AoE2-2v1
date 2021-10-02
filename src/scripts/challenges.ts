@@ -1,6 +1,5 @@
 import {CivModifier, MapModifier} from "@/interfaces/modifiers";
 import {Civ} from "@/enums/civs";
-import {Challenges} from "@/interfaces/policies";
 import {Limiters} from "@/interfaces/limiters";
 import {getDefault} from "@/scripts/objects";
 import {GameModeContent} from "@/interfaces/game-mode";

@@ -27,8 +27,8 @@ export default defineComponent({
     components: {},
     props: {},
     mounted() {
-        if (this.$store.state.selectedGameMode?.id) {
-            this.selectedGameModeKey = GameModes[this.$store.state.selectedGameMode.id].id
+        if (this.$store.getters.gameModeSelected) {
+            this.selectedGameModeKey = this.$store.getters.selectedGameModeId
         } else {
             this.selectGameMode(this.selectedGameModeKey);
         }
@@ -47,7 +47,7 @@ export default defineComponent({
         selectGameMode: function (key: string): void {
             if (this.selectedGameModeKey === key) key = "";
             this.selectedGameModeKey = key;
-            this.$store.state.selectedGameMode = GameModes[key];
+            this.$store.commit('selectGameMode', GameModes[key])
         },
     },
     watch: {}

@@ -2,12 +2,31 @@ import {createStore} from 'vuex'
 import {GameModeMenuItem} from "@/interfaces/game-mode";
 
 export default createStore({
-    state() {
-        return {
-            selectedGameMode: {title:''} as GameModeMenuItem,
+    state: {
+        gameModeInfo: {
+            selectedMode: {title: '', id: '', desc: ''} as GameModeMenuItem,
+            started: false
         }
     },
-    mutations: {},
+    getters: {
+        gameModeSelected(state): boolean {
+            return !!state.gameModeInfo.selectedMode?.id || false;
+        },
+        selectedGameModeId(state): string {
+            return state.gameModeInfo.selectedMode?.id || "";
+        }
+    },
+    mutations: {
+        gameModeStart(state) {
+            state.gameModeInfo.started = true;
+        },
+        gameModeEnd(state) {
+            state.gameModeInfo.started = false;
+        },
+        selectGameMode(state, newMode: GameModeMenuItem) {
+            state.gameModeInfo.selectedMode = newMode;
+        }
+    },
     actions: {},
-    modules: {}
+    modules: {},
 })

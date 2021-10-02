@@ -8,9 +8,8 @@
                 <GameModeSelectionMenu/>
             </div>
             <div id="start-button"
-                v-if="gameModeSelected"
-                @click="clickedStart"
-            >
+                 v-if="gameModeSelected"
+                 @click="gameModeStart">
                 Start!
             </div>
         </div>
@@ -23,8 +22,9 @@ import {defineComponent, PropType} from "vue";
 import Profile from "@/interfaces/profile";
 import UserProfile from "@/components/main-menu/UserProfile.vue";
 import GameModeSelectionMenu from "@/components/main-menu/GameModeSelectionMenu.vue";
-import {loadGameMode} from "@/scripts/challenges";
-import ChallengeCollection from "@/classes/challenge-collection";
+import GameStartOverlay from "@/components/main-menu/GameStartOverlay.vue";
+import {mapGetters, mapState} from 'vuex';
+import {State} from '@vue/runtime-core';
 
 export default defineComponent({
     name: "MainMenu",
@@ -39,16 +39,20 @@ export default defineComponent({
     //   // Data
     // },
     computed: {
-        gameModeSelected: function(): boolean {
-            return !!this.$store.state.selectedGameMode;
-        }
+        ...mapState({
+            gameModeStarted: (state) => (state as State).gameModeInfo.started,
+        }),
+        ...mapGetters({
+            gameModeSelected: 'gameModeSelected'
+        })
     },
     methods: {
-        clickedStart: async function(): Promise<void> {
-            const {challenges, limiters} = await loadGameMode(this.$store.state.selectedGameMode.id)
-            const cc = new ChallengeCollection(challenges, limiters, true)
-            const rc = cc.getRandomChallenges()
-            console.log(rc)
+        gameModeStart: function (): void {
+            this.$store.commit('gameModeStart')
+            // const {challenges, limiters} = await loadGameMode(this.$store.state.gameModeInfo.selectedGameMode.id)
+            // const cc = new ChallengeCollection(challenges, limiters, true)
+            // const rc = cc.getRandomChallenges()
+            // console.log(rc)
         }
     },
     watch: {}
