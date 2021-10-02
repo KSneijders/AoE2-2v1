@@ -14,6 +14,9 @@ export default createStore({
         },
         selectedGameModeId(state): string {
             return state.gameModeInfo.selectedMode?.id || "";
+        },
+        selectedGameModeTitle(state): string {
+            return state.gameModeInfo.selectedMode?.title || "<< None >>";
         }
     },
     mutations: {

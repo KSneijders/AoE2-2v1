@@ -70,6 +70,10 @@ body {
     width: 100%;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 #window {
     width: 100%;
     height: 100vh;

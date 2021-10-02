@@ -33,7 +33,7 @@ declare global {
         };
         fs: {
             getProfile(name: string): Promise<Profile>;
-            getProfileNames(): Promise<string>;
+            getProfileNames(): Promise<string[]>;
         };
     }
 }

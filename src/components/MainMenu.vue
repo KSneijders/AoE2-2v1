@@ -13,8 +13,10 @@
                 Start!
             </div>
         </div>
-        <div id="game-overlay" v-if="gameModeStarted">
-            <GameStartOverlay/>
+        <div id="game-overlay-wrapper" v-if="gameModeStarted">
+            <div id="game-overlay">
+                <GameStartOverlay/>
+            </div>
         </div>
     </div>
 </template>
@@ -103,11 +105,11 @@ export default defineComponent({
 
             padding: 10px;
             font-size: 25px;
-            background: linear-gradient(90deg, #2c3e50 0%, #435e79 100%);
+            background: $BLUE_BG_NORMAL;
             border: 5px solid #203241;
 
             &:hover {
-                background: linear-gradient(90deg, #445b72 0%, #597693 100%);
+                background: $BLUE_BG_HOVER;
                 cursor: pointer;
             }
         }

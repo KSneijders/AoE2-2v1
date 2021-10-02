@@ -1,5 +1,5 @@
 <template>
-    <div id="game-mode-selection-menu">
+    <div id="game-mode-selection-menu" class="simple-white-scrollbar">
         <div
             v-for="(gm, key) in gameModes"
             v-bind:key="key"
@@ -30,12 +30,12 @@ export default defineComponent({
         if (this.$store.getters.gameModeSelected) {
             this.selectedGameModeKey = this.$store.getters.selectedGameModeId
         } else {
-            this.selectGameMode(this.selectedGameModeKey);
+            this.selectGameMode("random");
         }
     },
     data() {
         return {
-            selectedGameModeKey: "random" as string,
+            selectedGameModeKey: "" as string,
         }
     },
     computed: {
@@ -71,11 +71,11 @@ export default defineComponent({
         margin: 0 0 5px 0;
         border: 2px solid #7696b6;
         padding: 10px;
-        background: linear-gradient(90deg, #2c3e50 0%, #435e79 100%);
+        background: $BLUE_BG_NORMAL;
         transition: width .25s;
 
         &:hover {
-            background: linear-gradient(90deg, #445b72 0%, #597693 100%);
+            background: $BLUE_BG_HOVER;
             border: 2px solid #b5c4d9;
             cursor: pointer;
             width: 90%;
@@ -87,20 +87,12 @@ export default defineComponent({
         }
 
         &.selected {
-            background: linear-gradient(90deg, #2c5039 0%, #527943 100%);
+            background: $GREEN_BG_NORMAL;
 
             &:hover {
-                background: linear-gradient(90deg, #447245 0%, #618f5b 100%);
+                background: $GREEN_BG_HOVER;
             }
         }
-    }
-
-    &::-webkit-scrollbar {
-        width: 12px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background-color: #ffffff;
     }
 }
 </style>
