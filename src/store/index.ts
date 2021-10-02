@@ -1,11 +1,13 @@
-import {createStore} from 'vuex'
-import {GameModeMenuItem} from "@/interfaces/game-mode";
+import {createStore, useStore} from 'vuex'
+import {GameModeContent, GameModeMenuItem} from "@/interfaces/game-mode";
+import {loadGameMode} from "@/scripts/challenges";
 
 export default createStore({
     state: {
         gameModeInfo: {
             selectedMode: {title: '', id: '', desc: ''} as GameModeMenuItem,
-            started: false
+            started: false,
+            content: {} as GameModeContent
         }
     },
     getters: {
@@ -22,6 +24,9 @@ export default createStore({
     mutations: {
         gameModeStart(state) {
             state.gameModeInfo.started = true;
+            loadGameMode(state.gameModeInfo.selectedMode.id).then(content => {
+                state.gameModeInfo.content = content
+            })
         },
         gameModeEnd(state) {
             state.gameModeInfo.started = false;

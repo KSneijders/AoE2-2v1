@@ -22,7 +22,6 @@
 </template>
 
 <script lang="ts">
-
 import {defineComponent, PropType} from "vue";
 import Profile from "@/interfaces/profile";
 import UserProfile from "@/components/main-menu/UserProfile.vue";
@@ -47,9 +46,7 @@ export default defineComponent({
         // test
         this.gameModeStart();
     },
-    // data() {
-    //   // Data
-    // },
+    // data() {},
     computed: {
         ...mapState({
             gameModeStarted: (state) => (state as State).gameModeInfo.started,

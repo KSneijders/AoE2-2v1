@@ -81,7 +81,6 @@ export default defineComponent({
     },
     methods: {
         playerClicked: function (playerEntry: PlayerEntry, event: MouseEvent) {
-            console.log(event)
             let side = undefined
             switch (event.button) {
                 case 0:   // LMB
