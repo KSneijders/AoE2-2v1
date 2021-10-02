@@ -1,11 +1,10 @@
 <template>
     <div id="game-mode-selection-menu" class="simple-white-scrollbar">
-        <div
-            v-for="(gm, key) in gameModes"
-            v-bind:key="key"
-            class="gm-box"
-            v-bind:class="{selected: key === selectedGameModeKey}"
-            @click="selectGameMode(key)"
+        <div v-for="(gm, key) in gameModes"
+             v-bind:key="key"
+             v-bind:class="{selected: key === selectedGameModeKey}"
+             @click="selectGameMode(key)"
+             class="gm-box"
         >
             <div class="gm-title">
                 <b>{{ gm.title }}</b>
@@ -58,11 +57,11 @@ export default defineComponent({
 <style scoped lang="scss">
 #game-mode-selection-menu {
     width: 100%;
-    height: 300px;
+    height: 80%;
     overflow-y: auto;
     color: whitesmoke;
     padding: 10px;
-    background: linear-gradient(90deg, #8ba5be 0%, #9db6d0 100%);
+    background: $LIGHT_BLUE_BG;
     border: 5px solid #203241;
     user-select: none;
 
@@ -73,6 +72,12 @@ export default defineComponent({
         padding: 10px;
         background: $BLUE_BG_NORMAL;
         transition: width .25s;
+
+        .gm-body {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         &:hover {
             background: $BLUE_BG_HOVER;

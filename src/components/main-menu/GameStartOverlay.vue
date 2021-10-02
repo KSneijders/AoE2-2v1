@@ -58,14 +58,14 @@ export default defineComponent({
 #overlay-wrapper {
     height: 100%;
     width: 100%;
-    background: linear-gradient(90deg, #8ba5be 0%, #9db6d0 100%);
+    background: $LIGHT_BLUE_BG;
     border: 5px solid $BORDER_COLOUR;
     border-radius: 5px;
     color: whitesmoke;
     z-index: 0;
 
     .gamemode-box {
-        height: 90%;
+        height: calc(100% - 70px);
     }
 
     #player-selection-block {
@@ -75,7 +75,7 @@ export default defineComponent({
     #overlay-header {
         padding: 5px;
         font-size: 24px;
-        border-bottom: 3px solid #203241;
+        border-bottom: 4px solid #203241;
 
         #exit-button {
             color: red;

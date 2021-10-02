@@ -10,7 +10,7 @@
             <div id="start-button"
                  v-if="gameModeSelected"
                  @click="gameModeStart">
-                Start!
+                Start GameMode!
             </div>
         </div>
         <div id="game-overlay-wrapper" v-if="gameModeStarted">
@@ -43,9 +43,10 @@ export default defineComponent({
             type: Object as PropType<Profile>
         }
     },
-    // mounted() {
-    //     this.gameModeStart();
-    // },
+    mounted() {
+        // test
+        this.gameModeStart();
+    },
     // data() {
     //   // Data
     // },
@@ -85,13 +86,17 @@ export default defineComponent({
         width: 80%;
     }
 
+    #game-mode-selection {
+        height: 100%;
+    }
+
     #game-mode-selection-wrapper {
         display: block;
         position: absolute;
-        bottom: 50px;
+        top: 85px;
         right: 50px;
         width: 40%;
-        height: 400px;
+        height: 80%;
 
         #start-button {
             display: block;
@@ -102,7 +107,6 @@ export default defineComponent({
             text-align: center;
             font-weight: bold;
             user-select: none;
-
             padding: 10px;
             font-size: 25px;
             background: $BLUE_BG_NORMAL;

@@ -12,6 +12,9 @@
                          defendant: playerEntry.side === Side.DEFENDANT,
                          selected: playerEntry.side !== Side.NONE
                      }">
+                    <div class="floating-class">
+                        {{ playerEntry.side }}
+                    </div>
                     {{ playerEntry.name }}
                 </div>
             </div>
@@ -43,9 +46,9 @@
 import {defineComponent} from "vue";
 
 enum Side {
-    NONE,
-    DEFENDANT,
-    CHALLENGER
+    NONE = "",
+    DEFENDANT = "Defendant",
+    CHALLENGER = "Challenger"
 }
 
 interface PlayerEntry {
@@ -77,13 +80,14 @@ export default defineComponent({
         }
     },
     methods: {
-        playerClicked: function (playerEntry: PlayerEntry, event) {
+        playerClicked: function (playerEntry: PlayerEntry, event: MouseEvent) {
+            console.log(event)
             let side = undefined
-            switch (event.which) {
-                case 1:   // LMB
+            switch (event.button) {
+                case 0:   // LMB
                     side = Side.DEFENDANT;
                     break;
-                case 3:  // RMB
+                case 2:  // RMB
                     side = Side.CHALLENGER;
                     break;
                 default:
@@ -104,12 +108,81 @@ export default defineComponent({
 #player-selection {
     margin: 10px;
     height: 100%;
+    overflow-y: hidden;
+    box-shadow: 0 3px 10px 1px black;
+
+    #header {
+        height: 55px;
+        padding: 5px;
+        text-align: center;
+        border: 2px solid $BORDER_COLOUR;
+        margin-bottom: 0;
+        font-weight: 500;
+        line-height: 1.2;
+        margin-top: 0;
+        font-size: 36px;
+    }
 
     #content {
-        height: calc(100% - 55px);
+        height: calc(100% - 54px);
+
+        #player-list {
+            overflow-y: auto;
+            height: calc(100% - 200px);
+            width: 100%;
+            min-height: 70%;
+            border: 2px solid $BORDER_COLOUR;
+            border-top: none;
+
+            .player-entry {
+                padding: 10px;
+                margin: 0 10px;
+                text-transform: capitalize;
+                background: $BLUE_BG_NORMAL;
+                box-shadow: 0 3px 10px 1px black;
+
+                .floating-class {
+                    float: left;
+                    width: 100%;
+                    text-align: center;
+                    height: 0;
+                }
+
+                &:first-child {
+                    margin-top: 10px;
+                }
+
+                &:hover {
+                    background: $BLUE_BG_HOVER;
+                    cursor: pointer;
+                }
+
+                &.defendant {
+                    background: $GREEN_BG_NORMAL;
+                    box-shadow: 0 3px 10px 1px #003000;
+
+                    &:hover {
+                        background: $GREEN_BG_HOVER;
+                        box-shadow: 0 3px 10px 1px #004100;
+                    }
+                }
+
+                &.challenger {
+                    background: $RED_BG_NORMAL;
+                    box-shadow: 0 3px 10px 1px #800000;
+                    text-align: right;
+
+                    &:hover {
+                        background: $RED_BG_HOVER;
+                        box-shadow: 0 3px 10px 1px #b00000;
+                    }
+                }
+            }
+        }
 
         #selected-players {
-            height: 40%;
+            max-height: 200px;
+            height: 30%;
 
             #defendants, #challengers {
                 width: 50%;
@@ -120,7 +193,7 @@ export default defineComponent({
                 h5 {
                     padding: 5px;
                     text-align: center;
-                    border-bottom: 2px dotted $BORDER_COLOUR;
+                    border-bottom: 2px solid $BORDER_COLOUR;
                     margin: 0;
                 }
 
@@ -144,53 +217,6 @@ export default defineComponent({
                 border-left: none;
             }
         }
-
-        #player-list {
-            overflow-y: auto;
-            height: 60%;
-            border: 2px solid $BORDER_COLOUR;
-            border-top: none;
-
-            .player-entry {
-                padding: 10px;
-                text-transform: capitalize;
-                background: $BLUE_BG_NORMAL;
-
-                &:hover {
-                    background: $BLUE_BG_HOVER;
-                    cursor: pointer;
-                }
-
-                &.defendant {
-                    background: $GREEN_BG_NORMAL;
-
-                    &:hover {
-                        background: $GREEN_BG_HOVER;
-                    }
-                }
-
-                &.challenger {
-                    background: $RED_BG_NORMAL;
-                    text-align: right;
-
-                    &:hover {
-                        background: $RED_BG_HOVER;
-                    }
-                }
-            }
-        }
-    }
-
-    #header {
-        height: 55px;
-        padding: 5px;
-        text-align: center;
-        border: 2px solid $BORDER_COLOUR;
-        margin-bottom: 0;
-        font-weight: 500;
-        line-height: 1.2;
-        margin-top: 0;
-        font-size: 36px;
     }
 }
 </style>
