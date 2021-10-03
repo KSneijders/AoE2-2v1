@@ -7,3 +7,21 @@
         background-color: #ffffff;
     }
 }
+
+.overlay-block-header {
+    height: 55px;
+    padding: 5px;
+    text-align: center;
+    border: 2px solid $BORDER_COLOUR;
+    border-bottom: none;
+    margin-bottom: 0;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-top: 0;
+    font-size: 36px;
+}
+
+.overlay-block-content {
+    height: calc(100% - 54px);
+    border: 2px solid $BORDER_COLOUR;
+}

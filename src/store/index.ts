@@ -1,13 +1,17 @@
-import {createStore, useStore} from 'vuex'
+import {createStore} from 'vuex'
 import {GameModeContent, GameModeMenuItem} from "@/interfaces/game-mode";
 import {loadGameMode} from "@/scripts/challenges";
+import { ProfileEntry } from '@/interfaces/profile';
 
 export default createStore({
     state: {
         gameModeInfo: {
             selectedMode: {title: '', id: '', desc: ''} as GameModeMenuItem,
             started: false,
-            content: {} as GameModeContent
+            content: {} as GameModeContent,
+            overlayProgress: {
+                profiles: [] as ProfileEntry[]
+            }
         }
     },
     getters: {
@@ -33,6 +37,9 @@ export default createStore({
         },
         selectGameMode(state, newMode: GameModeMenuItem) {
             state.gameModeInfo.selectedMode = newMode;
+        },
+        updateProfiles(state, profiles: ProfileEntry[]) {
+            state.gameModeInfo.overlayProgress.profiles = profiles;
         }
     },
     actions: {},

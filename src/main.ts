@@ -11,7 +11,7 @@ import {CivModifier, MapModifier} from "@/interfaces/modifiers";
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import Profile from "@/interfaces/profile";
+import {Profile} from "@/interfaces/profile";
 
 
 createApp(App)

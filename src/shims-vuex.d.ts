@@ -2,6 +2,7 @@
 
 import {Store} from 'vuex'
 import {GameModeContent, GameModeMenuItem} from "@/interfaces/game-mode";
+import {ProfileEntry} from "@/interfaces/profile";
 
 declare module '@vue/runtime-core' {
     // Declare your own store states.
@@ -10,6 +11,9 @@ declare module '@vue/runtime-core' {
             started: boolean;
             selectedMode: GameModeMenuItem;
             content: GameModeContent;
+            overlayProgress: {
+                profiles: ProfileEntry[];
+            };
         };
     }
 

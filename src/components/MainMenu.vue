@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
-import Profile from "@/interfaces/profile";
+import {Profile} from "@/interfaces/profile";
 import UserProfile from "@/components/main-menu/UserProfile.vue";
 import GameModeSelectionMenu from "@/components/main-menu/GameModeSelectionMenu.vue";
 import GameStartOverlay from "@/components/main-menu/GameStartOverlay.vue";
@@ -83,10 +83,6 @@ export default defineComponent({
         width: 80%;
     }
 
-    #game-mode-selection {
-        height: 100%;
-    }
-
     #game-mode-selection-wrapper {
         display: block;
         position: absolute;
@@ -94,6 +90,10 @@ export default defineComponent({
         right: 50px;
         width: 40%;
         height: 80%;
+
+        #game-mode-selection {
+            height: 100%;
+        }
 
         #start-button {
             display: block;

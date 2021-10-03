@@ -1,40 +1,40 @@
 <template>
     <div id="player-selection">
-        <div id="header">Players</div>
-        <div id="content">
+        <div class="overlay-block-header">Players</div>
+        <div class="overlay-block-content">
             <div id="player-list" class="simple-white-scrollbar">
-                <div v-for="playerEntry in profileEntries"
-                     v-bind:key="playerEntry.name"
+                <div v-for="profileEntry in profileEntries"
+                     v-bind:key="profileEntry.name"
                      class="player-entry"
-                     @mouseup="playerClicked(playerEntry, $event)"
+                     @mouseup="playerClicked(profileEntry, $event)"
                      v-bind:class="{
-                         challenger: playerEntry.side === Side.CHALLENGER,
-                         defendant: playerEntry.side === Side.DEFENDANT,
-                         selected: playerEntry.side !== Side.NONE
+                         challenger: profileEntry.side === Side.CHALLENGER,
+                         defendant: profileEntry.side === Side.DEFENDANT,
+                         selected: profileEntry.side !== Side.NONE
                      }">
                     <div class="floating-class">
-                        {{ playerEntry.side }}
+                        {{ profileEntry.side }}
                     </div>
-                    {{ playerEntry.name }}
+                    {{ profileEntry.name }}
                 </div>
             </div>
             <div id="selected-players">
                 <div id="defendants">
                     <h5>Defendants</h5>
                     <div class="player-selected-entry"
-                         v-for="playerEntry in defendants"
-                         v-bind:key="playerEntry.name"
-                         @mouseup="playerEntry.side = Side.NONE">
-                        {{ playerEntry.name }}
+                         v-for="profileEntry in defendants"
+                         v-bind:key="profileEntry.name"
+                         @mouseup="profileEntry.side = Side.NONE">
+                        {{ profileEntry.name }}
                     </div>
                 </div>
                 <div id="challengers">
                     <h5>Challengers</h5>
                     <div class="player-selected-entry"
-                         v-for="playerEntry in challengers"
-                         v-bind:key="playerEntry.name"
-                         @mouseup="playerEntry.side = Side.NONE">
-                        {{ playerEntry.name }}
+                         v-for="profileEntry in challengers"
+                         v-bind:key="profileEntry.name"
+                         @mouseup="profileEntry.side = Side.NONE">
+                        {{ profileEntry.name }}
                     </div>
                 </div>
             </div>
@@ -43,44 +43,49 @@
 </template>
 
 <script lang="ts">
-import {defineComponent} from "vue";
-
-enum Side {
-    NONE = "",
-    DEFENDANT = "Defendant",
-    CHALLENGER = "Challenger"
-}
-
-interface PlayerEntry {
-    name: string;
-    side: Side;
-}
+import {defineComponent, PropType} from "vue";
+import {OverlayTab, Side} from "@/enums/other";
+import {ProfileEntry} from "@/interfaces/profile";
 
 export default defineComponent({
     name: "PlayerSelectionMenu",
     components: {},
-    props: {},
+    props: {
+        initialTabData: {
+            type: Array as PropType<ProfileEntry[]>,
+            default: () => []
+        }
+    },
     mounted() {
+        // Todo: Get profiles from store
         window.fs.getProfileNames().then(names => {
             names.forEach(name => this.profileEntries.push({name: name, side: Side.NONE}))
+
+            for (const entry of (this.initialTabData || [])) {
+                const found = this.profileEntries.find(e => e.name === entry.name)
+                if (found) found.side = entry.side
+            }
         });
     },
     data() {
         return {
-            profileEntries: [] as PlayerEntry[],
+            profileEntries: [] as ProfileEntry[],
             Side: Side,
         }
     },
     computed: {
-        defendants: function (): PlayerEntry[] {
+        defendants: function (): ProfileEntry[] {
             return this.profileEntries.filter(e => e.side === Side.DEFENDANT)
         },
-        challengers: function (): PlayerEntry[] {
+        challengers: function (): ProfileEntry[] {
             return this.profileEntries.filter(e => e.side === Side.CHALLENGER)
-        }
+        },
+        selectedEntries: function (): ProfileEntry[] {
+            return this.profileEntries.filter(e => e.side !== Side.NONE)
+        },
     },
     methods: {
-        playerClicked: function (playerEntry: PlayerEntry, event: MouseEvent) {
+        playerClicked: function (profileEntry: ProfileEntry, event: MouseEvent) {
             let side = undefined
             switch (event.button) {
                 case 0:   // LMB
@@ -93,10 +98,17 @@ export default defineComponent({
                     return;
             }
 
-            if (playerEntry.side === side)
-                playerEntry.side = Side.NONE
+            if (profileEntry.side === side)
+                profileEntry.side = Side.NONE
             else
-                playerEntry.side = side;
+                profileEntry.side = side;
+
+            const valid: boolean = this.isValidSelection()
+
+            this.$emit('overlay-tab-data-update', OverlayTab.PLAYERS, valid, this.selectedEntries)
+        },
+        isValidSelection: function (): boolean {
+            return (this.defendants.length > 0 && this.challengers.length > 0)
         }
     },
     watch: {}
@@ -105,32 +117,16 @@ export default defineComponent({
 
 <style scoped lang="scss">
 #player-selection {
-    margin: 10px;
     height: 100%;
     overflow-y: hidden;
     box-shadow: 0 3px 10px 1px black;
 
-    #header {
-        height: 55px;
-        padding: 5px;
-        text-align: center;
-        border: 2px solid $BORDER_COLOUR;
-        margin-bottom: 0;
-        font-weight: 500;
-        line-height: 1.2;
-        margin-top: 0;
-        font-size: 36px;
-    }
-
-    #content {
-        height: calc(100% - 54px);
-
+    .overlay-block-content {
         #player-list {
             overflow-y: auto;
             height: calc(100% - 200px);
             width: 100%;
             min-height: 70%;
-            border: 2px solid $BORDER_COLOUR;
             border-top: none;
 
             .player-entry {
@@ -186,8 +182,7 @@ export default defineComponent({
             #defendants, #challengers {
                 width: 50%;
                 height: 100%;
-                border: 2px solid $BORDER_COLOUR;
-                border-top: none;
+                border-top: 2px solid $BORDER_COLOUR;
 
                 h5 {
                     padding: 5px;
@@ -213,7 +208,7 @@ export default defineComponent({
 
             #challengers {
                 float: right;
-                border-left: none;
+                border-left: 2px solid $BORDER_COLOUR;
             }
         }
     }
