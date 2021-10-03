@@ -10,19 +10,20 @@
             <div id="start-button"
                  v-if="gameModeSelected"
                  @click="gameModeStart">
-                Start!
+                Start GameMode!
             </div>
         </div>
-        <div id="game-overlay" v-if="gameModeStarted">
-            <GameStartOverlay/>
+        <div id="game-overlay-wrapper" v-if="gameModeStarted">
+            <div id="game-overlay">
+                <GameStartOverlay/>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-
 import {defineComponent, PropType} from "vue";
-import Profile from "@/interfaces/profile";
+import {Profile} from "@/interfaces/profile";
 import UserProfile from "@/components/main-menu/UserProfile.vue";
 import GameModeSelectionMenu from "@/components/main-menu/GameModeSelectionMenu.vue";
 import GameStartOverlay from "@/components/main-menu/GameStartOverlay.vue";
@@ -41,12 +42,11 @@ export default defineComponent({
             type: Object as PropType<Profile>
         }
     },
-    // mounted() {
-    //     this.gameModeStart();
-    // },
-    // data() {
-    //   // Data
-    // },
+    mounted() {
+        // test
+        // this.gameModeStart();
+    },
+    // data() {},
     computed: {
         ...mapState({
             gameModeStarted: (state) => (state as State).gameModeInfo.started,
@@ -86,10 +86,14 @@ export default defineComponent({
     #game-mode-selection-wrapper {
         display: block;
         position: absolute;
-        bottom: 50px;
+        top: 85px;
         right: 50px;
         width: 40%;
-        height: 400px;
+        height: 80%;
+
+        #game-mode-selection {
+            height: 100%;
+        }
 
         #start-button {
             display: block;
@@ -100,14 +104,13 @@ export default defineComponent({
             text-align: center;
             font-weight: bold;
             user-select: none;
-
             padding: 10px;
             font-size: 25px;
-            background: linear-gradient(90deg, #2c3e50 0%, #435e79 100%);
+            background: $BLUE_BG_NORMAL;
             border: 5px solid #203241;
 
             &:hover {
-                background: linear-gradient(90deg, #445b72 0%, #597693 100%);
+                background: $BLUE_BG_HOVER;
                 cursor: pointer;
             }
         }

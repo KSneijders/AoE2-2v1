@@ -1,6 +1,13 @@
+import {Side} from "@/enums/gamemode-overlay";
+
 interface Profile {
     name: string;
     points: number;
 }
 
-export default Profile;
+interface ProfileEntry {
+    name: string;
+    side: Side;
+}
+
+export {Profile, ProfileEntry};

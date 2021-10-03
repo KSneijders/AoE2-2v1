@@ -14,12 +14,13 @@
 import {defineComponent} from "vue";
 import {Challenges} from "@/interfaces/policies";
 import {Ruleset} from "@/interfaces/ruleset";
-import Profile from "@/interfaces/profile";
+import {Profile} from "@/interfaces/profile";
 import Tabs from "@/components/Tabs.vue";
 import LayoutTab from "@/interfaces/layout-tabs";
 import MainMenu from "@/components/MainMenu.vue";
 import Statistics from "@/components/Statistics.vue";
 import History from "@/components/History.vue";
+import {loadGameMode} from "@/scripts/challenges";
 
 
 export default defineComponent({
@@ -39,8 +40,8 @@ export default defineComponent({
         }
     },
     mounted() {
-        window.fs.getProfile('default')
-            .then(content => { this.profile = content })
+        window.fs.getProfile('default').then(profile => this.profile = profile)
+        loadGameMode('default').then(gamemodeContent => this.$store.state.defaultGamemode = gamemodeContent)
     },
     methods: {
         updateTab: function (tab: LayoutTab) {
@@ -68,6 +69,10 @@ body {
     text-align: left;
     color: #2c3e50;
     width: 100%;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 #window {

@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
-import Profile from "@/interfaces/profile";
+import {Profile} from "@/interfaces/profile";
 
 export default defineComponent({
     name: "UserProfile",

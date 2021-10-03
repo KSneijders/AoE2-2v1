@@ -1,8 +1,8 @@
 // vuex-shim.d.ts
 
-import { ComponentCustomProperties } from 'vue'
-import { Store } from 'vuex'
-import {GameModeMenuItem} from "@/interfaces/game-mode";
+import {Store} from 'vuex'
+import {GameModeContent, GameModeMenuItem} from "@/interfaces/game-mode";
+import {ProfileEntry} from "@/interfaces/profile";
 
 declare module '@vue/runtime-core' {
     // Declare your own store states.
@@ -10,7 +10,12 @@ declare module '@vue/runtime-core' {
         gameModeInfo: {
             started: boolean;
             selectedMode: GameModeMenuItem;
+            content: GameModeContent;
+            overlayProgress: {
+                profiles: ProfileEntry[];
+            };
         };
+        defaultGamemode: GameModeContent;
     }
 
     interface ComponentCustomProperties {
