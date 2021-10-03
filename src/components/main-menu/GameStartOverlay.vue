@@ -24,6 +24,18 @@
                     @overlay-tab-data-update="overlayTabDataUpdate"
                 />
             </div>
+            <div id="map-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('maps')">
+                <MapSelectionMenu
+                    :initialTabData="tabData.maps"
+                    @overlay-tab-data-update="overlayTabDataUpdate"
+                />
+            </div>
+            <div id="civ-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('civs')">
+                <CivSelectionMenu
+                    :initialTabData="tabData.civs"
+                    @overlay-tab-data-update="overlayTabDataUpdate"
+                />
+            </div>
             <div v-if="tabIsValid(currentTab)" id="next-button" class="gamemode-box" @click="nextTab">
                 NEXT!
             </div>
@@ -35,10 +47,12 @@
 import {defineComponent} from "vue";
 import {mapGetters} from 'vuex';
 import PlayerSelectionMenu from "@/components/main-menu/game-start-overlay/PlayerSelectionMenu.vue";
-import {OverlayTab} from "@/enums/other";
-import {OverlayTabData, TabData} from "@/interfaces/other";
+import {OverlayTab} from "@/enums/gamemode-overlay";
+import {OverlayTabData, TabData} from "@/interfaces/gamemode-overlay";
 import OverlaySummary from "@/components/main-menu/game-start-overlay/OverlaySummary.vue";
 import {range} from "@/scripts/arrays";
+import MapSelectionMenu from "@/components/main-menu/game-start-overlay/MapSelectionMenu.vue";
+import CivSelectionMenu from "@/components/main-menu/game-start-overlay/CivSelectionMenu.vue";
 
 interface ValidTabs {
     [key: string]: boolean;
@@ -52,6 +66,8 @@ interface ValidTabs {
 export default defineComponent({
     name: "GameStartOverlay",
     components: {
+        CivSelectionMenu,
+        MapSelectionMenu,
         OverlaySummary,
         PlayerSelectionMenu
     },
@@ -68,7 +84,9 @@ export default defineComponent({
             tabs: ["players", "maps", "civs", "policies"] as string[],
             validTabs: {} as ValidTabs,
             tabData: {
-                players: []
+                players: [],
+                maps: "",
+                civs: {civOptions: [], civChoice: ""},
             } as OverlayTabData
         }
     },
@@ -92,7 +110,7 @@ export default defineComponent({
             }
         },
         selectTab: function (tabIndex: number): void {
-            if (this.tabIsValid(tabIndex) || this.tabProgress === tabIndex) {
+            if (tabIndex <= this.tabProgress) {
                 this.currentTab = tabIndex
             }
         },
@@ -107,6 +125,10 @@ export default defineComponent({
             tab = tab.toLowerCase();
             this.validTabs[tab] = valid;
             this.tabData[tab] = payload;
+
+            // console.log(payload)
+            // console.log(this.validTabs)
+            // console.log(this.tabData)
         }
     },
     watch: {}
@@ -143,6 +165,7 @@ export default defineComponent({
             height: calc(100% - 70px);
             margin: 10px;
             background: linear-gradient(90deg, #657f9a 0%, #68849f 100%);
+            box-shadow: 0 3px 10px 1px black;
         }
 
         #summary-block {
@@ -153,10 +176,17 @@ export default defineComponent({
             width: 30%;
         }
 
+        #map-selection-block {
+            width: 30%;
+        }
+
+        #civ-selection-block {
+            width: 30%;
+        }
+
         #next-button {
             flex-grow: 1;
             text-align: center;
-            padding: 20%;
             color: #000;
             font-size: 50px;
 

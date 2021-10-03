@@ -44,7 +44,7 @@
 
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
-import {OverlayTab, Side} from "@/enums/other";
+import {OverlayTab, Side} from "@/enums/gamemode-overlay";
 import {ProfileEntry} from "@/interfaces/profile";
 
 export default defineComponent({
@@ -119,11 +119,11 @@ export default defineComponent({
 #player-selection {
     height: 100%;
     overflow-y: hidden;
-    box-shadow: 0 3px 10px 1px black;
 
     .overlay-block-content {
         #player-list {
             overflow-y: auto;
+            padding: 10px;
             height: calc(100% - 200px);
             width: 100%;
             min-height: 70%;
@@ -131,7 +131,6 @@ export default defineComponent({
 
             .player-entry {
                 padding: 10px;
-                margin: 0 10px;
                 text-transform: capitalize;
                 background: $BLUE_BG_NORMAL;
                 box-shadow: 0 3px 10px 1px black;
@@ -141,10 +140,6 @@ export default defineComponent({
                     width: 100%;
                     text-align: center;
                     height: 0;
-                }
-
-                &:first-child {
-                    margin-top: 10px;
                 }
 
                 &:hover {

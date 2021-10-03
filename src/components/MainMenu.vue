@@ -44,7 +44,7 @@ export default defineComponent({
     },
     mounted() {
         // test
-        this.gameModeStart();
+        // this.gameModeStart();
     },
     // data() {},
     computed: {

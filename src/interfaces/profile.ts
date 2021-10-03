@@ -1,4 +1,4 @@
-import {Side} from "@/enums/other";
+import {Side} from "@/enums/gamemode-overlay";
 
 interface Profile {
     name: string;
