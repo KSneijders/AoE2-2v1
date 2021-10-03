@@ -6,7 +6,7 @@
              v-bind:class="{selected: index === selectedTab}"
              @click="selectTab(index)">
             <div>
-                <p>{{ index === selectedTab ? '> ' : '' }}{{ tab.title }}</p>
+                <p>{{ tab.title }}</p>
             </div>
         </div>
     </div>
@@ -38,6 +38,10 @@ export default defineComponent({
                 {
                     "title": "Statistics",
                     "image": "https://assets.rockpapershotgun.com/images/2021/01/age-of-empires-2-hivemind-3.jpg",
+                },
+                {
+                    "title": "Profiles",
+                    "image": "",
                 },
             ] as layoutTabs[]
         }

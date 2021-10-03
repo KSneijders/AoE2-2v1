@@ -47,3 +47,8 @@ ipcMain.handle('fs:getProfileNames', () => {
     }
     return profileNames
 });
+
+
+ipcMain.handle('fs:getProfiles', () => {
+
+});

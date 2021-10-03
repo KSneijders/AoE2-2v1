@@ -5,6 +5,7 @@
             <MainMenu :profile="profile" v-if="selectedTab.title === 'Main menu'"/>
             <History v-if="selectedTab.title === 'History'" />
             <Statistics v-if="selectedTab.title === 'Statistics'" />
+            <Profiles v-if="selectedTab.title === 'Profiles'" />
         </div>
     </div>
 </template>
@@ -21,11 +22,13 @@ import MainMenu from "@/components/MainMenu.vue";
 import Statistics from "@/components/Statistics.vue";
 import History from "@/components/History.vue";
 import {loadGameMode} from "@/scripts/challenges";
+import Profiles from "@/components/Profiles.vue";
 
 
 export default defineComponent({
     name: "App",
     components: {
+        Profiles,
         History,
         Statistics,
         Tabs,
