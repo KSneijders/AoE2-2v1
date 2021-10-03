@@ -12,7 +12,8 @@ export default createStore({
             overlayProgress: {
                 profiles: [] as ProfileEntry[]
             }
-        }
+        },
+        defaultGamemode: {} as GameModeContent,
     },
     getters: {
         gameModeSelected(state): boolean {

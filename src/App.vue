@@ -20,6 +20,7 @@ import LayoutTab from "@/interfaces/layout-tabs";
 import MainMenu from "@/components/MainMenu.vue";
 import Statistics from "@/components/Statistics.vue";
 import History from "@/components/History.vue";
+import {loadGameMode} from "@/scripts/challenges";
 
 
 export default defineComponent({
@@ -39,8 +40,8 @@ export default defineComponent({
         }
     },
     mounted() {
-        window.fs.getProfile('default')
-            .then(content => { this.profile = content })
+        window.fs.getProfile('default').then(profile => this.profile = profile)
+        loadGameMode('default').then(gamemodeContent => this.$store.state.defaultGamemode = gamemodeContent)
     },
     methods: {
         updateTab: function (tab: LayoutTab) {

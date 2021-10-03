@@ -49,7 +49,6 @@ export default defineComponent({
     methods: {},
     watch: {}
 })
-
 </script>
 
 <style scoped lang="scss">

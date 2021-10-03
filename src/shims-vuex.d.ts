@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
                 profiles: ProfileEntry[];
             };
         };
+        defaultGamemode: GameModeContent;
     }
 
     interface ComponentCustomProperties {

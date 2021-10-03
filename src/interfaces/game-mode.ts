@@ -10,6 +10,7 @@ interface GameModeMenuItem {
 interface GameModeContent {
     challenges: Challenges;
     limiters: Limiters;
+    maps: string[];
 }
 
 export {GameModeMenuItem, GameModeContent}

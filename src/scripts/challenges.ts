@@ -20,7 +20,6 @@ async function loadGameMode(gameMode: string): Promise<GameModeContent> {
     const challenges = await window.axios.getChallenges(gameMode);
     const onlineLimiters = await window.axios.getChallengeLimiters(gameMode);
     const maps = await window.axios.getMaps(gameMode);
-
     const modifiers = await loadModifiers(gameMode);
 
     // ----------------------------------- CIVS Modifier ----------------------------------- \\
@@ -87,7 +86,8 @@ async function loadGameMode(gameMode: string): Promise<GameModeContent> {
 
     return {
         challenges: challenges,
-        limiters: limiters
+        limiters: limiters,
+        maps: maps
     }
 }
 
