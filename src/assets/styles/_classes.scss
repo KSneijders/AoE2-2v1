@@ -1,4 +1,7 @@
 .simple-white-scrollbar {
+    overflow-y: auto;
+    height: 100%;
+
     &::-webkit-scrollbar {
         width: 12px;
     }
