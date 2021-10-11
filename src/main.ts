@@ -34,6 +34,9 @@ declare global {
         fs: {
             getProfile(name: string): Promise<Profile>;
             getProfileNames(): Promise<string[]>;
+            editProfile(name: string, key: string, value: string | number): Promise<boolean>;
+            getProfiles(names: string[]): Promise<Profile[]>;
+            createProfile(name: string, points: number): Promise<boolean>;
         };
     }
 }

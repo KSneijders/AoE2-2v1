@@ -76,6 +76,12 @@ ipcMain.handle('fs:getProfile', (_, name) => {
     });
 })
 
+ipcMain.handle('fs:createProfile', (_, name, points) => {
+    return p(() => {
+        return createProfile(name, points);
+    });
+})
+
 ipcMain.handle('fs:editProfile', (_, name, key, value) => {
     verifyCreateFolders();
 
