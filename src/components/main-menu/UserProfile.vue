@@ -1,9 +1,17 @@
 <template>
     <div class="profile-container">
         <div class="profile-inner-container">
-            <p>Player</p>
-            <p>{{ profile.name }}</p>
-            <p>{{ profile.points }}</p>
+            <h3>Player</h3>
+            <table id="player-profile">
+                <tr>
+                    <td>Name:</td>
+                    <td>{{ profile.name }}</td>
+                </tr>
+                <tr>
+                    <td>Points:</td>
+                    <td>{{ profile.points }}</td>
+                </tr>
+            </table>
         </div>
     </div>
 </template>
@@ -50,6 +58,13 @@ export default defineComponent({
         background: linear-gradient(90deg, #2c3e50 0%, #435e79 100%);
         color: white;
         padding: 15px;
+
+        #player-profile {
+            td {
+                min-width: 100px;
+                padding: 3px;
+            }
+        }
     }
 }
 </style>

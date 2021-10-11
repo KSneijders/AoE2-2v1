@@ -21,5 +21,8 @@ contextBridge.exposeInMainWorld("axios", {
 // ALL THE CONTEXT BRIDGE CONSTRUCTIONS NEED TO BE DEFINED IN: '/src/main.ts'
 contextBridge.exposeInMainWorld("fs", {
     getProfile: (name) => ipcRenderer.invoke('fs:getProfile', name),
-    getProfileNames: (name) => ipcRenderer.invoke('fs:getProfileNames', name)
+    getProfileNames: (name) => ipcRenderer.invoke('fs:getProfileNames', name),
+    editProfile: (name, key, value) => ipcRenderer.invoke('fs:editProfile', name, key, value),
+    getProfiles: (names) => ipcRenderer.invoke('fs:getProfiles', names),
+    createProfile: (name, points) => ipcRenderer.invoke('fs:createProfile', name, points),
 });
