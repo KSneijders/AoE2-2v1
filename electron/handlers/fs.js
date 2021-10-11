@@ -103,6 +103,8 @@ ipcMain.handle('fs:getProfileNames', () => {
     return profileNames
 });
 
-ipcMain.handle('fs:getProfiles', () => {
+ipcMain.handle('fs:getProfiles', (_, names) => {
+    verifyCreateFolders();
 
+    return p(() => names.filter(n => profileExists(n)).map(n => getProfile(n)));
 });
