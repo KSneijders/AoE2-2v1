@@ -69,13 +69,13 @@ async function loadGameMode(gameMode: string): Promise<GameModeContent> {
     // ----------------------------------- Limiters ----------------------------------- \\
     const limiters: Limiters = {};
     if (onlineLimiters){
-        for (const mu of onlineLimiters["mutually-exclusive"]) {
+        for (const mu of onlineLimiters["mutually-exclusive"] || []) {
             for (let i = 0; i < mu.length; i++) {
                 getDefault(limiters, mu[i], []).push(...mu.filter(k => k !== mu[i]))
             }
         }
 
-        const otm = onlineLimiters["one-to-many"]
+        const otm = onlineLimiters["one-to-many"] || []
         for (const key of Object.keys(otm)) {
             getDefault(limiters, key, []).push(...otm[key])
             for (const item of otm[key]) {

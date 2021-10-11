@@ -32,11 +32,12 @@ declare global {
             getMaps(gameMode: string): Promise<string[]>;
         };
         fs: {
-            getProfile(name: string): Promise<Profile>;
-            getProfileNames(): Promise<string[]>;
-            editProfile(name: string, key: string, value: string | number): Promise<boolean>;
-            getProfiles(names: string[]): Promise<Profile[]>;
-            createProfile(name: string, points: number): Promise<boolean>;
+            getProfile(id: string): Promise<Profile>;
+            getProfiles(ids?: string[]): Promise<Profile[]>;
+            getProfileIds(): Promise<string[]>;
+            createProfile(id: string, points: number): Promise<boolean>;
+            editProfile(id: string, key: string, value: string | number): Promise<boolean>;
+            removeProfile(id: string): Promise<boolean>;
         };
     }
 }
