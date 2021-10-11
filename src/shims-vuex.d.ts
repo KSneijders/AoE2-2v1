@@ -2,7 +2,7 @@
 
 import {Store} from 'vuex'
 import {GameModeContent, GameModeMenuItem} from "@/interfaces/game-mode";
-import {ProfileEntry} from "@/interfaces/profile";
+import {Profile, ProfileEntry} from "@/interfaces/profile";
 
 declare module '@vue/runtime-core' {
     // Declare your own store states.
@@ -16,6 +16,7 @@ declare module '@vue/runtime-core' {
             };
         };
         defaultGamemode: GameModeContent;
+        user: Profile;
     }
 
     interface ComponentCustomProperties {

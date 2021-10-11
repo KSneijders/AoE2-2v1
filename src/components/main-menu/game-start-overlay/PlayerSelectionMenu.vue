@@ -57,9 +57,8 @@ export default defineComponent({
         }
     },
     mounted() {
-        // Todo: Get profiles from store
-        window.fs.getProfileNames().then(names => {
-            names.forEach(name => this.profileEntries.push({name: name, side: Side.NONE}))
+        window.fs.getProfiles().then(profiles => {
+            profiles.forEach(profile => this.profileEntries.push({name: profile.name, side: Side.NONE}))
 
             for (const entry of (this.initialTabData || [])) {
                 const found = this.profileEntries.find(e => e.name === entry.name)

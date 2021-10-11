@@ -1,7 +1,7 @@
 import {createStore} from 'vuex'
 import {GameModeContent, GameModeMenuItem} from "@/interfaces/game-mode";
 import {loadGameMode} from "@/scripts/challenges";
-import { ProfileEntry } from '@/interfaces/profile';
+import {Profile, ProfileEntry} from '@/interfaces/profile';
 
 export default createStore({
     state: {
@@ -14,6 +14,7 @@ export default createStore({
             }
         },
         defaultGamemode: {} as GameModeContent,
+        user: {} as Profile,
     },
     getters: {
         gameModeSelected(state): boolean {

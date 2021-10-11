@@ -2,7 +2,7 @@
     <div id="window" v-bind:style="{backgroundImage: backgroundImage}">
         <Tabs v-on:tab-select="updateTab" />
         <div id="tab-container">
-            <MainMenu :profile="profile" v-if="selectedTab.title === 'Main menu'"/>
+            <MainMenu v-if="selectedTab.title === 'Main menu'"/>
             <History v-if="selectedTab.title === 'History'" />
             <Statistics v-if="selectedTab.title === 'Statistics'" />
             <Profiles v-if="selectedTab.title === 'Profiles'" />
@@ -13,9 +13,6 @@
 <script lang="ts">
 
 import {defineComponent} from "vue";
-import {Challenges} from "@/interfaces/policies";
-import {Ruleset} from "@/interfaces/ruleset";
-import {Profile} from "@/interfaces/profile";
 import Tabs from "@/components/Tabs.vue";
 import LayoutTab from "@/interfaces/layout-tabs";
 import MainMenu from "@/components/MainMenu.vue";
@@ -36,14 +33,11 @@ export default defineComponent({
     },
     data() {
         return {
-            challenges: {} as Challenges,
-            ruleset: {} as Ruleset,
-            profile: {} as Profile,
             selectedTab: {} as LayoutTab
         }
     },
     mounted() {
-        window.fs.getProfile('default').then(profile => this.profile = profile)
+        window.fs.getProfile('default').then(profile => this.$store.state.user = profile)
         loadGameMode('default').then(gamemodeContent => this.$store.state.defaultGamemode = gamemodeContent)
     },
     methods: {

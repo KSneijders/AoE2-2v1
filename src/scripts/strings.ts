@@ -11,4 +11,13 @@ function strReplaceKeyValue(str: string, obj: Record<string, string>): string {
     return str;
 }
 
-export {strReplaceKeyValue}
+/**
+ * Remove illegal characters from the string and replace them with '_'.
+ *
+ * @param str the string to replace
+ */
+function stripIllegalChars(str: string): string {
+    return str.replace(/[/\\?%*:|"<>]/g, '_');
+}
+
+export {strReplaceKeyValue, stripIllegalChars}

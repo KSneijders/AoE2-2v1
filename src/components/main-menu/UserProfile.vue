@@ -17,24 +17,25 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, PropType} from "vue";
-import {Profile} from "@/interfaces/profile";
+import {defineComponent} from "vue";
+import {mapState} from "vuex";
+import {State} from "@vue/runtime-core";
 
 export default defineComponent({
     name: "UserProfile",
     components: {},
-    props: {
-        profile: {
-            type: Object as PropType<Profile>
-        }
-    },
+    props: {},
     mounted() {
         // Execute on creation
     },
     //data() {
     //    // Data
     //},
-    computed: {},
+    computed: {
+        ...mapState({
+            profile: (state) => (state as State).user,
+        })
+    },
     methods: {},
     watch: {}
 })

@@ -1,7 +1,7 @@
 <template>
     <div id="main-menu">
         <div id="user-profile">
-            <UserProfile :profile="profile"/>
+            <UserProfile/>
         </div>
         <div id="game-mode-selection-wrapper">
             <div id="game-mode-selection">
@@ -37,11 +37,7 @@ export default defineComponent({
         GameModeSelectionMenu,
         GameStartOverlay
     },
-    props: {
-        profile: {
-            type: Object as PropType<Profile>
-        }
-    },
+    props: {},
     mounted() {
         // test
         // this.gameModeStart();

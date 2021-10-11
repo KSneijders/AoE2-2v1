@@ -18,45 +18,62 @@ function verifyCreateFolders() {
  *                           Profile Functions
  * *************************************************************************/
 
-function readProfileContent(name) {
-    let response = fs.readFileSync(`${PROFILES_PATH + name}.json`, 'utf8');
+function readProfileContent(id) {
+    let response = fs.readFileSync(`${PROFILES_PATH + id}.json`, 'utf8');
     return JSON.parse(response);
 }
 
-function getProfile(name) {
-    if (profileExists(name)) {
+function removeProfile(id) {
+    try {
+        if (profileExists(id)) {
+            fs.unlinkSync(`${PROFILES_PATH + id}.json`)
+            return !profileExists(id)
+        }
+    } catch (e) {
+        return {'response': e};
+    }
+    return false;
+}
+
+function getProfile(id) {
+    if (profileExists(id)) {
         try {
-            return readProfileContent(name);
+            return readProfileContent(id);
         } catch (e) {
             return {'response': e};
         }
     }
-    return {'response': `profile ${name} not found.`}
+    return {'response': `profile ${id} not found.`}
 }
 
-function profileExists(name) {
-    return fs.existsSync(`${PROFILES_PATH + name}.json`)
+function profileExists(id) {
+    return fs.existsSync(`${PROFILES_PATH + id}.json`)
 }
 
-function createProfile(name, points) {
-    if (!profileExists(name)) {
+function createProfile(id, points) {
+    if (!profileExists(id)) {
         let profileData = {
-            "name": name,
+            "name": id,
+            "id": id.toLowerCase(),
             "points": points
         };
-        return writeProfile(name, profileData)
+        return writeProfile(id, profileData)
     } else {
         return false;
     }
 }
 
-function writeProfile(name, profile) {
+function writeProfile(id, profile) {
     try {
-        fs.writeFileSync(`${PROFILES_PATH + name}.json`, JSON.stringify(profile));
+        fs.writeFileSync(`${PROFILES_PATH + id.toLowerCase()}.json`, JSON.stringify(profile));
         return true;
     } catch (e) {
         return false;
     }
+}
+
+function getAllFileNames() {
+    return fs.readdirSync(PROFILES_PATH).map(id => id.split('.json')[0]);
 }
 
 function p(callable) {
@@ -67,29 +84,40 @@ function p(callable) {
  *                          ipcMain Event Functions
  * *************************************************************************/
 
-ipcMain.handle('fs:getProfile', (_, name) => {
+ipcMain.handle('fs:getProfile', (_, id) => {
     verifyCreateFolders();
 
     return p(() => {
-        createProfile(name, 25);
-        return getProfile(name)
+        createProfile(id, 25);
+        return getProfile(id)
     });
 })
 
-ipcMain.handle('fs:createProfile', (_, name, points) => {
-    return p(() => {
-        return createProfile(name, points);
-    });
-})
-
-ipcMain.handle('fs:editProfile', (_, name, key, value) => {
+ipcMain.handle('fs:removeProfile', (_, id) => {
     verifyCreateFolders();
 
     return p(() => {
-        if (profileExists(name)) {
-            const profile = getProfile(name);
+        return removeProfile(id)
+    });
+})
+
+ipcMain.handle('fs:createProfile', (_, id, points) => {
+    return p(() => {
+        return createProfile(id, points);
+    });
+})
+
+ipcMain.handle('fs:editProfile', (_, id, key, value) => {
+    verifyCreateFolders();
+
+    return p(() => {
+        if (profileExists(id)) {
+            const profile = getProfile(id);
+
+            if (key === "points") value = parseInt(value)
+
             profile[key] = value;
-            writeProfile(name, profile);
+            writeProfile(id, profile);
 
             return true;
         } else {
@@ -98,19 +126,22 @@ ipcMain.handle('fs:editProfile', (_, name, key, value) => {
     });
 });
 
-ipcMain.handle('fs:getProfileNames', () => {
+ipcMain.handle('fs:getProfileIds', () => {
     verifyCreateFolders();
 
-    let files = fs.readdirSync(PROFILES_PATH);
-    let profileNames = [];
-    for (let index in files) {
-        profileNames.push(files[index].split('.json')[0]);
-    }
-    return profileNames
+    return p(() => {
+        return getAllFileNames();
+    })
 });
 
-ipcMain.handle('fs:getProfiles', (_, names) => {
+ipcMain.handle('fs:getProfiles', (_, ids) => {
     verifyCreateFolders();
 
-    return p(() => names.filter(n => profileExists(n)).map(n => getProfile(n)));
+    if (ids.length === 0) {
+        ids = getAllFileNames();
+    } else {
+        ids = ids.filter(n => profileExists(n))
+    }
+
+    return p(() => ids.map(n => getProfile(n)));
 });
