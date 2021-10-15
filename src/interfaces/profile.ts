@@ -9,7 +9,10 @@ interface Profile {
 }
 
 interface ProfileEntry {
+    [key: string]: string | Side;
+
     name: string;
+    id: string;
     side: Side;
 }
 

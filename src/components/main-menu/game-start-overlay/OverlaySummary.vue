@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
-import {OverlayTabData} from "@/interfaces/gamemode-overlay";
+import {OverlayConfigData} from "@/interfaces/gamemode-overlay";
 import {Side} from "@/enums/gamemode-overlay";
 import {ProfileEntry} from "@/interfaces/profile";
 
@@ -41,7 +41,7 @@ export default defineComponent({
     components: {},
     props: {
         tabData: {
-            type: Object as PropType<OverlayTabData>,
+            type: Object as PropType<OverlayConfigData>,
             default: () => {return {}}
         }
     },

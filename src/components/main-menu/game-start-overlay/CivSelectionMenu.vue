@@ -35,7 +35,7 @@ export default defineComponent({
             this.selection = this.initialTabData;
             this.selectedCiv = this.selection.civOptions.indexOf(this.selection.civChoice);
         } else {
-            this.selection.civOptions = getRandomCivs(3);
+            this.selection.civOptions = getRandomCivs(10).sort();
             this.selection.civChoice = "";
 
             this.$emit('overlay-tab-data-update', OverlayTab.CIVS, false, this.selection);

@@ -21,6 +21,7 @@
             <div id="player-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('players')">
                 <PlayerSelectionMenu
                     :initialTabData="tabData.players"
+                    :playerTabSwitchConfirmRequired="playerTabSwitchConfirmRequired"
                     @overlay-tab-data-update="overlayTabDataUpdate"
                 />
             </div>
@@ -36,6 +37,12 @@
                     @overlay-tab-data-update="overlayTabDataUpdate"
                 />
             </div>
+            <div id="policy-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('challenges')">
+                <ChallengeSelectionMenu
+                    :configData="tabData"
+                    @overlay-tab-data-update="overlayTabDataUpdate"
+                />
+            </div>
             <div v-if="tabIsValid(currentTab)" id="next-button" class="gamemode-box" @click="nextTab">
                 NEXT!
             </div>
@@ -47,20 +54,23 @@
 import {defineComponent} from "vue";
 import {mapGetters} from 'vuex';
 import PlayerSelectionMenu from "@/components/main-menu/game-start-overlay/PlayerSelectionMenu.vue";
-import {OverlayTab} from "@/enums/gamemode-overlay";
-import {OverlayTabData, TabData} from "@/interfaces/gamemode-overlay";
+import {OverlayTab, Side} from "@/enums/gamemode-overlay";
+import {OverlayConfigData, TabData} from "@/interfaces/gamemode-overlay";
 import OverlaySummary from "@/components/main-menu/game-start-overlay/OverlaySummary.vue";
 import {range} from "@/scripts/arrays";
 import MapSelectionMenu from "@/components/main-menu/game-start-overlay/MapSelectionMenu.vue";
 import CivSelectionMenu from "@/components/main-menu/game-start-overlay/CivSelectionMenu.vue";
+import ChallengeSelectionMenu from "@/components/main-menu/game-start-overlay/ChallengeSelectionMenu.vue";
+import {ProfileEntry} from "@/interfaces/profile";
 
 interface ValidTabs {
     [key: string]: boolean;
+}
 
-    Players: boolean;
-    Maps: boolean;
-    Civs: boolean;
-    Policies: boolean;
+interface OverLayTabConfig {
+    invalid: string[];
+    challenger: string[];
+    defendant: string[];
 }
 
 export default defineComponent({
@@ -69,26 +79,27 @@ export default defineComponent({
         CivSelectionMenu,
         MapSelectionMenu,
         OverlaySummary,
-        PlayerSelectionMenu
+        PlayerSelectionMenu,
+        ChallengeSelectionMenu
     },
     props: {},
-    mounted() {
-        for (const tab of this.tabs) {
-            this.validTabs[tab] = false;
-        }
-    },
     data() {
         return {
-            OverlayTab: OverlayTab,
-            currentTab: 0 as number,
-            tabs: ["players", "maps", "civs", "policies"] as string[],
+            tabs: ['players'] as string[],
             validTabs: {} as ValidTabs,
-            tabData: {
-                players: [],
-                maps: "",
-                civs: {civOptions: [], civChoice: ""},
-            } as OverlayTabData
+            tabData: {} as OverlayConfigData,
+            currentTab: 0 as number,
+
+            tabConfig: {
+                invalid: ['players'],
+                challenger: ['players', 'maps', 'civs', 'challenges'],
+                defendant: ['players', 'maps', 'commands', 'civs'],
+            } as OverLayTabConfig,
         }
+    },
+    mounted() {
+        this.tabs.forEach(tab => this.validTabs[tab] = false);
+        this.resetTabData();
     },
     computed: {
         ...mapGetters({
@@ -100,10 +111,22 @@ export default defineComponent({
                 if (!this.tabIsValid(i)) return progress;
                 progress++;
             }
-            return progress
+            return progress;
+        },
+        playerTabSwitchConfirmRequired: function(): boolean {
+            return this.tabData.maps !== "";
         }
     },
     methods: {
+        resetTabData: function(): void {
+            this.tabData = {
+                players: [],
+                maps: "",
+                civs: {civOptions: [], civChoice: ""},
+                policies: {challenges: [], commands: []},
+                policyRefresh: false,
+            }
+        },
         nextTab: function (): void {
             if (this.tabIsValid(this.currentTab)) {
                 this.currentTab++;
@@ -122,18 +145,36 @@ export default defineComponent({
                 this.$store.commit('gameModeEnd')
         },
         overlayTabDataUpdate: function (tab: string, valid: boolean, payload: TabData): void {
-            tab = tab.toLowerCase();
-            this.validTabs[tab] = valid;
-            this.tabData[tab] = payload;
+            const ltab: string = tab.toLowerCase();
 
-            // console.log(payload)
-            // console.log(this.validTabs)
-            // console.log(this.tabData)
+            if (tab === OverlayTab.PLAYERS) {
+                const currentUserProfile: ProfileEntry | undefined = this.tabData.players.find(p => p.id === 'default');
+                const newUserProfile: ProfileEntry | undefined = (payload as ProfileEntry[]).find(p => p.id === 'default');
+
+                if (newUserProfile === undefined || currentUserProfile === undefined || currentUserProfile.side !== newUserProfile.side) {
+                    this.resetTabData();
+                }
+
+                if (valid) {
+                    switch (newUserProfile.side) {
+                        case Side.CHALLENGER:
+                            this.tabs = this.tabConfig.challenger;
+                            break;
+                        case Side.DEFENDANT:
+                            this.tabs = this.tabConfig.defendant;
+                            break;
+                        case Side.NONE:
+                            this.tabs = this.tabConfig.invalid;
+                            break;
+                    }
+                }
+            }
+            this.validTabs[ltab] = valid;
+            this.tabData[ltab] = payload;
         }
     },
     watch: {}
 })
-
 </script>
 
 <style scoped lang="scss">
@@ -182,6 +223,10 @@ export default defineComponent({
 
         #civ-selection-block {
             width: 30%;
+        }
+
+        #policy-selection-block {
+            flex-grow: 1;
         }
 
         #next-button {

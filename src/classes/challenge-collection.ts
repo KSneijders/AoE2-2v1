@@ -16,20 +16,42 @@ class ChallengeCollection {
     private readonly maxIterations = 1000;
     private readonly points: Points;
     private readonly challengeIdMap: ChallengeIdMap;
+    private readonly map: string;
+    private readonly civ: string;
 
     readonly challenges: Challenges;
     readonly limiters: Limiters;
 
     private shuffled: boolean;
+    private filteredOutChallenges: string[];
 
-    constructor(challenges: Challenges, limiters: Limiters, shuffle = false) {
+    constructor(challenges: Challenges, limiters: Limiters, points: number, civ = "", map = "", shuffle = false) {
         this.limiters = limiters;
         this.challenges = jsonDeepCopy(challenges);
         this.challengeIdMap = {};
-        this.points = randomPoints(25, 0);
+        this.points = randomPoints(points, .5);
         this.shuffled = shuffle;
+        this.map = map;
+        this.civ = civ;
+
+        this.filteredOutChallenges = [];
+        this.filterChallenges();
 
         if (shuffle) this.shuffleChallenges();
+    }
+
+    private filterFunc(challenge: Challenge): boolean {
+        if (challenge.maps && !challenge.maps.includes(this.map) || challenge.civs && !challenge.civs.includes(this.civ)) {
+            this.filteredOutChallenges.push(challenge.id);
+            return false;
+        }
+        return true;
+    }
+
+    private filterChallenges(): void {
+        for (const category of Object.keys(this.challenges)) {
+            this.challenges[category] = this.challenges[category].filter(challenge => this.filterFunc(challenge))
+        }
     }
 
     resetChallengeIdMap(): void {
@@ -101,11 +123,13 @@ class ChallengeCollection {
                 const wildPointCost = Math.min(Math.floor(cost / 2), this.points['wildPoints']);
 
                 for (const limiterElement of this.limiters[challenge.id] || []) {
+                    if (this.filteredOutChallenges.includes(limiterElement)) continue;
+
                     const mapped = this.challengeIdMap[limiterElement];
                     if (mapped === undefined) throw Error(`Limiter ${limiterElement} does not exist in challenges`);
 
-                    const [cat, index] = mapped
-                    if (typeof index === "number") ignoreIndexes[cat].push(index)
+                    const [category, index] = mapped
+                    if (typeof index === "number") ignoreIndexes[category].push(index)
                 }
 
                 this.points['wildPoints'] -= wildPointCost;

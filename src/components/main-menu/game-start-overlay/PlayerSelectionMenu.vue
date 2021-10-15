@@ -24,7 +24,8 @@
                     <div class="player-selected-entry"
                          v-for="profileEntry in defendants"
                          v-bind:key="profileEntry.name"
-                         @mouseup="profileEntry.side = Side.NONE">
+                         @mouseup="playerReset(profileEntry)"
+                    >
                         {{ profileEntry.name }}
                     </div>
                 </div>
@@ -33,7 +34,8 @@
                     <div class="player-selected-entry"
                          v-for="profileEntry in challengers"
                          v-bind:key="profileEntry.name"
-                         @mouseup="profileEntry.side = Side.NONE">
+                         @mouseup="playerReset(profileEntry)"
+                    >
                         {{ profileEntry.name }}
                     </div>
                 </div>
@@ -54,21 +56,33 @@ export default defineComponent({
         initialTabData: {
             type: Array as PropType<ProfileEntry[]>,
             default: () => []
+        },
+        playerTabSwitchConfirmRequired: {
+            type: Boolean,
+            default: () => false
         }
     },
     mounted() {
         window.fs.getProfiles().then(profiles => {
-            profiles.forEach(profile => this.profileEntries.push({name: profile.name, side: Side.NONE}))
+            profiles.forEach(
+                profile => this.profileEntries.push({name: profile.name, side: Side.NONE, id:profile.id})
+            );
 
             for (const entry of (this.initialTabData || [])) {
-                const found = this.profileEntries.find(e => e.name === entry.name)
-                if (found) found.side = entry.side
+                const found = this.profileEntries.find(e => e.id === entry.id);
+                if (found) found.side = entry.side;
             }
+
+            this.userProfile = this.profileEntries.find(pe => pe.id === 'default');
+            this.userLastSide = this.userProfile.side;
         });
     },
     data() {
         return {
             profileEntries: [] as ProfileEntry[],
+            userProfile: {} as ProfileEntry,
+            userLastSide: Side.NONE as Side,
+
             Side: Side,
         }
     },
@@ -84,8 +98,13 @@ export default defineComponent({
         },
     },
     methods: {
-        playerClicked: function (profileEntry: ProfileEntry, event: MouseEvent) {
-            let side = undefined
+        playerReset: function(profileEntry: ProfileEntry): void {
+            profileEntry.side = Side.NONE;
+            this.verifyPlayerSelection(profileEntry);
+            this.emitPlayerSelectionUpdate();
+        },
+        playerClicked: function (profileEntry: ProfileEntry, event: MouseEvent): void {
+            let side = undefined;
             switch (event.button) {
                 case 0:   // LMB
                     side = Side.DEFENDANT;
@@ -98,19 +117,50 @@ export default defineComponent({
             }
 
             if (profileEntry.side === side)
-                profileEntry.side = Side.NONE
+                profileEntry.side = Side.NONE;
             else
                 profileEntry.side = side;
 
-            const valid: boolean = this.isValidSelection()
-
-            this.$emit('overlay-tab-data-update', OverlayTab.PLAYERS, valid, this.selectedEntries)
+            this.verifyPlayerSelection(profileEntry);
+            this.emitPlayerSelectionUpdate();
+        },
+        emitPlayerSelectionUpdate: function (): void {
+            const valid: boolean = this.isValidSelection();
+            this.$emit('overlay-tab-data-update', OverlayTab.PLAYERS, valid, this.selectedEntries);
         },
         isValidSelection: function (): boolean {
-            return (this.defendants.length > 0 && this.challengers.length > 0)
-        }
+            return (this.defendants.length > 0 && this.challengers.length > 0) &&
+                this.selectedEntries.filter(pe => pe.id === 'default').length === 1;
+        },
+        verifyPlayerSelection(profileEntry: ProfileEntry): void {
+            if (profileEntry.id !== "default") return;
+
+            console.log("\nNew Verification:")
+            console.log(`this.userLastSide: ${this.userLastSide}`)
+            console.log(`this.userProfile.side: ${this.userProfile.side}`)
+
+            console.log(`this.userLastSide !== Side.NONE: ${this.userLastSide !== Side.NONE}`)
+            console.log(`this.userLastSide !== this.userProfile.side: ${this.userLastSide !== this.userProfile.side}`)
+            console.log(`this.playerTabSwitchConfirmRequired: ${this.playerTabSwitchConfirmRequired}`)
+
+            let choice = true;
+            if (this.userLastSide !== Side.NONE &&
+                this.userLastSide !== this.userProfile.side &&
+                this.playerTabSwitchConfirmRequired
+            ) choice = confirm("Are you sure you want to switch teams? This will discard all overlay progress.");
+
+            if (!choice) {
+                this.userProfile.side = this.userLastSide;
+            } else {
+                this.userLastSide = this.userProfile.side;
+            }
+        },
     },
-    watch: {}
+    watch: {
+        userLastSide: function(new_, old) {
+            console.log(`userLastSide updated: ${old} --> ${new_}`)
+        }
+    }
 })
 </script>
 
