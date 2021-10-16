@@ -21,8 +21,9 @@
             <div id="player-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('players')">
                 <PlayerSelectionMenu
                     :initialTabData="tabData.players"
-                    :playerTabSwitchConfirmRequired="playerTabSwitchConfirmRequired"
+                    :userSwitchConfirmRequired="playerTabSwitchConfirmRequired"
                     @overlay-tab-data-update="overlayTabDataUpdate"
+                    @overlay-tab-reset="resetTabData"
                 />
             </div>
             <div id="map-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('maps')">
@@ -113,12 +114,12 @@ export default defineComponent({
             }
             return progress;
         },
-        playerTabSwitchConfirmRequired: function(): boolean {
-            return this.tabData.maps !== "";
+        playerTabSwitchConfirmRequired: function (): boolean {
+            return (this.tabData.maps !== "");
         }
     },
     methods: {
-        resetTabData: function(): void {
+        resetTabData: function (): void {
             this.tabData = {
                 players: [],
                 maps: "",
@@ -148,25 +149,19 @@ export default defineComponent({
             const ltab: string = tab.toLowerCase();
 
             if (tab === OverlayTab.PLAYERS) {
-                const currentUserProfile: ProfileEntry | undefined = this.tabData.players.find(p => p.id === 'default');
-                const newUserProfile: ProfileEntry | undefined = (payload as ProfileEntry[]).find(p => p.id === 'default');
+                const userProfile: ProfileEntry | undefined = (payload as ProfileEntry[]).find(p => p.id === 'default');
 
-                if (newUserProfile === undefined || currentUserProfile === undefined || currentUserProfile.side !== newUserProfile.side) {
-                    this.resetTabData();
-                }
-
-                if (valid) {
-                    switch (newUserProfile.side) {
-                        case Side.CHALLENGER:
-                            this.tabs = this.tabConfig.challenger;
-                            break;
-                        case Side.DEFENDANT:
-                            this.tabs = this.tabConfig.defendant;
-                            break;
-                        case Side.NONE:
-                            this.tabs = this.tabConfig.invalid;
-                            break;
-                    }
+                switch (userProfile?.side) {
+                    case Side.CHALLENGER:
+                        this.tabs = this.tabConfig.challenger;
+                        break;
+                    case Side.DEFENDANT:
+                        this.tabs = this.tabConfig.defendant;
+                        break;
+                    case Side.NONE:
+                    case undefined:
+                        this.tabs = this.tabConfig.invalid;
+                        break;
                 }
             }
             this.validTabs[ltab] = valid;

@@ -48,6 +48,7 @@
 import {defineComponent, PropType} from "vue";
 import {OverlayTab, Side} from "@/enums/gamemode-overlay";
 import {ProfileEntry} from "@/interfaces/profile";
+import {ensure} from "@/scripts/arrays";
 
 export default defineComponent({
     name: "PlayerSelectionMenu",
@@ -57,7 +58,7 @@ export default defineComponent({
             type: Array as PropType<ProfileEntry[]>,
             default: () => []
         },
-        playerTabSwitchConfirmRequired: {
+        userSwitchConfirmRequired: {
             type: Boolean,
             default: () => false
         }
@@ -73,7 +74,7 @@ export default defineComponent({
                 if (found) found.side = entry.side;
             }
 
-            this.userProfile = this.profileEntries.find(pe => pe.id === 'default');
+            this.userProfile = ensure(this.profileEntries.find(pe => pe.id === 'default'));
             this.userLastSide = this.userProfile.side;
         });
     },
@@ -98,10 +99,19 @@ export default defineComponent({
         },
     },
     methods: {
+        changeProfileSide(profileEntry: ProfileEntry, side: Side): void {
+            profileEntry.side = side;
+
+            if (profileEntry.id === "default") {
+                this.userLastSide = side;
+                this.$emit('overlay-tab-reset');
+            }
+        },
         playerReset: function(profileEntry: ProfileEntry): void {
-            profileEntry.side = Side.NONE;
-            this.verifyPlayerSelection(profileEntry);
-            this.emitPlayerSelectionUpdate();
+            if (this.verifyUserSwitch(profileEntry, Side.NONE)) {
+                this.changeProfileSide(profileEntry, Side.NONE);
+                this.emitPlayerSelectionUpdate();
+            }
         },
         playerClicked: function (profileEntry: ProfileEntry, event: MouseEvent): void {
             let side = undefined;
@@ -116,13 +126,11 @@ export default defineComponent({
                     return;
             }
 
-            if (profileEntry.side === side)
-                profileEntry.side = Side.NONE;
-            else
-                profileEntry.side = side;
-
-            this.verifyPlayerSelection(profileEntry);
-            this.emitPlayerSelectionUpdate();
+            const newSide: Side = profileEntry.side === side ? Side.NONE : side;
+            if (this.verifyUserSwitch(profileEntry, newSide)) {
+                this.changeProfileSide(profileEntry, newSide);
+                this.emitPlayerSelectionUpdate();
+            }
         },
         emitPlayerSelectionUpdate: function (): void {
             const valid: boolean = this.isValidSelection();
@@ -132,35 +140,19 @@ export default defineComponent({
             return (this.defendants.length > 0 && this.challengers.length > 0) &&
                 this.selectedEntries.filter(pe => pe.id === 'default').length === 1;
         },
-        verifyPlayerSelection(profileEntry: ProfileEntry): void {
-            if (profileEntry.id !== "default") return;
-
-            console.log("\nNew Verification:")
-            console.log(`this.userLastSide: ${this.userLastSide}`)
-            console.log(`this.userProfile.side: ${this.userProfile.side}`)
-
-            console.log(`this.userLastSide !== Side.NONE: ${this.userLastSide !== Side.NONE}`)
-            console.log(`this.userLastSide !== this.userProfile.side: ${this.userLastSide !== this.userProfile.side}`)
-            console.log(`this.playerTabSwitchConfirmRequired: ${this.playerTabSwitchConfirmRequired}`)
+        verifyUserSwitch(profileEntry: ProfileEntry, newSide: Side): boolean {
+            if (profileEntry.id !== "default") return true;
 
             let choice = true;
             if (this.userLastSide !== Side.NONE &&
-                this.userLastSide !== this.userProfile.side &&
-                this.playerTabSwitchConfirmRequired
+                this.userLastSide !== newSide &&
+                this.userSwitchConfirmRequired
             ) choice = confirm("Are you sure you want to switch teams? This will discard all overlay progress.");
 
-            if (!choice) {
-                this.userProfile.side = this.userLastSide;
-            } else {
-                this.userLastSide = this.userProfile.side;
-            }
+            return choice
         },
     },
-    watch: {
-        userLastSide: function(new_, old) {
-            console.log(`userLastSide updated: ${old} --> ${new_}`)
-        }
-    }
+    watch: {}
 })
 </script>
 

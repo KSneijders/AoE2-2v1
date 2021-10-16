@@ -35,10 +35,17 @@ export default defineComponent({
             this.selection = this.initialTabData;
             this.selectedCiv = this.selection.civOptions.indexOf(this.selection.civChoice);
         } else {
-            this.selection.civOptions = getRandomCivs(10).sort();
+            this.selection.civOptions = getRandomCivs(1).sort();
             this.selection.civChoice = "";
+            
+            let valid = false;
+            if (this.selection.civOptions.length === 1) {
+                this.selection.civChoice = this.selection.civOptions[0];
+                this.selectedCiv = 0;
+                valid = true;
+            }
 
-            this.$emit('overlay-tab-data-update', OverlayTab.CIVS, false, this.selection);
+            this.$emit('overlay-tab-data-update', OverlayTab.CIVS, valid, this.selection);
         }
     },
     data() {

@@ -6,7 +6,7 @@
                 <div v-for="challenge in challenges" v-bind:key="challenge.id">
                     {{ challenge.name }}
                     <span v-if="typeof challenge.points === 'object'">
-                        {{ challenge.points[challenge.selectedOption] }}
+                        ({{ challenge.selectedOption }})
                     </span>
                 </div>
             </div>

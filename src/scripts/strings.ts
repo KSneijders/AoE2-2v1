@@ -20,4 +20,16 @@ function stripIllegalChars(str: string): string {
     return str.replace(/[/\\?%*:|"<>]/g, '_');
 }
 
-export {strReplaceKeyValue, stripIllegalChars}
+/**
+ * Format string function. Replaces "{0}" with first argument, {1} with the second etc.
+ *
+ * @param str The string to format
+ * @param args The arguments to insert into the given string
+ *
+ * @author KooiInc @ https://stackoverflow.com/a/25227174/7230293
+ */
+function strFormat(str: string, ...args: string[]): string {
+    return str.replace(/({\d+})/g, a => args[+(a.substr(1, a.length - 2)) || 0] );
+}
+
+export {strReplaceKeyValue, stripIllegalChars, strFormat}

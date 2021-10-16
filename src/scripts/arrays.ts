@@ -50,4 +50,20 @@ function sum(arr: number[]): number {
     return sum;
 }
 
-export {sample, sum, createArray, range, shuffle}
+/**
+ * Ensure that the parameter exists. Mostly useful in combination with 'Array.find()' which can return undefined.
+ *
+ * @param argument The argument which is ensured to not be undefined or null
+ * @param message The message to use in the error throw when the argument is undefined or null
+ *
+ * @author Karol Majewski @ https://stackoverflow.com/a/54738437/7230293
+ */
+function ensure<T>(argument: T | undefined | null, message = 'This value was promised to be there.'): T {
+    if (argument === undefined || argument === null) {
+        throw new TypeError(message);
+    }
+
+    return argument;
+}
+
+export {sample, sum, createArray, range, shuffle, ensure}
