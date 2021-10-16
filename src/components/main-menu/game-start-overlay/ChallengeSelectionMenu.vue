@@ -1,9 +1,12 @@
 <template>
-    <div id="policy-selection">
+    <div id="challenge-selection">
         <div class="overlay-block-header">Challenges</div>
         <div class="overlay-block-content">
+            <div id="reroll-button" @click="clickedReroll" v-bind:class="{'out-of-rolls': this.challenges.rerolls===0}">
+                Reroll Challenges ({{ challenges.rerolls }})
+            </div>
             <div id="challenge-list" class="simple-white-scrollbar">
-                <div v-for="challenge in challenges" v-bind:key="challenge.id">
+                <div v-for="challenge in challenges.collection" v-bind:key="challenge.id">
                     {{ challenge.name }}
                     <span v-if="typeof challenge.points === 'object'">
                         ({{ challenge.selectedOption }})
@@ -16,13 +19,12 @@
 
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
-import {OverlayConfigData} from "@/interfaces/gamemode-overlay";
+import {ChallengeData, OverlayConfigData} from "@/interfaces/gamemode-overlay";
 import {OverlayTab, Side} from "@/enums/gamemode-overlay";
 import ChallengeCollection from "@/classes/challenge-collection";
 import {GameModeContent} from "@/interfaces/game-mode";
 import {Profile, ProfileEntry} from "@/interfaces/profile";
 import {sum} from "@/scripts/arrays";
-import {Challenge, Command} from "@/interfaces/policies";
 
 export default defineComponent({
     name: "ChallengeSelectionMenu",
@@ -30,24 +32,26 @@ export default defineComponent({
     props: {
         configData: {
             type: Object as PropType<OverlayConfigData>,
-            default: () => {return {}}
+            default: () => {
+                return {}
+            }
         }
     },
     data() {
         return {
             Side: Side,
-            challenges: [] as Challenge[],
-            commands: [] as Command[],
+            cc: {} as ChallengeCollection,
+            challenges: {} as ChallengeData,
         }
     },
     async mounted() {
         const gmc: GameModeContent = this.$store.state.gameModeInfo.content;
-        const defendantProfileEntries = this.configData.players.filter(p => p.side === Side.DEFENDANT);
+        const defendantProfileEntries = this.configData?.players.filter(p => p.side === Side.DEFENDANT);
         const defendantProfiles: Profile[] = await window.fs.getProfiles(defendantProfileEntries.map(pe => pe.id));
 
-        if (this.configData?.policies.challenges.length === 0 || this.configData?.policyRefresh) {
+        if (this.configData?.challenges?.collection.length === 0) {
             const points = sum(defendantProfiles.map(p => p.points)) / defendantProfiles.length;
-            const cc = new ChallengeCollection(
+            this.cc = new ChallengeCollection(
                 gmc.challenges,
                 gmc.limiters,
                 points,
@@ -55,15 +59,13 @@ export default defineComponent({
                 this.configData.maps,
                 true
             );
-            this.challenges = cc.getRandomChallenges();
+            this.challenges.collection = this.cc.getRandomChallenges();
+            this.challenges.rerolls = 3;
         } else {
-            this.challenges = this.configData?.policies.challenges;
+            this.challenges = this.configData?.challenges || {collection: [], rerolls: 0};
         }
 
-        this.$emit('overlay-tab-data-update', OverlayTab.POLICIES, true, {
-            challenges: this.challenges,
-            commands: this.commands
-        })
+        this.$emit('overlay-tab-data-update', OverlayTab.CHALLENGES, true, this.challenges)
     },
     computed: {
         userProfile: function (): ProfileEntry {
@@ -71,8 +73,12 @@ export default defineComponent({
         }
     },
     methods: {
-        clicked: function (): void {
-            console.log(this.configData.players)
+        clickedReroll: function (): void {
+            if (this.cc && this.challenges.rerolls > 0) {
+                this.challenges.collection = this.cc.reroll();
+                this.challenges.rerolls--;
+                this.$emit('overlay-tab-data-update', OverlayTab.CHALLENGES, true, this.challenges)
+            }
         }
     },
     watch: {}
@@ -82,11 +88,42 @@ export default defineComponent({
 
 <style scoped lang="scss">
 
-#player-selection {
+#challenge-selection {
     height: 100%;
+    width: 100%;
     overflow-y: hidden;
 
     .overlay-block-content {
+        width: 100%;
+
+        #reroll-button {
+            margin: 5px;
+            float: right;
+            padding: 5px;
+            background: $GREEN_BG_NORMAL;
+            border: 1px solid #7696b6;
+
+            user-select: none;
+
+            &:hover {
+                background: $GREEN_BG_HOVER;
+                border: 1px solid #96b3d0;
+                cursor: pointer;
+            }
+
+            &.out-of-rolls {
+                background: $RED_BG_NORMAL;
+                &:hover {
+                    background: $RED_BG_HOVER;
+                }
+            }
+        }
+
+        #challenge-list {
+            overflow-y: auto;
+            padding: 10px;
+            width: 100%;
+        }
     }
 }
 </style>

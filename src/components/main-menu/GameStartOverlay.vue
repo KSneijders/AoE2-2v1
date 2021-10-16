@@ -124,8 +124,8 @@ export default defineComponent({
                 players: [],
                 maps: "",
                 civs: {civOptions: [], civChoice: ""},
-                policies: {challenges: [], commands: []},
-                policyRefresh: false,
+                challenges: {collection: [], rerolls: 3},
+                commands: {collection: [], rerolls: 3},
             }
         },
         nextTab: function (): void {

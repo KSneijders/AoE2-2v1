@@ -8,7 +8,8 @@ enum OverlayTab {
     PLAYERS = "Players",
     MAPS = "Maps",
     CIVS = "Civs",
-    POLICIES = "Policies",
+    CHALLENGES = "Challenges",
+    COMMANDS = "Commands",
 }
 
 export {Side, OverlayTab}

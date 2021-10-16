@@ -1,7 +1,7 @@
 import {ProfileEntry} from "@/interfaces/profile";
 import {Challenge, Command} from "@/interfaces/policies";
 
-type TabData = string | boolean | CivSelection | ProfileEntry[] | PolicySet | undefined
+type TabData = string | boolean | CivSelection | ProfileEntry[] | ChallengeData | CommandData | undefined
 
 interface OverlayConfigData {
     [key: string]: TabData;
@@ -9,15 +9,22 @@ interface OverlayConfigData {
     players: ProfileEntry[];
     maps: string;
     civs: CivSelection;
-    policies: PolicySet;
-    policyRefresh: boolean;
+    challenges: ChallengeData;
+    commands: CommandData;
 }
 
-interface PolicySet {
-    [key: string]: Challenge[] | Command[];
+interface ChallengeData {
+    [key: string]: Challenge[] | number;
 
-    challenges: Challenge[];
-    commands: Command[];
+    collection: Challenge[];
+    rerolls: number;
+}
+
+interface CommandData {
+    [key: string]: Command[] | number;
+
+    collection: Command[];
+    rerolls: number;
 }
 
 interface CivSelection {
@@ -27,4 +34,4 @@ interface CivSelection {
     civChoice: string;
 }
 
-export {OverlayConfigData, TabData, CivSelection, PolicySet}
+export {OverlayConfigData, TabData, CivSelection, ChallengeData, CommandData}

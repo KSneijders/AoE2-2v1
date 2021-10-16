@@ -14,30 +14,52 @@ interface IgnoreIndexes {
 
 class ChallengeCollection {
     private readonly maxIterations = 1000;
-    private readonly points: Points;
-    private readonly challengeIdMap: ChallengeIdMap;
+
+    private readonly initialChallenges: Challenges;
+    private readonly initialPoints: number;
     private readonly map: string;
     private readonly civ: string;
 
-    readonly challenges: Challenges;
     readonly limiters: Limiters;
 
-    private shuffled: boolean;
     private filteredOutChallenges: string[];
+    private challengeIdMap: ChallengeIdMap;
+    private shuffled: boolean;
+
+    challenges: Challenges;
+    points: Points;
 
     constructor(challenges: Challenges, limiters: Limiters, points: number, civ = "", map = "", shuffle = false) {
+        this.initialChallenges = jsonDeepCopy(challenges);
+        this.initialPoints = points;
+
+        this.challenges = jsonDeepCopy(this.initialChallenges);
         this.limiters = limiters;
-        this.challenges = jsonDeepCopy(challenges);
-        this.challengeIdMap = {};
         this.points = randomPoints(points, .5);
-        this.shuffled = shuffle;
         this.map = map;
         this.civ = civ;
 
         this.filteredOutChallenges = [];
-        this.filterChallenges();
+        this.challengeIdMap = {};
+        this.shuffled = shuffle;
 
+        this.filterChallenges();
         if (shuffle) this.shuffleChallenges();
+    }
+
+    reInitialise(): void {
+        this.points = randomPoints(this.initialPoints, .5);
+        this.challenges = jsonDeepCopy(this.initialChallenges);
+
+        this.filterChallenges();
+    }
+
+    reroll(): Challenge[] {
+        if (!this.shuffled) throw new Error("Cannot reroll if challenges weren't shuffled before")
+
+        this.reInitialise();
+        this.shuffleChallenges();
+        return this.getRandomChallenges();
     }
 
     private filterFunc(challenge: Challenge): boolean {
@@ -49,12 +71,14 @@ class ChallengeCollection {
     }
 
     private filterChallenges(): void {
+        this.filteredOutChallenges = [];
         for (const category of Object.keys(this.challenges)) {
             this.challenges[category] = this.challenges[category].filter(challenge => this.filterFunc(challenge))
         }
     }
 
     resetChallengeIdMap(): void {
+        this.challengeIdMap = {};
         for (const category of Object.keys(this.challenges)) {
             for (const [index, challenge] of this.challenges[category].entries()) {
                 this.challengeIdMap[challenge.id] = [category, index]
