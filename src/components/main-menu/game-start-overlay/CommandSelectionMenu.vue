@@ -1,15 +1,15 @@
 <template>
-    <div id="challenge-selection">
-        <div class="overlay-block-header">Challenges</div>
+    <div id="command-selection">
+        <div class="overlay-block-header">Commands</div>
         <div class="overlay-block-content">
-            <div id="reroll-button" @click="clickedReroll" v-bind:class="{'out-of-rolls': this.challenges.rerolls===0}">
-                Reroll Challenges ({{ challenges.rerolls }})
+            <div id="reroll-button" @click="clickedReroll" v-bind:class="{'out-of-rolls': this.commands.rerolls === 0}">
+                Reroll Commands ({{ commands.rerolls }})
             </div>
-            <div id="challenge-list" class="simple-white-scrollbar">
-                <div v-for="challenge in challenges.collection" v-bind:key="challenge.id">
-                    {{ challenge.name }}
-                    <span v-if="typeof challenge.points === 'object'">
-                        ({{ challenge.selectedOption }})
+            <div id="command-list" class="simple-white-scrollbar">
+                <div v-for="command in commands.collection" v-bind:key="command.id">
+                    {{ command.name }}
+                    <span v-if="typeof command.points === 'object'">
+                        ({{ command.selectedOption }})
                     </span>
                 </div>
             </div>
@@ -19,15 +19,15 @@
 
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
-import {ChallengeData, OverlayConfigData} from "@/interfaces/gamemode-overlay";
+import {CommandData, OverlayConfigData} from "@/interfaces/gamemode-overlay";
 import {OverlayTab, Side} from "@/enums/gamemode-overlay";
-import ChallengeCollection from "@/classes/challenge-collection";
-import {GameModeContent} from "@/interfaces/game-mode";
-import {Profile, ProfileEntry} from "@/interfaces/profile";
 import {sum} from "@/scripts/arrays";
+import {Profile} from "@/interfaces/profile";
+import CommandCollection from "@/classes/command-collection";
+import {GameModeContent} from "@/interfaces/game-mode";
 
 export default defineComponent({
-    name: "ChallengeSelectionMenu",
+    name: "CommandSelectionMenu",
     components: {},
     props: {
         configData: {
@@ -35,49 +35,40 @@ export default defineComponent({
             default: () => new Object()
         }
     },
-    data() {
-        return {
-            challenges: {} as ChallengeData,
-        }
-    },
     async mounted() {
         const gmc: GameModeContent = this.$store.state.gameModeInfo.content;
         const defendantProfileEntries = this.configData?.players.filter(p => p.side === Side.DEFENDANT);
         const defendantProfiles: Profile[] = await window.fs.getProfiles(defendantProfileEntries.map(pe => pe.id));
 
-        if (this.configData?.challenges?.collection.length === 0) {
+        if (this.configData?.commands?.collection.length === 0) {
             const points = sum(defendantProfiles.map(p => p.points)) / defendantProfiles.length;
-            this.challenges.cc = new ChallengeCollection(
-                gmc.challenges,
-                gmc.limiters,
-                points,
-                this.configData.civs.civChoice,
-                this.configData.maps,
-                true
-            );
-            this.challenges.collection = this.challenges.cc.getRandomChallenges();
-            this.challenges.rerolls = 3;
+            this.commands.cc = new CommandCollection(gmc.commands, points, true);
+            this.commands.collection = this.commands.cc.getRandomCommands();
+            this.commands.rerolls = 3;
         } else {
-            this.challenges = this.configData?.challenges || {collection: [], rerolls: 0};
+            this.commands = this.configData?.commands || {collection: [], rerolls: 0};
         }
+
+        console.log(this.commands)
 
         this.updateTabData(true);
     },
-    computed: {
-        userProfile: function (): ProfileEntry {
-            return this.configData.players.filter(p => p.id === 'default')[0];
+    data() {
+        return {
+            commands: {} as CommandData,
         }
     },
+    computed: {},
     methods: {
         clickedReroll: function (): void {
-            if (this.challenges.cc && this.challenges.rerolls > 0) {
-                this.challenges.collection = this.challenges.cc.reroll();
-                this.challenges.rerolls--;
+            if (this.commands.cc && this.commands.rerolls > 0) {
+                this.commands.collection = this.commands.cc.reroll();
+                this.commands.rerolls--;
                 this.updateTabData(true);
             }
         },
         updateTabData: function (valid = true): void {
-            this.$emit('overlay-tab-data-update', OverlayTab.CHALLENGES, valid, this.challenges)
+            this.$emit('overlay-tab-data-update', OverlayTab.COMMANDS, valid, this.commands)
         }
     },
     watch: {}
@@ -87,7 +78,8 @@ export default defineComponent({
 
 <style scoped lang="scss">
 
-#challenge-selection {
+
+#command-selection {
     height: 100%;
     width: 100%;
     overflow-y: hidden;
@@ -119,7 +111,7 @@ export default defineComponent({
             }
         }
 
-        #challenge-list {
+        #command-list {
             overflow-y: auto;
             padding: 10px;
             width: 100%;

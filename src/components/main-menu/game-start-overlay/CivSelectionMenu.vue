@@ -20,6 +20,14 @@ import {defineComponent, PropType} from "vue";
 import {CivSelection} from "@/interfaces/gamemode-overlay";
 import {OverlayTab} from "@/enums/gamemode-overlay";
 import {getRandomCivs} from "@/scripts/civs";
+import {ProfileEntry} from "@/interfaces/profile";
+
+interface ChoiceCount {
+    [key: string]: number;
+
+    challenger: number;
+    defendant: number;
+}
 
 export default defineComponent({
     name: "CivSelectionMenu",
@@ -27,32 +35,40 @@ export default defineComponent({
     props: {
         initialTabData: {
             type: Object as PropType<CivSelection>,
-            default: () => { return {} }
-        }
-    },
-    mounted() {
-        if (this.initialTabData.civOptions.length > 0) {
-            this.selection = this.initialTabData;
-            this.selectedCiv = this.selection.civOptions.indexOf(this.selection.civChoice);
-        } else {
-            this.selection.civOptions = getRandomCivs(1).sort();
-            this.selection.civChoice = "";
-            
-            let valid = false;
-            if (this.selection.civOptions.length === 1) {
-                this.selection.civChoice = this.selection.civOptions[0];
-                this.selectedCiv = 0;
-                valid = true;
-            }
-
-            this.$emit('overlay-tab-data-update', OverlayTab.CIVS, valid, this.selection);
+            default: () => new Object()
+        },
+        userProfile: {
+            type: Object as PropType<ProfileEntry>,
+            default: () => new Object()
         }
     },
     data() {
         return {
+            choiceCount: {
+                challenger: 1,
+                defendant: 3,
+            } as ChoiceCount,
             civs: [] as string[],
             selectedCiv: -1 as number,
             selection: {} as CivSelection,
+        }
+    },
+    mounted() {
+        const choiceCount: number = this.choiceCount[this.userProfile.side.toLowerCase()];
+
+        if (this.initialTabData.civOptions.length > 0) {
+            this.selection = this.initialTabData;
+            this.selectedCiv = this.selection.civOptions.indexOf(this.selection.civChoice);
+        } else {
+            this.selection.civOptions = getRandomCivs(choiceCount).sort();
+            this.selection.civChoice = "";
+            
+            if (this.selection.civOptions.length === 1) {
+                this.selection.civChoice = this.selection.civOptions[0];
+                this.selectedCiv = 0;
+            }
+
+            this.$emit('overlay-tab-data-update', OverlayTab.CIVS, this.selection.civChoice !== "", this.selection);
         }
     },
     computed: {},

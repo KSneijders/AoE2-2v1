@@ -43,7 +43,8 @@ interface Challenge {
 interface Command {
     id: string;
     name: string;
-    points: number | PointCommandObject;
+    points: number | PointObject;
+    selectedOption?: string;  // Added key to show which of PointObject was chosen
     max_repeat?: number;
     desc?: string;
     dev_desc?: string;
@@ -54,10 +55,6 @@ interface Command {
 
 interface PointObject {
     [key: string]: number;
-}
-
-interface PointCommandObject {
-    [key: string]: number | number[];
 }
 
 interface Points {
@@ -81,6 +78,6 @@ interface CategoryPoints {
     miscellaneous: number;
 }
 
-export {Policies, Challenges, Challenge, Commands, Command, PointObject, PointCommandObject, Points, CategoryPoints}
+export {Policies, Challenges, Challenge, Commands, Command, PointObject, Points, CategoryPoints}
 
 

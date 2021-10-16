@@ -1,6 +1,7 @@
 import {ProfileEntry} from "@/interfaces/profile";
 import {Challenge, Command} from "@/interfaces/policies";
 import ChallengeCollection from "@/classes/challenge-collection";
+import CommandCollection from "@/classes/command-collection";
 
 type TabData = string | boolean | CivSelection | ProfileEntry[] | ChallengeData | CommandData | undefined
 
@@ -23,10 +24,11 @@ interface ChallengeData {
 }
 
 interface CommandData {
-    [key: string]: Command[] | number;
+    [key: string]: Command[] | CommandCollection | number | undefined;
 
     collection: Command[];
     rerolls: number;
+    cc: CommandCollection | undefined;
 }
 
 interface CivSelection {

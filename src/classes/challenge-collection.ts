@@ -3,6 +3,7 @@ import {randomPoints} from "@/scripts/points";
 import {sample, shuffle} from "@/scripts/arrays";
 import {jsonDeepCopy} from "@/scripts/other";
 import {Limiters} from "@/interfaces/limiters";
+import {PolicyCategories} from "@/enums/policies";
 
 interface ChallengeIdMap {
     [key: string]: (string | number)[];
@@ -35,7 +36,7 @@ class ChallengeCollection {
 
         this.challenges = jsonDeepCopy(this.initialChallenges);
         this.limiters = limiters;
-        this.points = randomPoints(points, .5);
+        this.points = randomPoints(this.initialPoints, .5);
         this.map = map;
         this.civ = civ;
 
@@ -97,7 +98,7 @@ class ChallengeCollection {
     getRandomChallenges(): Challenge[] {
         if (!this.shuffled) throw Error("Cannot get random challenges without shuffling challenges.");
 
-        let keys = Object.keys(this.points).filter(k => k != "wildPoints");
+        let keys = Object.values(PolicyCategories);
         const ignoreIndexes: IgnoreIndexes = {}
         const challenges: Challenge[] = []
 

@@ -1,7 +1,7 @@
 <template>
     <div id="summary-wrapper">
         <div class="overlay-block-header">Summary</div>
-        <div class="overlay-block-content">
+        <div class="overlay-block-content simple-white-scrollbar">
             <div id="player-summary" class="summary-entry">
                 <h5>Players</h5>
                 <div class="vs">VS</div>
@@ -26,6 +26,24 @@
                 <h5>Civ</h5>
                 <p>{{ tabData.civs.civChoice }}</p>
             </div>
+            <div id="challenge-summary" class="summary-entry" v-if="tabData.challenges.collection.length !== 0">
+                <h5>Challenges</h5>
+                <div v-for="challenge in tabData.challenges.collection" v-bind:key="challenge.id" class="profile-entry">
+                    {{ challenge.name }}
+                    <span v-if="typeof challenge.points === 'object'">
+                        ({{ challenge.selectedOption }})
+                    </span>
+                </div>
+            </div>
+            <div id="command-summary" class="summary-entry" v-if="tabData.commands.collection.length !== 0">
+                <h5>Challenges</h5>
+                <div v-for="command in tabData.commands.collection" v-bind:key="command.id" class="profile-entry">
+                    {{ command.name }}
+                    <span v-if="typeof command.points === 'object'">
+                        ({{ command.selectedOption }})
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -42,7 +60,9 @@ export default defineComponent({
     props: {
         tabData: {
             type: Object as PropType<OverlayConfigData>,
-            default: () => {return {}}
+            default: () => {
+                return {}
+            }
         }
     },
     mounted() {
@@ -83,7 +103,8 @@ export default defineComponent({
         }
     }
 
-    #map-summary, #civ-summary {}
+    #map-summary, #civ-summary {
+    }
 
     #player-summary {
         .profiles {

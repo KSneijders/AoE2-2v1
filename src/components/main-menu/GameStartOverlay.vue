@@ -35,11 +35,18 @@
             <div id="civ-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('civs')">
                 <CivSelectionMenu
                     :initialTabData="tabData.civs"
+                    :userProfile="userProfile"
                     @overlay-tab-data-update="overlayTabDataUpdate"
                 />
             </div>
-            <div id="policy-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('challenges')">
+            <div id="challenge-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('challenges')">
                 <ChallengeSelectionMenu
+                    :configData="tabData"
+                    @overlay-tab-data-update="overlayTabDataUpdate"
+                />
+            </div>
+            <div id="command-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('commands')">
+                <CommandSelectionMenu
                     :configData="tabData"
                     @overlay-tab-data-update="overlayTabDataUpdate"
                 />
@@ -63,6 +70,7 @@ import MapSelectionMenu from "@/components/main-menu/game-start-overlay/MapSelec
 import CivSelectionMenu from "@/components/main-menu/game-start-overlay/CivSelectionMenu.vue";
 import ChallengeSelectionMenu from "@/components/main-menu/game-start-overlay/ChallengeSelectionMenu.vue";
 import {ProfileEntry} from "@/interfaces/profile";
+import CommandSelectionMenu from "@/components/main-menu/game-start-overlay/CommandSelectionMenu.vue";
 
 interface ValidTabs {
     [key: string]: boolean;
@@ -81,7 +89,8 @@ export default defineComponent({
         MapSelectionMenu,
         OverlaySummary,
         ProfileSelectionMenu,
-        ChallengeSelectionMenu
+        ChallengeSelectionMenu,
+        CommandSelectionMenu
     },
     props: {},
     data() {
@@ -116,6 +125,9 @@ export default defineComponent({
         },
         playerTabSwitchConfirmRequired: function (): boolean {
             return (this.tabData.maps !== "");
+        },
+        userProfile: function (): ProfileEntry | undefined {
+            return this.tabData.players.find(pe => pe.id === 'default');
         }
     },
     methods: {
@@ -126,7 +138,7 @@ export default defineComponent({
                 maps: "",
                 civs: {civOptions: [], civChoice: ""},
                 challenges: {collection: [], rerolls: 3, cc: undefined},
-                commands: {collection: [], rerolls: 3},
+                commands: {collection: [], rerolls: 3, cc: undefined},
             }
         },
         nextTab: function (): void {
@@ -221,8 +233,8 @@ export default defineComponent({
             width: 30%;
         }
 
-        #policy-selection-block {
-            flex-grow: 1;
+        #challenge-selection-block, #command-selection-block {
+            width: 30%;
         }
 
         #next-button {
