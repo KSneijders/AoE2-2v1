@@ -32,15 +32,12 @@ export default defineComponent({
     props: {
         configData: {
             type: Object as PropType<OverlayConfigData>,
-            default: () => {
-                return {}
-            }
+            default: () => new Object()
         }
     },
     data() {
         return {
             Side: Side,
-            cc: {} as ChallengeCollection,
             challenges: {} as ChallengeData,
         }
     },
@@ -51,7 +48,7 @@ export default defineComponent({
 
         if (this.configData?.challenges?.collection.length === 0) {
             const points = sum(defendantProfiles.map(p => p.points)) / defendantProfiles.length;
-            this.cc = new ChallengeCollection(
+            this.challenges.cc = new ChallengeCollection(
                 gmc.challenges,
                 gmc.limiters,
                 points,
@@ -59,13 +56,13 @@ export default defineComponent({
                 this.configData.maps,
                 true
             );
-            this.challenges.collection = this.cc.getRandomChallenges();
+            this.challenges.collection = this.challenges.cc.getRandomChallenges();
             this.challenges.rerolls = 3;
         } else {
             this.challenges = this.configData?.challenges || {collection: [], rerolls: 0};
         }
 
-        this.$emit('overlay-tab-data-update', OverlayTab.CHALLENGES, true, this.challenges)
+        this.updateTabData(true);
     },
     computed: {
         userProfile: function (): ProfileEntry {
@@ -74,11 +71,14 @@ export default defineComponent({
     },
     methods: {
         clickedReroll: function (): void {
-            if (this.cc && this.challenges.rerolls > 0) {
-                this.challenges.collection = this.cc.reroll();
+            if (this.challenges.cc && this.challenges.rerolls > 0) {
+                this.challenges.collection = this.challenges.cc.reroll();
                 this.challenges.rerolls--;
-                this.$emit('overlay-tab-data-update', OverlayTab.CHALLENGES, true, this.challenges)
+                this.updateTabData(true);
             }
+        },
+        updateTabData: function (valid = true): void {
+            this.$emit('overlay-tab-data-update', OverlayTab.CHALLENGES, valid, this.challenges)
         }
     },
     watch: {}
@@ -113,6 +113,7 @@ export default defineComponent({
 
             &.out-of-rolls {
                 background: $RED_BG_NORMAL;
+
                 &:hover {
                     background: $RED_BG_HOVER;
                 }

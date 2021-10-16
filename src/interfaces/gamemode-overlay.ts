@@ -1,5 +1,6 @@
 import {ProfileEntry} from "@/interfaces/profile";
 import {Challenge, Command} from "@/interfaces/policies";
+import ChallengeCollection from "@/classes/challenge-collection";
 
 type TabData = string | boolean | CivSelection | ProfileEntry[] | ChallengeData | CommandData | undefined
 
@@ -14,10 +15,11 @@ interface OverlayConfigData {
 }
 
 interface ChallengeData {
-    [key: string]: Challenge[] | number;
+    [key: string]: Challenge[] | ChallengeCollection | number | undefined;
 
     collection: Challenge[];
     rerolls: number;
+    cc: ChallengeCollection | undefined;
 }
 
 interface CommandData {

@@ -19,9 +19,9 @@
                 <OverlaySummary :tabData="tabData"/>
             </div>
             <div id="player-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('players')">
-                <PlayerSelectionMenu
+                <ProfileSelectionMenu
                     :initialTabData="tabData.players"
-                    :userSwitchConfirmRequired="playerTabSwitchConfirmRequired"
+                    :switchConfirmRequired="playerTabSwitchConfirmRequired"
                     @overlay-tab-data-update="overlayTabDataUpdate"
                     @overlay-tab-reset="resetTabData"
                 />
@@ -54,7 +54,7 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {mapGetters} from 'vuex';
-import PlayerSelectionMenu from "@/components/main-menu/game-start-overlay/PlayerSelectionMenu.vue";
+import ProfileSelectionMenu from "@/components/main-menu/game-start-overlay/ProfileSelectionMenu.vue";
 import {OverlayTab, Side} from "@/enums/gamemode-overlay";
 import {OverlayConfigData, TabData} from "@/interfaces/gamemode-overlay";
 import OverlaySummary from "@/components/main-menu/game-start-overlay/OverlaySummary.vue";
@@ -80,7 +80,7 @@ export default defineComponent({
         CivSelectionMenu,
         MapSelectionMenu,
         OverlaySummary,
-        PlayerSelectionMenu,
+        ProfileSelectionMenu,
         ChallengeSelectionMenu
     },
     props: {},
@@ -120,11 +120,12 @@ export default defineComponent({
     },
     methods: {
         resetTabData: function (): void {
+            this.tabs.forEach(tab => this.validTabs[tab] = false);
             this.tabData = {
                 players: [],
                 maps: "",
                 civs: {civOptions: [], civChoice: ""},
-                challenges: {collection: [], rerolls: 3},
+                challenges: {collection: [], rerolls: 3, cc: undefined},
                 commands: {collection: [], rerolls: 3},
             }
         },

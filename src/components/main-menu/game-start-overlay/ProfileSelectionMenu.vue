@@ -1,12 +1,12 @@
 <template>
-    <div id="player-selection">
-        <div class="overlay-block-header">Players</div>
+    <div id="profile-selection">
+        <div class="overlay-block-header">Profiles</div>
         <div class="overlay-block-content">
-            <div id="player-list" class="simple-white-scrollbar">
+            <div id="profile-list" class="simple-white-scrollbar">
                 <div v-for="profileEntry in profileEntries"
                      v-bind:key="profileEntry.name"
-                     class="player-entry"
-                     @mouseup="playerClicked(profileEntry, $event)"
+                     class="profile-entry"
+                     @mouseup="profileClicked(profileEntry, $event)"
                      v-bind:class="{
                          challenger: profileEntry.side === Side.CHALLENGER,
                          defendant: profileEntry.side === Side.DEFENDANT,
@@ -18,23 +18,23 @@
                     {{ profileEntry.name }}
                 </div>
             </div>
-            <div id="selected-players">
+            <div id="selected-profiles">
                 <div id="defendants">
                     <h5>Defendants</h5>
-                    <div class="player-selected-entry"
+                    <div class="profile-selected-entry"
                          v-for="profileEntry in defendants"
                          v-bind:key="profileEntry.name"
-                         @mouseup="playerReset(profileEntry)"
+                         @mouseup="profileReset(profileEntry)"
                     >
                         {{ profileEntry.name }}
                     </div>
                 </div>
                 <div id="challengers">
                     <h5>Challengers</h5>
-                    <div class="player-selected-entry"
+                    <div class="profile-selected-entry"
                          v-for="profileEntry in challengers"
                          v-bind:key="profileEntry.name"
-                         @mouseup="playerReset(profileEntry)"
+                         @mouseup="profileReset(profileEntry)"
                     >
                         {{ profileEntry.name }}
                     </div>
@@ -51,14 +51,14 @@ import {ProfileEntry} from "@/interfaces/profile";
 import {ensure} from "@/scripts/arrays";
 
 export default defineComponent({
-    name: "PlayerSelectionMenu",
+    name: "ProfileSelectionMenu",
     components: {},
     props: {
         initialTabData: {
             type: Array as PropType<ProfileEntry[]>,
             default: () => []
         },
-        userSwitchConfirmRequired: {
+        switchConfirmRequired: {
             type: Boolean,
             default: () => false
         }
@@ -99,21 +99,10 @@ export default defineComponent({
         },
     },
     methods: {
-        changeProfileSide(profileEntry: ProfileEntry, side: Side): void {
-            profileEntry.side = side;
-
-            if (profileEntry.id === "default") {
-                this.userLastSide = side;
-                this.$emit('overlay-tab-reset');
-            }
+        profileReset: function(profileEntry: ProfileEntry): void {
+            this.handleProfileChange(profileEntry, Side.NONE);
         },
-        playerReset: function(profileEntry: ProfileEntry): void {
-            if (this.verifyUserSwitch(profileEntry, Side.NONE)) {
-                this.changeProfileSide(profileEntry, Side.NONE);
-                this.emitPlayerSelectionUpdate();
-            }
-        },
-        playerClicked: function (profileEntry: ProfileEntry, event: MouseEvent): void {
+        profileClicked: function (profileEntry: ProfileEntry, event: MouseEvent): void {
             let side = undefined;
             switch (event.button) {
                 case 0:   // LMB
@@ -127,12 +116,20 @@ export default defineComponent({
             }
 
             const newSide: Side = profileEntry.side === side ? Side.NONE : side;
-            if (this.verifyUserSwitch(profileEntry, newSide)) {
-                this.changeProfileSide(profileEntry, newSide);
-                this.emitPlayerSelectionUpdate();
+            this.handleProfileChange(profileEntry, newSide);
+        },
+        handleProfileChange: function(profileEntry: ProfileEntry, newSide: Side): void {
+            const choice = this.verifyUserSwitch(profileEntry, newSide);
+            if (choice === true || choice === undefined) {
+                profileEntry.side = newSide;
+
+                if (choice) this.$emit('overlay-tab-reset');
+                if (profileEntry.id === "default") this.userLastSide = newSide;
+
+                this.emitProfileSelectionUpdate();
             }
         },
-        emitPlayerSelectionUpdate: function (): void {
+        emitProfileSelectionUpdate: function (): void {
             const valid: boolean = this.isValidSelection();
             this.$emit('overlay-tab-data-update', OverlayTab.PLAYERS, valid, this.selectedEntries);
         },
@@ -140,16 +137,15 @@ export default defineComponent({
             return (this.defendants.length > 0 && this.challengers.length > 0) &&
                 this.selectedEntries.filter(pe => pe.id === 'default').length === 1;
         },
-        verifyUserSwitch(profileEntry: ProfileEntry, newSide: Side): boolean {
-            if (profileEntry.id !== "default") return true;
+        verifyUserSwitch(profileEntry: ProfileEntry, newSide: Side): boolean | undefined {
+            const profileIsUser: boolean = profileEntry.id === "default";
+            const userWasNotNone: boolean = this.userLastSide !== Side.NONE;
+            const switchInvolvesDefendant: boolean = newSide === Side.DEFENDANT || profileEntry.side === Side.DEFENDANT;
 
-            let choice = true;
-            if (this.userLastSide !== Side.NONE &&
-                this.userLastSide !== newSide &&
-                this.userSwitchConfirmRequired
-            ) choice = confirm("Are you sure you want to switch teams? This will discard all overlay progress.");
-
-            return choice
+            if (((profileIsUser && userWasNotNone) || switchInvolvesDefendant) && this.switchConfirmRequired) {
+                return confirm("The team change you're about to make will impact the upcoming tabs.\n" +
+                    "If you continue, all non-player configuration tabs will get reset!");
+            }
         },
     },
     watch: {}
@@ -157,12 +153,12 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-#player-selection {
+#profile-selection {
     height: 100%;
     overflow-y: hidden;
 
     .overlay-block-content {
-        #player-list {
+        #profile-list {
             overflow-y: auto;
             padding: 10px;
             height: calc(100% - 200px);
@@ -170,7 +166,7 @@ export default defineComponent({
             min-height: 70%;
             border-top: none;
 
-            .player-entry {
+            .profile-entry {
                 padding: 10px;
                 text-transform: capitalize;
                 background: $BLUE_BG_NORMAL;
@@ -211,7 +207,7 @@ export default defineComponent({
             }
         }
 
-        #selected-players {
+        #selected-profiles {
             max-height: 200px;
             height: 30%;
 
@@ -227,7 +223,7 @@ export default defineComponent({
                     margin: 0;
                 }
 
-                .player-selected-entry {
+                .profile-selected-entry {
                     padding: 5px 10px;
                     text-transform: capitalize;
                     background: $BLUE_BG_NORMAL;
