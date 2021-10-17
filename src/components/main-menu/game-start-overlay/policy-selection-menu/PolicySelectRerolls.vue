@@ -19,15 +19,16 @@ import {ChallengeData, CommandData} from "@/interfaces/gamemode-overlay";
 export default defineComponent({
     name: "PolicySelectRerolls",
     components: {},
+    emits: ['reroll'],
     props: {
         policies: {
             type: Object as PropType<CommandData | ChallengeData>,
             default: () => new Object()
         }
     },
-    data() {
-        // Data
-    },
+    // data() {
+    //     // Data
+    // },
     mounted() {
         // Execute on creation
     },

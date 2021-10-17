@@ -22,6 +22,7 @@ import {OverlayTab} from "@/enums/gamemode-overlay";
 export default defineComponent({
     name: "MapSelectionMenu",
     components: {},
+    emits: ['overlay-tab-data-update'],
     props: {
         initialTabData: {
             type: String as PropType<string>,

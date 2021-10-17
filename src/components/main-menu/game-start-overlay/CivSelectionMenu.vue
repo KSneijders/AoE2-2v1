@@ -32,6 +32,7 @@ interface ChoiceCount {
 export default defineComponent({
     name: "CivSelectionMenu",
     components: {},
+    emits: ['overlay-tab-data-update'],
     props: {
         initialTabData: {
             type: Object as PropType<Options<string>>,

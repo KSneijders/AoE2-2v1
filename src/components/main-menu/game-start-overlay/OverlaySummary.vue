@@ -57,6 +57,7 @@ import {ProfileEntry} from "@/interfaces/profile";
 export default defineComponent({
     name: "OverlaySummary",
     components: {},
+    emits: ['overlay-tab-data-update'],
     props: {
         tabData: {
             type: Object as PropType<OverlayConfigData>,

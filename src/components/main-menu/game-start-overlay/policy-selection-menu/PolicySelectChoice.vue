@@ -28,6 +28,7 @@ import {sleep} from "@/scripts/other";
 export default defineComponent({
     name: "PolicySelectChoice",
     components: {},
+    emits: ['options'],
     props: {
         policies: {
             type: Object as PropType<CommandData | ChallengeData>,

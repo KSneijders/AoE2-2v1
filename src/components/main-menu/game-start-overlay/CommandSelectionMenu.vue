@@ -33,6 +33,7 @@ export default defineComponent({
         PolicySelectRerolls,
         PolicySelectChoice
     },
+    emits: ['overlay-tab-data-update'],
     props: {
         configData: {
             type: Object as PropType<OverlayConfigData>,

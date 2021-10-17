@@ -19,6 +19,7 @@ import layoutTabs from "@/interfaces/layout-tabs";
 export default defineComponent({
     name: "Tabs",
     components: {},
+    emits: ['tab-select'],
     props: {},
     mounted() {
         this.selectTab(0);

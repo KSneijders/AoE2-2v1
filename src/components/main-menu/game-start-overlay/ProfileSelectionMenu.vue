@@ -53,6 +53,7 @@ import {ensure} from "@/scripts/arrays";
 export default defineComponent({
     name: "ProfileSelectionMenu",
     components: {},
+    emits: ['overlay-tab-data-update', 'overlay-tab-reset'],
     props: {
         initialTabData: {
             type: Array as PropType<ProfileEntry[]>,
