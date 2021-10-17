@@ -34,7 +34,7 @@
 import {defineComponent, PropType} from "vue";
 import {ChallengeData, CommandData, Options} from "@/interfaces/gamemode-overlay";
 import {Challenge, Command} from "@/interfaces/policies";
-import {range} from "@/scripts/arrays";
+import {ensure, range} from "@/scripts/arrays";
 import {importImages, sleep} from "@/scripts/other";
 import {sortChallenges, sortCommands} from "@/scripts/policies";
 
@@ -68,14 +68,12 @@ export default defineComponent({
         while (!this.policies?.cc) await sleep(20);
 
         if (this.policies.options.options.length === 0) {
-            this.options.options = [];
-
             range(this.policies.quantity).forEach(() => {
                 if (this.policies.cc) this.options.options.push(this.policies.cc.reroll());
             });
             this.emitOptions();
         } else {
-            this.options = this.policies.options || [];
+            this.options = ensure(this.policies.options);
             this.selectedOption = this.options.choiceIndex;
         }
     },
@@ -124,8 +122,6 @@ export default defineComponent({
                 }
 
                 .name.game-changing {
-                    //background-color: #fc4e4e;
-                    //border: 1px solid red;
                     font-weight: bold;
                     color: #ff4141;
                 }

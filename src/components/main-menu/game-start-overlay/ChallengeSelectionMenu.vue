@@ -53,22 +53,23 @@ export default defineComponent({
         const defendantProfileEntries = this.configData?.players.filter(p => p.side === Side.DEFENDANT);
         const defendantProfiles: Profile[] = await window.fs.getProfiles(defendantProfileEntries.map(pe => pe.id));
 
-        if (this.configData?.challenges?.collection.length === 0) {
+        const choiceMode: boolean = this.selectionMode === PolicySelectionMode.CHOICE
+        const rerollsMode: boolean = this.selectionMode === PolicySelectionMode.REROLLS
+        const optionsFound: boolean = this.configData?.challenges?.options?.options.length !== 0
+        const collectionFound: boolean = this.configData?.challenges?.collection.length !== 0
+
+        if ((choiceMode && optionsFound) || (rerollsMode && collectionFound)) {
+            this.challenges = ensure(this.configData?.challenges);
+        } else {
             const points = sum(defendantProfiles.map(p => p.points)) / defendantProfiles.length;
+            const civ: string = this.configData?.civs.options[this.configData.civs.choiceIndex];
+
             this.challenges = getDefaultPolicyData() as ChallengeData;
             this.challenges.cc = new ChallengeCollection(
-                gmc.challenges,
-                gmc.limiters,
-                points,
-                this.configData?.civs.options[this.configData.civs.choiceIndex],
-                this.configData.maps,
-                true
+                gmc.challenges, gmc.limiters, points, civ, this.configData.maps, true
             );
-        } else {
-            this.challenges = ensure(this.configData?.challenges)
+            this.initialise();
         }
-
-        this.initialise();
     },
     computed: {
         userProfile: function (): ProfileEntry {
