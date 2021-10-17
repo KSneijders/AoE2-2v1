@@ -116,6 +116,11 @@ class ChallengeCollection {
             const challenge = this.chooseFirstAllowedChallenge(key, ignoreIndexes, indexProgress);
             if (challenge === undefined) {
                 keys = keys.filter(k => k != key);
+                // Move the points of exhausted category to wild-points
+                if (this.points[key] > 0) {
+                    this.points.wildPoints += this.points[key];
+                    this.points[key] = 0;
+                }
                 continue;
             }
 
@@ -145,7 +150,8 @@ class ChallengeCollection {
             }
 
             if (cost <= spendable) {
-                const wildPointCost = Math.min(Math.floor(cost / 2), this.points['wildPoints']);
+                const wildPointCost: number = Math.floor(this.points['wildPoints']/(this.points['wildPoints']+this.points[key])*cost)
+                const categoryPointCost: number = Math.ceil(this.points[key]/(this.points['wildPoints']+this.points[key])*cost)
 
                 for (const limiterElement of this.limiters[challenge.id] || []) {
                     if (this.filteredOutChallenges.includes(limiterElement)) continue;
@@ -158,7 +164,7 @@ class ChallengeCollection {
                 }
 
                 this.points['wildPoints'] -= wildPointCost;
-                this.points[key] -= (cost - wildPointCost);
+                this.points[key] -= categoryPointCost;
                 return challenge;
             }
         }
