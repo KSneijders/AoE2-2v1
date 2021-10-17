@@ -47,7 +47,7 @@ interface Command {
     selectedOption?: string;  // Added key to show which of PointObject was chosen
     max_repeat?: number;
     desc?: string;
-    dev_desc?: string;
+    'dev-desc'?: string;
     classes?: string[];
     civs?: string[];
     maps?: string[];

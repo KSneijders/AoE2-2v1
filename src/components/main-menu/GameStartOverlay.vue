@@ -63,7 +63,7 @@ import {defineComponent} from "vue";
 import {mapGetters} from 'vuex';
 import ProfileSelectionMenu from "@/components/main-menu/game-start-overlay/ProfileSelectionMenu.vue";
 import {OverlayTab, Side} from "@/enums/gamemode-overlay";
-import {OverlayConfigData, TabData} from "@/interfaces/gamemode-overlay";
+import {ChallengeData, CommandData, OverlayConfigData, TabData} from "@/interfaces/gamemode-overlay";
 import OverlaySummary from "@/components/main-menu/game-start-overlay/OverlaySummary.vue";
 import {range} from "@/scripts/arrays";
 import MapSelectionMenu from "@/components/main-menu/game-start-overlay/MapSelectionMenu.vue";
@@ -71,6 +71,7 @@ import CivSelectionMenu from "@/components/main-menu/game-start-overlay/CivSelec
 import ChallengeSelectionMenu from "@/components/main-menu/game-start-overlay/ChallengeSelectionMenu.vue";
 import {ProfileEntry} from "@/interfaces/profile";
 import CommandSelectionMenu from "@/components/main-menu/game-start-overlay/CommandSelectionMenu.vue";
+import {getDefaultPolicyData} from "@/scripts/policies";
 
 interface ValidTabs {
     [key: string]: boolean;
@@ -136,9 +137,9 @@ export default defineComponent({
             this.tabData = {
                 players: [],
                 maps: "",
-                civs: {civOptions: [], civChoice: ""},
-                challenges: {collection: [], rerolls: 3, cc: undefined},
-                commands: {collection: [], rerolls: 3, cc: undefined},
+                civs: {options: [], choiceIndex: -1},
+                challenges: getDefaultPolicyData() as ChallengeData,
+                commands: getDefaultPolicyData() as CommandData,
             }
         },
         nextTab: function (): void {
@@ -234,7 +235,7 @@ export default defineComponent({
         }
 
         #challenge-selection-block, #command-selection-block {
-            width: 30%;
+            width: 50%;
         }
 
         #next-button {

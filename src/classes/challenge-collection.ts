@@ -60,7 +60,7 @@ class ChallengeCollection {
 
         this.reInitialise();
         this.shuffleChallenges();
-        return this.getRandomChallenges();
+        return this.getRandom();
     }
 
     private filterFunc(challenge: Challenge): boolean {
@@ -95,7 +95,7 @@ class ChallengeCollection {
         this.resetChallengeIdMap();
     }
 
-    getRandomChallenges(): Challenge[] {
+    getRandom(): Challenge[] {
         if (!this.shuffled) throw Error("Cannot get random challenges without shuffling challenges.");
 
         let keys = Object.values(PolicyCategories);

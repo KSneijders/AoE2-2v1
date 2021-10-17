@@ -8,4 +8,13 @@ function jsonDeepCopy<T>(obj: T): T {
     return JSON.parse(JSON.stringify(obj))
 }
 
-export {jsonDeepCopy}
+/**
+ * Sleep function. Needs to be used with await.
+ *
+ * @param ms
+ */
+async function sleep(ms: number): Promise<void> {
+    return new Promise(r => setTimeout(r, ms));
+}
+
+export {jsonDeepCopy, sleep}

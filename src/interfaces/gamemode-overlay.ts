@@ -3,39 +3,41 @@ import {Challenge, Command} from "@/interfaces/policies";
 import ChallengeCollection from "@/classes/challenge-collection";
 import CommandCollection from "@/classes/command-collection";
 
-type TabData = string | boolean | CivSelection | ProfileEntry[] | ChallengeData | CommandData | undefined
+type TabData = string | boolean | Options<string> | ProfileEntry[] | ChallengeData | CommandData | undefined
 
 interface OverlayConfigData {
     [key: string]: TabData;
 
     players: ProfileEntry[];
     maps: string;
-    civs: CivSelection;
+    civs: Options<string>;
     challenges: ChallengeData;
     commands: CommandData;
 }
 
 interface ChallengeData {
-    [key: string]: Challenge[] | ChallengeCollection | number | undefined;
+    [key: string]: Challenge[] | Options<Challenge[]> | ChallengeCollection | number | undefined;
 
     collection: Challenge[];
-    rerolls: number;
+    quantity: number;
     cc: ChallengeCollection | undefined;
+    options: Options<Challenge[]>;
 }
 
 interface CommandData {
-    [key: string]: Command[] | CommandCollection | number | undefined;
+    [key: string]: Command[] | Options<Command[]> | CommandCollection | number | undefined;
 
     collection: Command[];
-    rerolls: number;
+    quantity: number;
     cc: CommandCollection | undefined;
+    options: Options<Command[]>;
 }
 
-interface CivSelection {
-    [key: string]: string | string[];
-
-    civOptions: string[];
-    civChoice: string;
+interface Options<T> {
+    [key: string]: number | T[];
+    
+    options: T[];
+    choiceIndex: number;
 }
 
-export {OverlayConfigData, TabData, CivSelection, ChallengeData, CommandData}
+export {OverlayConfigData, TabData, Options, ChallengeData, CommandData}

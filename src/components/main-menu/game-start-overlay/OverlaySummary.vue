@@ -22,11 +22,11 @@
                 <h5>Map</h5>
                 <p>{{ tabData.maps }}</p>
             </div>
-            <div id="civ-summary" class="summary-entry" v-if="tabData.civs.civChoice !== ''">
+            <div id="civ-summary" class="summary-entry" v-if="tabData.civs.choiceIndex !== -1">
                 <h5>Civ</h5>
-                <p>{{ tabData.civs.civChoice }}</p>
+                <p>{{ tabData.civs.options[tabData.civs.choiceIndex] }}</p>
             </div>
-            <div id="challenge-summary" class="summary-entry" v-if="tabData.challenges.collection.length !== 0">
+            <div id="challenge-summary" class="summary-entry" v-if="tabData.challenges?.collection?.length !== 0">
                 <h5>Challenges</h5>
                 <div v-for="challenge in tabData.challenges.collection" v-bind:key="challenge.id" class="profile-entry">
                     {{ challenge.name }}
@@ -35,8 +35,8 @@
                     </span>
                 </div>
             </div>
-            <div id="command-summary" class="summary-entry" v-if="tabData.commands.collection.length !== 0">
-                <h5>Challenges</h5>
+            <div id="command-summary" class="summary-entry" v-if="tabData.commands?.collection?.length !== 0">
+                <h5>Commands</h5>
                 <div v-for="command in tabData.commands.collection" v-bind:key="command.id" class="profile-entry">
                     {{ command.name }}
                     <span v-if="typeof command.points === 'object'">

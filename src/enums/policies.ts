@@ -6,4 +6,9 @@ enum PolicyCategories {
     TECHNOLOGIES = "technologies",
 }
 
-export {PolicyCategories}
+enum PolicySelectionMode {
+    CHOICE = "choice",
+    REROLLS = "rerolls"
+}
+
+export {PolicyCategories, PolicySelectionMode}

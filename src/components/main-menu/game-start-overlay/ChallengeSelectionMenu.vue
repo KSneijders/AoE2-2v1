@@ -2,17 +2,8 @@
     <div id="challenge-selection">
         <div class="overlay-block-header">Challenges</div>
         <div class="overlay-block-content">
-            <div id="reroll-button" @click="clickedReroll" v-bind:class="{'out-of-rolls': this.challenges.rerolls===0}">
-                Reroll Challenges ({{ challenges.rerolls }})
-            </div>
-            <div id="challenge-list" class="simple-white-scrollbar">
-                <div v-for="challenge in challenges.collection" v-bind:key="challenge.id">
-                    {{ challenge.name }}
-                    <span v-if="typeof challenge.points === 'object'">
-                        ({{ challenge.selectedOption }})
-                    </span>
-                </div>
-            </div>
+            <PolicySelectRerolls  v-if="selectionMode === PolicySelectionMode.REROLLS"
+                                  :policies="this.challenges" @reroll="clickedReroll"/>
         </div>
     </div>
 </template>
@@ -25,10 +16,15 @@ import ChallengeCollection from "@/classes/challenge-collection";
 import {GameModeContent} from "@/interfaces/game-mode";
 import {Profile, ProfileEntry} from "@/interfaces/profile";
 import {sum} from "@/scripts/arrays";
+import PolicySelectRerolls
+    from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicySelectRerolls.vue";
+import {PolicySelectionMode} from "@/enums/policies";
 
 export default defineComponent({
     name: "ChallengeSelectionMenu",
-    components: {},
+    components: {
+        PolicySelectRerolls
+    },
     props: {
         configData: {
             type: Object as PropType<OverlayConfigData>,
@@ -37,7 +33,10 @@ export default defineComponent({
     },
     data() {
         return {
+            PolicySelectionMode: PolicySelectionMode, // For in-template usage
+
             challenges: {} as ChallengeData,
+            selectionMode: PolicySelectionMode.REROLLS
         }
     },
     async mounted() {
@@ -51,14 +50,14 @@ export default defineComponent({
                 gmc.challenges,
                 gmc.limiters,
                 points,
-                this.configData.civs.civChoice,
+                this.configData?.civs.options[this.configData.civs.choiceIndex],
                 this.configData.maps,
                 true
             );
-            this.challenges.collection = this.challenges.cc.getRandomChallenges();
-            this.challenges.rerolls = 3;
+            this.challenges.collection = this.challenges.cc.getRandom();
+            this.challenges.quantity = 3;
         } else {
-            this.challenges = this.configData?.challenges || {collection: [], rerolls: 0};
+            this.challenges = this.configData?.challenges || {collection: [], quantity: 0};
         }
 
         this.updateTabData(true);
@@ -70,9 +69,9 @@ export default defineComponent({
     },
     methods: {
         clickedReroll: function (): void {
-            if (this.challenges.cc && this.challenges.rerolls > 0) {
+            if (this.challenges.cc && this.challenges.quantity > 0) {
                 this.challenges.collection = this.challenges.cc.reroll();
-                this.challenges.rerolls--;
+                this.challenges.quantity--;
                 this.updateTabData(true);
             }
         },

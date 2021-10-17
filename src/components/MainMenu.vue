@@ -22,8 +22,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, PropType} from "vue";
-import {Profile} from "@/interfaces/profile";
+import {defineComponent} from "vue";
 import UserProfile from "@/components/main-menu/UserProfile.vue";
 import GameModeSelectionMenu from "@/components/main-menu/GameModeSelectionMenu.vue";
 import GameStartOverlay from "@/components/main-menu/GameStartOverlay.vue";
@@ -56,7 +55,7 @@ export default defineComponent({
             this.$store.commit('gameModeStart')
             // const {challenges, limiters} = await loadGameMode(this.$store.state.gameModeInfo.selectedGameMode.id)
             // const cc = new ChallengeCollection(challenges, limiters, true)
-            // const rc = cc.getRandomChallenges()
+            // const rc = cc.getRandom()
             // console.log(rc)
         }
     },

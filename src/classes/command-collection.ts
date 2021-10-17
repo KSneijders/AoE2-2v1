@@ -46,7 +46,7 @@ class CommandCollection {
 
         this.reInitialise();
         this.shuffleCommands();
-        return this.getRandomCommands();
+        return this.getRandom();
     }
 
     resetCommandIdMap(): void {
@@ -66,7 +66,7 @@ class CommandCollection {
         this.resetCommandIdMap();
     }
 
-    getRandomCommands(): Command[] {
+    getRandom(): Command[] {
         if (!this.shuffled) throw Error("Cannot get random commands without shuffling commands.");
 
         let keys = Object.values(PolicyCategories);
@@ -81,7 +81,6 @@ class CommandCollection {
             if (key === undefined) break;
 
             const command = this.chooseFirstAllowedCommand(key, ignoreIndexes, indexProgress);
-            console.log(command)
             if (command === undefined) {
                 keys = keys.filter(k => k != key);
                 continue;

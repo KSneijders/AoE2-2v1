@@ -2,37 +2,49 @@
     <div id="command-selection">
         <div class="overlay-block-header">Commands</div>
         <div class="overlay-block-content">
-            <div id="reroll-button" @click="clickedReroll" v-bind:class="{'out-of-rolls': this.commands.rerolls === 0}">
-                Reroll Commands ({{ commands.rerolls }})
-            </div>
-            <div id="command-list" class="simple-white-scrollbar">
-                <div v-for="command in commands.collection" v-bind:key="command.id">
-                    {{ command.name }}
-                    <span v-if="typeof command.points === 'object'">
-                        ({{ command.selectedOption }})
-                    </span>
-                </div>
-            </div>
+            <PolicySelectRerolls v-if="selectionMode === PolicySelectionMode.REROLLS"
+                                 :policies="this.commands"
+                                 @reroll="clickedReroll"/>
+            <PolicySelectChoice v-if="selectionMode === PolicySelectionMode.CHOICE"
+                                :policies="this.commands"
+                                @options="saveOptions"/>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
-import {CommandData, OverlayConfigData} from "@/interfaces/gamemode-overlay";
+import {CommandData, Options, OverlayConfigData} from "@/interfaces/gamemode-overlay";
 import {OverlayTab, Side} from "@/enums/gamemode-overlay";
-import {sum} from "@/scripts/arrays";
+import {ensure, sum} from "@/scripts/arrays";
 import {Profile} from "@/interfaces/profile";
 import CommandCollection from "@/classes/command-collection";
 import {GameModeContent} from "@/interfaces/game-mode";
+import PolicySelectRerolls
+    from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicySelectRerolls.vue";
+import {PolicySelectionMode} from "@/enums/policies";
+import PolicySelectChoice from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicySelectChoice.vue";
+import {Command} from "@/interfaces/policies";
+import {getDefaultPolicyData} from "@/scripts/policies";
 
 export default defineComponent({
     name: "CommandSelectionMenu",
-    components: {},
+    components: {
+        PolicySelectRerolls,
+        PolicySelectChoice
+    },
     props: {
         configData: {
             type: Object as PropType<OverlayConfigData>,
             default: () => new Object()
+        }
+    },
+    data() {
+        return {
+            PolicySelectionMode: PolicySelectionMode, // For in-template usage
+
+            commands: {} as CommandData,
+            selectionMode: PolicySelectionMode.CHOICE,
         }
     },
     async mounted() {
@@ -40,32 +52,49 @@ export default defineComponent({
         const defendantProfileEntries = this.configData?.players.filter(p => p.side === Side.DEFENDANT);
         const defendantProfiles: Profile[] = await window.fs.getProfiles(defendantProfileEntries.map(pe => pe.id));
 
-        if (this.configData?.commands?.collection.length === 0) {
-            const points = sum(defendantProfiles.map(p => p.points)) / defendantProfiles.length;
-            this.commands.cc = new CommandCollection(gmc.commands, points, true);
-            this.commands.collection = this.commands.cc.getRandomCommands();
-            this.commands.rerolls = 3;
+        const choiceMode: boolean = this.selectionMode === PolicySelectionMode.CHOICE
+        const rerollsMode: boolean = this.selectionMode === PolicySelectionMode.REROLLS
+        const optionsFound: boolean = this.configData?.commands?.options?.options.length !== 0
+        const collectionFound: boolean = this.configData?.commands?.collection.length !== 0
+
+        if ((choiceMode && optionsFound) || (rerollsMode && collectionFound)) {
+            this.commands = ensure(this.configData?.commands);
         } else {
-            this.commands = this.configData?.commands || {collection: [], rerolls: 0};
-        }
+            const points = sum(defendantProfiles.map(p => p.points)) / defendantProfiles.length;
+            this.commands = getDefaultPolicyData() as CommandData;
+            this.commands.cc = new CommandCollection(gmc.commands, points, true);
 
-        console.log(this.commands)
-
-        this.updateTabData(true);
-    },
-    data() {
-        return {
-            commands: {} as CommandData,
+            this.initialise();
         }
     },
     computed: {},
     methods: {
+        initialise: function (): void {
+            switch (this.selectionMode) {
+                case PolicySelectionMode.CHOICE:
+                    this.commands.collection = [];
+                    this.commands.quantity = 3;
+                    break;
+                case PolicySelectionMode.REROLLS:
+                    this.commands.collection = ensure(this.commands?.cc?.getRandom());
+                    this.commands.quantity = 3;
+                    break;
+            }
+            this.updateTabData(this.commands.collection.length > 0);
+        },
         clickedReroll: function (): void {
-            if (this.commands.cc && this.commands.rerolls > 0) {
+            if (this.commands.cc && this.commands.quantity > 0) {
                 this.commands.collection = this.commands.cc.reroll();
-                this.commands.rerolls--;
+                this.commands.quantity--;
                 this.updateTabData(true);
             }
+        },
+        saveOptions: function (options: Options<Command[]>): void {
+            this.commands.options = options;
+            if (options.choiceIndex !== -1) {
+                this.commands.collection = options.options[options.choiceIndex]
+            }
+            this.updateTabData(options.choiceIndex !== -1);
         },
         updateTabData: function (valid = true): void {
             this.$emit('overlay-tab-data-update', OverlayTab.COMMANDS, valid, this.commands)
@@ -78,7 +107,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 
-
 #command-selection {
     height: 100%;
     width: 100%;
@@ -86,36 +114,6 @@ export default defineComponent({
 
     .overlay-block-content {
         width: 100%;
-
-        #reroll-button {
-            margin: 5px;
-            float: right;
-            padding: 5px;
-            background: $GREEN_BG_NORMAL;
-            border: 1px solid #7696b6;
-
-            user-select: none;
-
-            &:hover {
-                background: $GREEN_BG_HOVER;
-                border: 1px solid #96b3d0;
-                cursor: pointer;
-            }
-
-            &.out-of-rolls {
-                background: $RED_BG_NORMAL;
-
-                &:hover {
-                    background: $RED_BG_HOVER;
-                }
-            }
-        }
-
-        #command-list {
-            overflow-y: auto;
-            padding: 10px;
-            width: 100%;
-        }
     }
 }
 </style>
