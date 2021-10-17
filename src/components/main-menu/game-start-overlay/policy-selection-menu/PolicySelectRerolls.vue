@@ -1,6 +1,6 @@
 <template>
     <div id="reroll-button" @click="clickedReroll" v-bind:class="{'out-of-rolls': policies.quantity === 0}">
-        Reroll Commands ({{ policies.quantity }})
+        Reroll Policies ({{ policies.quantity }})
     </div>
     <div id="policy-list" class="simple-white-scrollbar">
         <div v-for="policy in policies.collection" v-bind:key="policy.id">
