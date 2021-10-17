@@ -3,10 +3,11 @@
         <div class="overlay-block-header">Commands</div>
         <div class="overlay-block-content">
             <PolicySelectRerolls v-if="selectionMode === PolicySelectionMode.REROLLS"
-                                 :policies="this.commands"
+                                 :policies="commandDataSorted"
                                  @reroll="clickedReroll"/>
             <PolicySelectChoice v-if="selectionMode === PolicySelectionMode.CHOICE"
-                                :policies="this.commands"
+                                :policies="commandDataSorted"
+                                :policyType="'commands'"
                                 @options="saveOptions"/>
         </div>
     </div>
@@ -25,7 +26,7 @@ import PolicySelectRerolls
 import {PolicySelectionMode} from "@/enums/policies";
 import PolicySelectChoice from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicySelectChoice.vue";
 import {Command} from "@/interfaces/policies";
-import {getDefaultPolicyData} from "@/scripts/policies";
+import {getDefaultPolicyData, sortCommands} from "@/scripts/policies";
 
 export default defineComponent({
     name: "CommandSelectionMenu",
@@ -68,7 +69,16 @@ export default defineComponent({
             this.initialise();
         }
     },
-    computed: {},
+    computed: {
+        commandDataSorted: function(): CommandData {
+            return {
+                collection: sortCommands(this.commands.collection),
+                cc: this.commands.cc as CommandCollection,
+                options: this.commands.options,
+                quantity: this.commands.quantity,
+            }
+        }
+    },
     methods: {
         initialise: function (): void {
             switch (this.selectionMode) {
@@ -98,7 +108,7 @@ export default defineComponent({
             this.updateTabData(options.choiceIndex !== -1);
         },
         updateTabData: function (valid = true): void {
-            this.$emit('overlay-tab-data-update', OverlayTab.COMMANDS, valid, this.commands)
+            this.$emit('overlay-tab-data-update', OverlayTab.COMMANDS, valid, this.commandDataSorted)
         }
     },
     watch: {}

@@ -3,9 +3,10 @@
         <div class="overlay-block-header">Challenges</div>
         <div class="overlay-block-content">
             <PolicySelectRerolls v-if="selectionMode === PolicySelectionMode.REROLLS"
-                                 :policies="this.challenges" @reroll="clickedReroll"/>
+                                 :policies="challengeDataSorted" @reroll="clickedReroll"/>
             <PolicySelectChoice v-if="selectionMode === PolicySelectionMode.CHOICE"
-                                :policies="this.challenges"
+                                :policies="challengeDataSorted"
+                                :policyType="'challenges'"
                                 @options="saveOptions"/>
         </div>
     </div>
@@ -24,14 +25,13 @@ import PolicySelectRerolls
 import {PolicySelectionMode} from "@/enums/policies";
 import PolicySelectChoice from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicySelectChoice.vue";
 import {Challenge} from "@/interfaces/policies";
-import {getDefaultPolicyData} from "@/scripts/policies";
+import {getDefaultPolicyData, sortChallenges} from "@/scripts/policies";
 
 export default defineComponent({
     name: "ChallengeSelectionMenu",
     components: {
         PolicySelectRerolls,
         PolicySelectChoice
-
     },
     emits: ['overlay-tab-data-update'],
     props: {
@@ -45,7 +45,7 @@ export default defineComponent({
             PolicySelectionMode: PolicySelectionMode, // For in-template usage
 
             challenges: {} as ChallengeData,
-            selectionMode: PolicySelectionMode.REROLLS
+            selectionMode: PolicySelectionMode.CHOICE
         }
     },
     async mounted() {
@@ -73,6 +73,14 @@ export default defineComponent({
     computed: {
         userProfile: function (): ProfileEntry {
             return this.configData.players.filter(p => p.id === 'default')[0];
+        },
+        challengeDataSorted: function (): ChallengeData {
+            return {
+                collection: sortChallenges(this.challenges.collection),
+                cc: this.challenges.cc as ChallengeCollection,
+                options: this.challenges.options,
+                quantity: this.challenges.quantity,
+            };
         }
     },
     methods: {
@@ -104,7 +112,7 @@ export default defineComponent({
             this.updateTabData(options.choiceIndex !== -1);
         },
         updateTabData: function (valid = true): void {
-            this.$emit('overlay-tab-data-update', OverlayTab.CHALLENGES, valid, this.challenges)
+            this.$emit('overlay-tab-data-update', OverlayTab.CHALLENGES, valid, this.challengeDataSorted)
         }
     },
     watch: {}

@@ -30,9 +30,8 @@ export default defineComponent({
         }
     },
     mounted() {
-        let maps = this.$store.state.gameModeInfo.content.maps;
-        if (maps.length === 0) maps = this.$store.state.defaultGamemode.maps;
-        this.maps = maps;
+        const maps = this.$store.state.gameModeInfo.content.maps;
+        this.maps = (maps?.length > 0) ? maps : this.$store.state.defaultGamemode.maps;
 
         if (this.initialTabData) this.selectedMap = this.maps.indexOf(this.initialTabData)
     },

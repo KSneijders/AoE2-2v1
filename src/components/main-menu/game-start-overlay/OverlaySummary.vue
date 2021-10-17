@@ -89,7 +89,7 @@ export default defineComponent({
     overflow-y: hidden;
 
     .summary-entry {
-        border-bottom: 2px solid $BORDER_COLOUR;
+        border-bottom: 2px solid $BLUE_BORDER_COLOUR;
         text-align: center;
 
         h5 {

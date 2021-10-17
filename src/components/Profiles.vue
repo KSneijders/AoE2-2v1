@@ -141,7 +141,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .block {
-    border: 3px solid $BORDER_COLOUR;
+    border: 3px solid $BLUE_BORDER_COLOUR;
     background: $LIGHT_BLUE_BG;
     display: inline-block;
     padding: 10px;

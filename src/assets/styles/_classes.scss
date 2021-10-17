@@ -15,8 +15,7 @@
     height: 55px;
     padding: 5px;
     text-align: center;
-    border: 2px solid $BORDER_COLOUR;
-    border-bottom: none;
+    border-bottom: 2px solid $BLUE_BORDER_COLOUR;
     margin-bottom: 0;
     font-weight: 500;
     line-height: 1.2;
@@ -26,5 +25,4 @@
 
 .overlay-block-content {
     height: calc(100% - 54px);
-    border: 2px solid $BORDER_COLOUR;
 }

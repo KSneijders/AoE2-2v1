@@ -215,12 +215,12 @@ export default defineComponent({
             #defendants, #challengers {
                 width: 50%;
                 height: 100%;
-                border-top: 2px solid $BORDER_COLOUR;
+                border-top: 2px solid $BLUE_BORDER_COLOUR;
 
                 h5 {
                     padding: 5px;
                     text-align: center;
-                    border-bottom: 2px solid $BORDER_COLOUR;
+                    border-bottom: 2px solid $BLUE_BORDER_COLOUR;
                     margin: 0;
                 }
 
@@ -241,7 +241,7 @@ export default defineComponent({
 
             #challengers {
                 float: right;
-                border-left: 2px solid $BORDER_COLOUR;
+                border-left: 2px solid $BLUE_BORDER_COLOUR;
             }
         }
     }

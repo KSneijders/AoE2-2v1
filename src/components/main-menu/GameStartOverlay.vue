@@ -201,7 +201,7 @@ export default defineComponent({
     height: 100%;
     width: 100%;
     background: $LIGHT_BLUE_BG;
-    border: 5px solid $BORDER_COLOUR;
+    border: 5px solid $BLUE_BORDER_COLOUR;
     border-radius: 5px;
     color: whitesmoke;
     z-index: 0;
@@ -216,92 +216,93 @@ export default defineComponent({
             margin: 10px;
             background: linear-gradient(90deg, #657f9a 0%, #68849f 100%);
             box-shadow: 0 3px 10px 1px black;
+            border: 2px solid #203241;
+    }
+
+    #summary-block {
+        width: 25%;
+    }
+
+    #player-selection-block {
+        width: 30%;
+    }
+
+    #map-selection-block {
+        width: 30%;
+    }
+
+    #civ-selection-block {
+        width: 30%;
+    }
+
+    #challenge-selection-block, #command-selection-block {
+        width: 50%;
+    }
+
+    #next-button {
+        flex-grow: 1;
+        text-align: center;
+        color: #000;
+        font-size: 50px;
+
+        &:hover {
+            cursor: pointer;
+            color: #fff;
+            background-color: rgba(0, 0, 0, .2);
+        }
+    }
+}
+
+#overlay-header {
+    padding: 5px;
+    font-size: 24px;
+    border-bottom: 4px solid #203241;
+    user-select: none;
+
+    .tab-button {
+        padding: 2px 10px;
+        border: 1px solid #7696b6;
+        background: $BLUE_BG_NORMAL;
+        text-transform: capitalize;
+
+        &:hover {
+            cursor: pointer;
+            border: 1px solid #96b3d0;
+            background: $BLUE_BG_HOVER;
         }
 
-        #summary-block {
-            width: 25%;
-        }
-
-        #player-selection-block {
-            width: 30%;
-        }
-
-        #map-selection-block {
-            width: 30%;
-        }
-
-        #civ-selection-block {
-            width: 30%;
-        }
-
-        #challenge-selection-block, #command-selection-block {
-            width: 50%;
-        }
-
-        #next-button {
-            flex-grow: 1;
-            text-align: center;
-            color: #000;
-            font-size: 50px;
+        &.disabled {
+            color: gray;
 
             &:hover {
-                cursor: pointer;
-                color: #fff;
-                background-color: rgba(0, 0, 0, .2);
+                cursor: not-allowed;
+            }
+        }
+
+        &.active {
+            background: $GREEN_BG_NORMAL;
+
+            &:hover {
+                background: $GREEN_BG_HOVER;
             }
         }
     }
 
-    #overlay-header {
-        padding: 5px;
-        font-size: 24px;
-        border-bottom: 4px solid #203241;
+    #exit-button {
+        color: red;
+        float: right;
+        font-family: monospace;
+        font-size: 30px;
+        padding: 0;
+        margin-top: -5px;
+        margin-right: 5px;
+        vertical-align: center;
         user-select: none;
 
-        .tab-button {
-            padding: 2px 10px;
-            border: 1px solid #7696b6;
-            background: $BLUE_BG_NORMAL;
-            text-transform: capitalize;
-
-            &:hover {
-                cursor: pointer;
-                border: 1px solid #96b3d0;
-                background: $BLUE_BG_HOVER;
-            }
-
-            &.disabled {
-                color: gray;
-
-                &:hover {
-                    cursor: not-allowed;
-                }
-            }
-
-            &.active {
-                background: $GREEN_BG_NORMAL;
-
-                &:hover {
-                    background: $GREEN_BG_HOVER;
-                }
-            }
-        }
-
-        #exit-button {
-            color: red;
-            float: right;
-            font-family: monospace;
-            font-size: 30px;
-            padding: 0;
-            margin-top: -5px;
-            margin-right: 5px;
-            vertical-align: center;
-            user-select: none;
-
-            &:hover {
-                cursor: pointer;
-            }
+        &:hover {
+            cursor: pointer;
         }
     }
+}
 }
 </style>
