@@ -46,7 +46,7 @@ export default defineComponent({
             PolicySelectionMode: PolicySelectionMode, // For in-template usage
 
             commands: {} as CommandData,
-            selectionMode: PolicySelectionMode.REROLLS,
+            selectionMode: PolicySelectionMode.CHOICE,
         }
     },
     async mounted() {

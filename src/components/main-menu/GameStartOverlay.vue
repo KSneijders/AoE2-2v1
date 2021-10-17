@@ -126,7 +126,7 @@ export default defineComponent({
             tabConfig: {
                 invalid: ['players'],
                 challenger: ['players', 'maps', 'civs', 'challenges', 'final'],
-                defendant: ['players', 'maps', 'commands', 'civs', 'final'],
+                defendant: ['players', 'maps', 'civs', 'commands', 'final'],
                 final: ['final'],
             } as OverLayTabConfig,
         }
@@ -174,7 +174,7 @@ export default defineComponent({
         selectTab: function (tabIndex: number): void {
             if (tabIndex <= this.tabProgress) {
                 if (this.tabs[tabIndex] === "final" && this.tabs[this.currentTab] !== "final") {
-                    // if (!confirm("No changing after this!")) return;
+                    if (!confirm("After going to the final tab, you cannot go back!\nAre you sure?")) return;
 
                     this.tabs = this.tabConfig.final;
                     tabIndex = 0;
