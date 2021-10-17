@@ -56,11 +56,9 @@ export default defineComponent({
         const choiceCount: number = this.choiceCount[this.userProfile.side.toLowerCase()];
 
         if (this.initialTabData?.options.length > 0) {
-            console.log(1)
             this.selection = this.initialTabData;
             this.selectedCiv = this.selection.choiceIndex;
         } else {
-            console.log(2)
             this.selection.options = getRandomCivs(choiceCount).sort();
             this.selection.choiceIndex = -1;
             
