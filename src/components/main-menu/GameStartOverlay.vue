@@ -12,7 +12,7 @@
                     {{ tab }}
                 </span>
             </span>
-            <div id="exit-button" @click="cancelGameModeStart">x</div>
+            <div id="exit-button" @click="cancelGameModeStart" v-if="tabs[currentTab] !== 'final'">x</div>
         </div>
         <div id="overlay-content">
             <div id="summary-block" class="gamemode-box"
@@ -86,8 +86,9 @@ import ChallengeSelectionMenu from "@/components/main-menu/game-start-overlay/Ch
 import {ProfileEntry} from "@/interfaces/profile";
 import CommandSelectionMenu from "@/components/main-menu/game-start-overlay/CommandSelectionMenu.vue";
 import {getDefaultPolicyData} from "@/scripts/policies";
-import DefendantFinalView from "@/components/main-menu/game-start-overlay/DefendantFinalView.vue";
-import ChallengerFinalView from "@/components/main-menu/game-start-overlay/ChallengerFinalView.vue";
+import DefendantFinalView from "@/components/main-menu/game-start-overlay/final-view/DefendantFinalView.vue";
+import ChallengerFinalView from "@/components/main-menu/game-start-overlay/final-view/ChallengerFinalView.vue";
+import {calculatePoints} from "@/scripts/points";
 
 interface ValidTabs {
     [key: string]: boolean;
@@ -159,6 +160,7 @@ export default defineComponent({
             this.tabData = {
                 players: [],
                 maps: "",
+                points: 0,
                 civs: {options: [], choiceIndex: -1},
                 challenges: getDefaultPolicyData() as ChallengeData,
                 commands: getDefaultPolicyData() as CommandData,
@@ -172,7 +174,7 @@ export default defineComponent({
         selectTab: function (tabIndex: number): void {
             if (tabIndex <= this.tabProgress) {
                 if (this.tabs[tabIndex] === "final" && this.tabs[this.currentTab] !== "final") {
-                    if (!confirm("No changing after this!")) return;
+                    // if (!confirm("No changing after this!")) return;
 
                     this.tabs = this.tabConfig.final;
                     tabIndex = 0;
@@ -185,6 +187,8 @@ export default defineComponent({
             return this.validTabs[this.tabs[tabIndex]];
         },
         cancelGameModeStart: function (): void {
+            if (this.tabs[this.currentTab] === 'final') return;
+
             if (confirm("Are you sure you want to exit gamemode setup?\nAll progress will be lost."))
                 this.$store.commit('gameModeEnd')
         },
@@ -206,9 +210,13 @@ export default defineComponent({
                         this.tabs = this.tabConfig.invalid;
                         break;
                 }
+
+                if (valid) calculatePoints((payload as ProfileEntry[])).then(points => this.tabData.points = points);
             }
             this.validTabs[ltab] = valid;
             this.tabData[ltab] = payload;
+
+            if (valid) this.nextTab();  // Todo: remove
         }
     },
     watch: {}
@@ -246,92 +254,100 @@ export default defineComponent({
             background: linear-gradient(90deg, #657f9a 0%, #68849f 100%);
             box-shadow: 0 3px 10px 1px black;
             border: 2px solid #203241;
-    }
-
-    #summary-block {
-        width: 25%;
-    }
-
-    #player-selection-block {
-        width: 30%;
-    }
-
-    #map-selection-block {
-        width: 30%;
-    }
-
-    #civ-selection-block {
-        width: 30%;
-    }
-
-    #challenge-selection-block, #command-selection-block {
-        width: 50%;
-    }
-
-    #next-button {
-        flex-grow: 1;
-        text-align: center;
-        color: #000;
-        font-size: 50px;
-
-        &:hover {
-            cursor: pointer;
-            color: #fff;
-            background-color: rgba(0, 0, 0, .2);
-        }
-    }
-}
-
-#overlay-header {
-    padding: 5px;
-    font-size: 24px;
-    border-bottom: 4px solid #203241;
-    user-select: none;
-
-    .tab-button {
-        padding: 2px 10px;
-        border: 1px solid #7696b6;
-        background: $BLUE_BG_NORMAL;
-        text-transform: capitalize;
-
-        &:hover {
-            cursor: pointer;
-            border: 1px solid #96b3d0;
-            background: $BLUE_BG_HOVER;
         }
 
-        &.disabled {
-            color: gray;
+        #summary-block {
+            width: 25%;
+        }
 
-            &:hover {
-                cursor: not-allowed;
+        #player-selection-block {
+            width: 30%;
+        }
+
+        #map-selection-block {
+            width: 30%;
+        }
+
+        #civ-selection-block {
+            width: 30%;
+        }
+
+        #challenge-selection-block, #command-selection-block {
+            width: 50%;
+        }
+
+        #final-view {
+            flex-grow: 1;
+
+            #defendant-final-view, #challenger-final-view {
+                width: calc(100% - 20px);
             }
         }
 
-        &.active {
-            background: $GREEN_BG_NORMAL;
+        #next-button {
+            flex-grow: 1;
+            text-align: center;
+            color: #000;
+            font-size: 50px;
 
             &:hover {
-                background: $GREEN_BG_HOVER;
+                cursor: pointer;
+                color: #fff;
+                background-color: rgba(0, 0, 0, .2);
             }
         }
     }
 
-    #exit-button {
-        color: red;
-        float: right;
-        font-family: monospace;
-        font-size: 30px;
-        padding: 0;
-        margin-top: -5px;
-        margin-right: 5px;
-        vertical-align: center;
+    #overlay-header {
+        padding: 5px;
+        font-size: 24px;
+        border-bottom: 4px solid #203241;
         user-select: none;
 
-        &:hover {
-            cursor: pointer;
+        .tab-button {
+            padding: 2px 10px;
+            border: 1px solid #7696b6;
+            background: $BLUE_BG_NORMAL;
+            text-transform: capitalize;
+
+            &:hover {
+                cursor: pointer;
+                border: 1px solid #96b3d0;
+                background: $BLUE_BG_HOVER;
+            }
+
+            &.disabled {
+                color: gray;
+
+                &:hover {
+                    cursor: not-allowed;
+                }
+            }
+
+            &.active {
+                background: $GREEN_BG_NORMAL;
+
+                &:hover {
+                    background: $GREEN_BG_HOVER;
+                }
+            }
+        }
+
+        #exit-button {
+            color: red;
+            float: right;
+            font-family: monospace;
+            font-size: 30px;
+            padding: 0;
+            margin-top: -5px;
+            margin-right: 5px;
+            vertical-align: center;
+            user-select: none;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
-}
 }
 </style>

@@ -28,7 +28,7 @@
             </div>
             <div id="challenge-summary" class="summary-entry" v-if="tabData.challenges?.collection?.length !== 0">
                 <h5>Challenges</h5>
-                <div v-for="challenge in tabData.challenges.collection" v-bind:key="challenge.id" class="profile-entry">
+                <div v-for="challenge in tabData.challenges.collection" v-bind:key="challenge.id" class="profile-entry final-block">
                     {{ challenge.name }}
                     <span v-if="typeof challenge.points === 'object'">
                         ({{ challenge.selectedOption }})
@@ -37,7 +37,7 @@
             </div>
             <div id="command-summary" class="summary-entry" v-if="tabData.commands?.collection?.length !== 0">
                 <h5>Commands</h5>
-                <div v-for="command in tabData.commands.collection" v-bind:key="command.id" class="profile-entry">
+                <div v-for="command in tabData.commands.collection" v-bind:key="command.id" class="profile-entry final-block">
                     {{ command.name }}
                     <span v-if="typeof command.points === 'object'">
                         ({{ command.selectedOption }})

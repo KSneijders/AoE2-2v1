@@ -32,4 +32,16 @@ function strFormat(str: string, ...args: string[]): string {
     return str.replace(/({\d+})/g, a => args[+(a.substr(1, a.length - 2)) || 0] );
 }
 
-export {strReplaceKeyValue, stripIllegalChars, strFormat}
+function formatSummary(summary: string[]): string {
+    if (!summary.length) return "";
+
+    console.log(summary)
+    if (summary.length === 1) {
+        return summary[0];
+    } else if (summary.length === 2) {
+        return summary.join(' & ');
+    }
+    return summary.slice(0, summary.length - 1).join(', ') + ' & ' + summary.slice(-1);
+}
+
+export {strReplaceKeyValue, stripIllegalChars, strFormat, formatSummary}

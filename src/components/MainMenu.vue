@@ -38,10 +38,8 @@ export default defineComponent({
     },
     props: {},
     mounted() {
-        // test
-        // this.gameModeStart();
+        this.gameModeStart();  // Todo: remove
     },
-    // data() {},
     computed: {
         ...mapState({
             gameModeStarted: (state) => (state as State).gameModeInfo.started,
@@ -53,10 +51,6 @@ export default defineComponent({
     methods: {
         gameModeStart: function (): void {
             this.$store.commit('gameModeStart')
-            // const {challenges, limiters} = await loadGameMode(this.$store.state.gameModeInfo.selectedGameMode.id)
-            // const cc = new ChallengeCollection(challenges, limiters, true)
-            // const rc = cc.getRandom()
-            // console.log(rc)
         }
     },
     watch: {}

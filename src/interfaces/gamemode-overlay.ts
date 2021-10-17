@@ -3,12 +3,13 @@ import {Challenge, Command} from "@/interfaces/policies";
 import ChallengeCollection from "@/classes/challenge-collection";
 import CommandCollection from "@/classes/command-collection";
 
-type TabData = string | boolean | Options<string> | ProfileEntry[] | ChallengeData | CommandData | undefined
+type TabData = string | number | boolean | Options<string> | ProfileEntry[] | ChallengeData | CommandData | undefined
 
 interface OverlayConfigData {
     [key: string]: TabData;
 
     players: ProfileEntry[];
+    points: number;
     maps: string;
     civs: Options<string>;
     challenges: ChallengeData;

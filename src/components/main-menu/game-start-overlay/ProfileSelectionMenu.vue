@@ -77,6 +77,11 @@ export default defineComponent({
 
             this.userProfile = ensure(this.profileEntries.find(pe => pe.id === 'default'));
             this.userLastSide = this.userProfile.side;
+
+            this.userProfile.side = Side.DEFENDANT;  // Todo: remove
+            this.profileEntries[1].side = Side.CHALLENGER;  // Todo: remove
+            this.profileEntries[2].side = Side.CHALLENGER;  // Todo: remove
+            this.emitProfileSelectionUpdate();  // Todo: remove
         });
     },
     data() {

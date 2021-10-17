@@ -26,6 +26,7 @@ import {PolicySelectionMode} from "@/enums/policies";
 import PolicySelectChoice from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicySelectChoice.vue";
 import {Challenge} from "@/interfaces/policies";
 import {getDefaultPolicyData, sortChallenges} from "@/scripts/policies";
+import {calculatePoints} from "@/scripts/points";
 
 export default defineComponent({
     name: "ChallengeSelectionMenu",
@@ -50,8 +51,6 @@ export default defineComponent({
     },
     async mounted() {
         const gmc: GameModeContent = this.$store.state.gameModeInfo.content;
-        const defendantProfileEntries = this.configData?.players.filter(p => p.side === Side.DEFENDANT);
-        const defendantProfiles: Profile[] = await window.fs.getProfiles(defendantProfileEntries.map(pe => pe.id));
 
         const choiceMode: boolean = this.selectionMode === PolicySelectionMode.CHOICE
         const rerollsMode: boolean = this.selectionMode === PolicySelectionMode.REROLLS
@@ -61,12 +60,11 @@ export default defineComponent({
         if ((choiceMode && optionsFound) || (rerollsMode && collectionFound)) {
             this.challenges = ensure(this.configData?.challenges);
         } else {
-            const points = sum(defendantProfiles.map(p => p.points)) / defendantProfiles.length;
             const civ: string = this.configData?.civs.options[this.configData.civs.choiceIndex];
 
             this.challenges = getDefaultPolicyData() as ChallengeData;
             this.challenges.cc = new ChallengeCollection(
-                gmc.challenges, gmc.limiters, points, civ, this.configData.maps, true
+                gmc.challenges, gmc.limiters, this.configData?.points, civ, this.configData.maps, true
             );
             this.initialise();
         }
@@ -93,7 +91,7 @@ export default defineComponent({
                     break;
                 case PolicySelectionMode.REROLLS:
                     this.challenges.collection = ensure(this.challenges?.cc?.getRandom());
-                    this.challenges.quantity = 9999;
+                    this.challenges.quantity = 3;
                     break;
             }
             this.updateTabData(this.challenges.collection.length > 0);

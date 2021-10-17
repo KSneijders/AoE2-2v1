@@ -18,6 +18,7 @@
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
 import {OverlayTab} from "@/enums/gamemode-overlay";
+import {sleep} from "@/scripts/other";
 
 export default defineComponent({
     name: "MapSelectionMenu",
@@ -29,11 +30,14 @@ export default defineComponent({
             default: () => ""
         }
     },
-    mounted() {
+    async mounted() {
+        while (!this.$store.state.gameModeInfo.content.maps) await sleep(20);  // Todo: remove
         const maps = this.$store.state.gameModeInfo.content.maps;
         this.maps = (maps?.length > 0) ? maps : this.$store.state.defaultGamemode.maps;
 
         if (this.initialTabData) this.selectedMap = this.maps.indexOf(this.initialTabData)
+
+        this.selectMap(0);   // Todo: remove
     },
     data() {
         return {

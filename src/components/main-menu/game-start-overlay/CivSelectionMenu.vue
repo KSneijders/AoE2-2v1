@@ -69,6 +69,8 @@ export default defineComponent({
 
             this.$emit('overlay-tab-data-update', OverlayTab.CIVS, this.selection.choiceIndex !== -1, this.selection);
         }
+
+        this.selectCiv(0);  // Todo: Remove
     },
     computed: {},
     methods: {
