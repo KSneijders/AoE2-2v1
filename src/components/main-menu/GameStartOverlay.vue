@@ -215,8 +215,6 @@ export default defineComponent({
             }
             this.validTabs[ltab] = valid;
             this.tabData[ltab] = payload;
-
-            if (valid) this.nextTab();  // Todo: remove
         }
     },
     watch: {}

@@ -38,7 +38,7 @@ export default defineComponent({
     },
     props: {},
     mounted() {
-        this.gameModeStart();  // Todo: remove
+        // this.gameModeStart();
     },
     computed: {
         ...mapState({
