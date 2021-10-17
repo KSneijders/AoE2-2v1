@@ -64,27 +64,31 @@ export default defineComponent({
 
     #reroll-button {
         position: absolute;
-        right: 0;
+        right: 10px;
         margin: 5px;
         padding: 5px;
         background: $GREEN_BG_NORMAL;
         border: 1px solid $GREEN_BORDER_COLOUR;
+        box-shadow: 0 2px 5px 1px #2f562d;
 
         user-select: none;
 
         &:hover {
             background: $GREEN_BG_HOVER;
             border: 1px solid $GREEN_BORDER_COLOUR_HOVER;
+            box-shadow: 0 2px 5px 1px #588653;
             cursor: pointer;
         }
 
         &.out-of-rolls {
             background: $RED_BG_NORMAL;
             border: 1px solid $RED_BORDER_COLOUR;
+            box-shadow: 0 2px 5px 1px #a41a1a;
 
             &:hover {
                 background: $RED_BG_HOVER;
                 border: 1px solid $RED_BORDER_COLOUR_HOVER;
+                box-shadow: 0 2px 5px 1px #e04e4e;
                 cursor: not-allowed;
             }
         }
