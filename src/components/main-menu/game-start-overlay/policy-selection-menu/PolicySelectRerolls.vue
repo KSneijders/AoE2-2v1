@@ -4,12 +4,7 @@
             Reroll Policies ({{ policies.quantity }})
         </div>
         <div id="policy-list" class="simple-white-scrollbar">
-            <div v-for="policy in policies.collection" v-bind:key="policy.id">
-                {{ policy.name }}
-                <span v-if="typeof policy.points === 'object'">
-                ({{ policy.selectedOption }})
-            </span>
-            </div>
+            <PolicyListView :policies="policies.collection"/>
         </div>
     </div>
 </template>
@@ -17,10 +12,13 @@
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
 import {ChallengeData, CommandData} from "@/interfaces/gamemode-overlay";
+import PolicyListView from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicyListView.vue";
 
 export default defineComponent({
     name: "PolicySelectRerolls",
-    components: {},
+    components: {
+        PolicyListView
+    },
     emits: ['reroll'],
     props: {
         policies: {

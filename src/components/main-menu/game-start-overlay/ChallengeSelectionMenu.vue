@@ -45,7 +45,7 @@ export default defineComponent({
             PolicySelectionMode: PolicySelectionMode, // For in-template usage
 
             challenges: {} as ChallengeData,
-            selectionMode: PolicySelectionMode.CHOICE
+            selectionMode: PolicySelectionMode.REROLLS
         }
     },
     async mounted() {
@@ -93,7 +93,7 @@ export default defineComponent({
                     break;
                 case PolicySelectionMode.REROLLS:
                     this.challenges.collection = ensure(this.challenges?.cc?.getRandom());
-                    this.challenges.quantity = 3;
+                    this.challenges.quantity = 9999;
                     break;
             }
             this.updateTabData(this.challenges.collection.length > 0);

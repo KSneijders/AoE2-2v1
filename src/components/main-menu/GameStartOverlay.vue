@@ -15,7 +15,8 @@
             <div id="exit-button" @click="cancelGameModeStart">x</div>
         </div>
         <div id="overlay-content">
-            <div id="summary-block" class="gamemode-box" v-if="currentTab !== tabs.indexOf('players')">
+            <div id="summary-block" class="gamemode-box"
+                 v-if="currentTab !== tabs.indexOf('players') && currentTab !== tabs.indexOf('final')">
                 <OverlaySummary :tabData="tabData"/>
             </div>
             <div id="player-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('players')">
@@ -51,8 +52,21 @@
                     @overlay-tab-data-update="overlayTabDataUpdate"
                 />
             </div>
+            <!-- ############### FINAL VIEWS ############### -->
+            <div id="final-view" v-if="currentTab === tabs.indexOf('final')">
+                <div id="defendant-final-view" class="gamemode-box" v-if="userProfile.side === Side.DEFENDANT">
+                    <DefendantFinalView
+                        :configData="tabData"
+                    />
+                </div>
+                <div id="challenger-final-view" class="gamemode-box" v-if="userProfile.side === Side.CHALLENGER">
+                    <ChallengerFinalView
+                        :configData="tabData"
+                    />
+                </div>
+            </div>
             <div v-if="tabIsValid(currentTab)" id="next-button" class="gamemode-box" @click="nextTab">
-                NEXT!
+                {{ currentTab + 1 !== tabs.indexOf('final') ? 'NEXT!' : 'FINISH!' }}
             </div>
         </div>
     </div>
@@ -72,6 +86,8 @@ import ChallengeSelectionMenu from "@/components/main-menu/game-start-overlay/Ch
 import {ProfileEntry} from "@/interfaces/profile";
 import CommandSelectionMenu from "@/components/main-menu/game-start-overlay/CommandSelectionMenu.vue";
 import {getDefaultPolicyData} from "@/scripts/policies";
+import DefendantFinalView from "@/components/main-menu/game-start-overlay/DefendantFinalView.vue";
+import ChallengerFinalView from "@/components/main-menu/game-start-overlay/ChallengerFinalView.vue";
 
 interface ValidTabs {
     [key: string]: boolean;
@@ -81,6 +97,7 @@ interface OverLayTabConfig {
     invalid: string[];
     challenger: string[];
     defendant: string[];
+    final: string[];
 }
 
 export default defineComponent({
@@ -91,11 +108,15 @@ export default defineComponent({
         OverlaySummary,
         ProfileSelectionMenu,
         ChallengeSelectionMenu,
-        CommandSelectionMenu
+        CommandSelectionMenu,
+        DefendantFinalView,
+        ChallengerFinalView,
     },
     props: {},
     data() {
         return {
+            Side: Side, // For in-template reference
+
             tabs: ['players'] as string[],
             validTabs: {} as ValidTabs,
             tabData: {} as OverlayConfigData,
@@ -103,8 +124,9 @@ export default defineComponent({
 
             tabConfig: {
                 invalid: ['players'],
-                challenger: ['players', 'maps', 'civs', 'challenges'],
-                defendant: ['players', 'maps', 'commands', 'civs'],
+                challenger: ['players', 'maps', 'civs', 'challenges', 'final'],
+                defendant: ['players', 'maps', 'commands', 'civs', 'final'],
+                final: ['final'],
             } as OverLayTabConfig,
         }
     },
@@ -144,11 +166,18 @@ export default defineComponent({
         },
         nextTab: function (): void {
             if (this.tabIsValid(this.currentTab)) {
-                this.currentTab++;
+                this.selectTab(this.currentTab + 1);
             }
         },
         selectTab: function (tabIndex: number): void {
             if (tabIndex <= this.tabProgress) {
+                if (this.tabs[tabIndex] === "final" && this.tabs[this.currentTab] !== "final") {
+                    if (!confirm("No changing after this!")) return;
+
+                    this.tabs = this.tabConfig.final;
+                    tabIndex = 0;
+                }
+
                 this.currentTab = tabIndex
             }
         },
