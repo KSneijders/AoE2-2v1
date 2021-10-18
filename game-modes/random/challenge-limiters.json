@@ -26,7 +26,7 @@
         "no_mills":                         ["no_mill_upgrades", "all_farms_must_touch_mill"],
         "no_market":                        ["no_stone", "send_resource_to_solo"],
         "no_university":                    ["no_ballistics", "get_murder_holes"],
-        "no_monastery":                     ["get_heresy", "sacrifice_10_monks"],
+        "no_monastery":                     ["get_heresy", "sacrifice_10_monks", "no_relics"],
         "no_eco_upgrades":                  ["no_mining_upgrades", "no_lumber_upgrades", "no_mill_upgrades", "no_wheelbarrow_line"],
         "disable_militia_line":             ["make_maa"],
         "disable_scout_line":               ["make_scouts"],
