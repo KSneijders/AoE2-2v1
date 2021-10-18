@@ -150,8 +150,18 @@ class ChallengeCollection {
             }
 
             if (cost <= spendable) {
-                const wildPointCost: number = Math.floor(this.points['wildPoints']/(this.points['wildPoints']+this.points[key])*cost)
-                const categoryPointCost: number = Math.ceil(this.points[key]/(this.points['wildPoints']+this.points[key])*cost)
+                const wildPoints: number = this.points['wildPoints'];
+                const catPoints: number = this.points[key];
+                const halfCost: number = Math.ceil(cost / 2);
+
+                let wildPointCost: number;
+                let categoryPointCost: number;
+                if (wildPoints > halfCost && catPoints > halfCost) {
+                    wildPointCost = categoryPointCost = halfCost;
+                } else {
+                    wildPointCost = Math.floor(wildPoints / (wildPoints + catPoints) * cost);
+                    categoryPointCost = Math.ceil(catPoints / (wildPoints + catPoints) * cost);
+                }
 
                 for (const limiterElement of this.limiters[challenge.id] || []) {
                     if (this.filteredOutChallenges.includes(limiterElement)) continue;
