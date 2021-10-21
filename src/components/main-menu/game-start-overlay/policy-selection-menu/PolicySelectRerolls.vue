@@ -4,7 +4,8 @@
             Reroll Policies ({{ policies.quantity }})
         </div>
         <div id="policy-list" class="simple-white-scrollbar">
-            <PolicyListView :policies="policies.collection"/>
+            <PolicyListView :policies="policies.collection"
+                            :policyType="policyType"/>
         </div>
     </div>
 </template>
@@ -24,6 +25,10 @@ export default defineComponent({
         policies: {
             type: Object as PropType<CommandData | ChallengeData>,
             default: () => new Object()
+        },
+        policyType: {
+            type: String as PropType<string>,
+            default: () => ""
         }
     },
     // data() {
@@ -68,14 +73,12 @@ export default defineComponent({
         margin: 5px;
         padding: 5px;
         background: $GREEN_BG_NORMAL;
-        border: 1px solid $GREEN_BORDER_COLOUR;
         box-shadow: 0 2px 5px 1px #2f562d;
 
         user-select: none;
 
         &:hover {
             background: $GREEN_BG_HOVER;
-            border: 1px solid $GREEN_BORDER_COLOUR_HOVER;
             box-shadow: 0 2px 5px 1px #588653;
             cursor: pointer;
         }

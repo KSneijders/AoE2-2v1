@@ -36,7 +36,7 @@ import {Side} from "@/enums/gamemode-overlay";
 import {ensure} from "@/scripts/arrays";
 
 export default defineComponent({
-    name: "FinalInfoScreen",
+    name: "FinalInfoView",
     components: {},
     props: {
         configData: {
@@ -59,7 +59,6 @@ export default defineComponent({
     },
     watch: {}
 })
-
 </script>
 
 <style scoped lang="scss">
@@ -77,6 +76,10 @@ export default defineComponent({
     td {
         text-transform: capitalize;
         padding: 2px 10px;
+    }
+
+    #game-end-button {
+
     }
 }
 </style>

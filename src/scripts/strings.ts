@@ -35,7 +35,6 @@ function strFormat(str: string, ...args: string[]): string {
 function formatSummary(summary: string[]): string {
     if (!summary.length) return "";
 
-    console.log(summary)
     if (summary.length === 1) {
         return summary[0];
     } else if (summary.length === 2) {

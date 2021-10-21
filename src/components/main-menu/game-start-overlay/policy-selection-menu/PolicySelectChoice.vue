@@ -7,7 +7,8 @@
              @click="clickedChoice(index)"
         >
             <div id="policy-list" class="simple-white-scrollbar">
-                <PolicyListView :policies="option"/>
+                <PolicyListView :policies="option"
+                                :policyType="policyType"/>
             </div>
         </div>
     </div>
@@ -45,7 +46,7 @@ export default defineComponent({
         }
     },
     async mounted() {
-        while (!this.policies?.cc) await sleep(20);
+        while (!this.policies?.cc) await sleep(100);
 
         if (this.policies.options.options.length === 0) {
             range(this.policies.quantity).forEach(() => {
@@ -61,9 +62,9 @@ export default defineComponent({
         sorted: function (): (Command[] | Challenge[])[] {
             switch (this.policyType) {
                 case "challenges":
-                    return this.options.options.map(o => sortChallenges(o))
+                    return this.options.options.map((o) => sortChallenges(o as Challenge[]))
                 case "commands":
-                    return this.options.options.map(o => sortCommands(o))
+                    return this.options.options.map(o => sortCommands(o as Command[]))
                 default:
                     return [];
             }

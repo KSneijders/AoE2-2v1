@@ -1,6 +1,6 @@
 <template>
     <div id="final-screen">
-        <FinalInfoScreen :config-data="configData"/>
+        <FinalInfoView :config-data="configData"/>
         <hr>
         <div id="command-overview">
             <h3>Commands</h3>
@@ -13,11 +13,14 @@
                             {{ command.name }}
                         </td>
                         <td>
-                            {{ this.commandUsage[command.id] }} / {{ command?.max_repeat || 1 }}
+                            {{ this.commandUsage[command.id] }} / {{ command?.maxRepeat || 1 }}
                         </td>
                     </tr>
                 </table>
             </div>
+        </div>
+        <div id="game-end-button-location">
+            <GameEndButton @game-end-clicked="$emit('game-end-clicked')"/>
         </div>
     </div>
 </template>
@@ -26,12 +29,15 @@
 import {defineComponent, PropType} from "vue";
 import {OverlayConfigData} from "@/interfaces/gamemode-overlay";
 import {Command} from "@/interfaces/policies";
-import FinalInfoScreen from "@/components/main-menu/game-start-overlay/final-view/FinalInfoScreen.vue";
+import FinalInfoView from "@/components/main-menu/game-start-overlay/final-view/FinalInfoView.vue";
+import GameEndButton from "@/components/main-menu/game-start-overlay/final-view/GameEndButton.vue";
 
 export default defineComponent({
     name: "DefendantFinalView",
+    emits: ["game-end-clicked"],
     components: {
-        FinalInfoScreen
+        FinalInfoView,
+        GameEndButton,
     },
     props: {
         configData: {
@@ -46,7 +52,7 @@ export default defineComponent({
     },
     mounted() {
         this.configData?.commands.collection.forEach(c => {
-            this.commandUsage[c.id] = c.max_repeat || 1;
+            this.commandUsage[c.id] = c.maxRepeat || 1;
         })
     },
     computed: {},
@@ -64,7 +70,7 @@ export default defineComponent({
 
             const usageLeft: number = this.commandUsage[command.id];
 
-            if (usageLeft + change >= 0 && usageLeft + change <= (command.max_repeat || 1)) {
+            if (usageLeft + change >= 0 && usageLeft + change <= (command.maxRepeat || 1)) {
                 this.commandUsage[command.id] += change;
             }
         }
@@ -75,7 +81,15 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+#game-end-button-location {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    margin: 5px;
+}
+
 #final-screen {
+    position: relative;
     height: 100%;
     width: 100%;
     padding: 10px;

@@ -16,7 +16,7 @@
         </div>
         <div id="overlay-content">
             <div id="summary-block" class="gamemode-box"
-                 v-if="currentTab !== tabs.indexOf('players') && currentTab !== tabs.indexOf('final')">
+                 v-if="currentTab !== tabs.indexOf('players') && currentTab !== tabs.indexOf('final')  && currentTab !== tabs.indexOf('game-end')">
                 <OverlaySummary :tabData="tabData"/>
             </div>
             <div id="player-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('players')">
@@ -57,16 +57,21 @@
                 <div id="defendant-final-view" class="gamemode-box" v-if="userProfile.side === Side.DEFENDANT">
                     <DefendantFinalView
                         :configData="tabData"
+                        @game-end-clicked="gameEndClicked"
                     />
                 </div>
                 <div id="challenger-final-view" class="gamemode-box" v-if="userProfile.side === Side.CHALLENGER">
                     <ChallengerFinalView
                         :configData="tabData"
+                        @game-end-clicked="gameEndClicked"
                     />
                 </div>
             </div>
             <div v-if="tabIsValid(currentTab)" id="next-button" class="gamemode-box" @click="nextTab">
                 {{ currentTab + 1 !== tabs.indexOf('final') ? 'NEXT!' : 'FINISH!' }}
+            </div>
+            <div id="game-end-view" class="gamemode-box" v-if="currentTab === tabs.indexOf('game-end')">
+                <GameEndView :configData="tabData"/>
             </div>
         </div>
     </div>
@@ -89,6 +94,7 @@ import {getDefaultPolicyData} from "@/scripts/policies";
 import DefendantFinalView from "@/components/main-menu/game-start-overlay/final-view/DefendantFinalView.vue";
 import ChallengerFinalView from "@/components/main-menu/game-start-overlay/final-view/ChallengerFinalView.vue";
 import {calculatePoints} from "@/scripts/points";
+import GameEndView from "@/components/main-menu/game-start-overlay/GameEndView.vue";
 
 interface ValidTabs {
     [key: string]: boolean;
@@ -99,6 +105,7 @@ interface OverLayTabConfig {
     challenger: string[];
     defendant: string[];
     final: string[];
+    gameEnd: string[];
 }
 
 export default defineComponent({
@@ -112,6 +119,7 @@ export default defineComponent({
         CommandSelectionMenu,
         DefendantFinalView,
         ChallengerFinalView,
+        GameEndView,
     },
     props: {},
     data() {
@@ -122,12 +130,14 @@ export default defineComponent({
             validTabs: {} as ValidTabs,
             tabData: {} as OverlayConfigData,
             currentTab: 0 as number,
+            finished: false as boolean,
 
             tabConfig: {
                 invalid: ['players'],
                 challenger: ['players', 'maps', 'civs', 'challenges', 'final'],
                 defendant: ['players', 'maps', 'civs', 'commands', 'final'],
                 final: ['final'],
+                gameEnd: ['game-end'],
             } as OverLayTabConfig,
         }
     },
@@ -215,6 +225,11 @@ export default defineComponent({
             }
             this.validTabs[ltab] = valid;
             this.tabData[ltab] = payload;
+        },
+        gameEndClicked(): void {
+            this.finished = true;
+            this.tabs = this.tabConfig.gameEnd;
+            this.currentTab = 0;
         }
     },
     watch: {}
@@ -280,6 +295,10 @@ export default defineComponent({
             #defendant-final-view, #challenger-final-view {
                 width: calc(100% - 20px);
             }
+        }
+
+        #game-end-view {
+            flex-grow: 1;
         }
 
         #next-button {

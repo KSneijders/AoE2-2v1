@@ -1,6 +1,6 @@
 <template>
     <div id="final-screen">
-        <FinalInfoScreen :config-data="configData"/>
+        <FinalInfoView :config-data="configData"/>
         <hr>
         <div id="challenge-overview">
             <h3>Challenges</h3>
@@ -31,6 +31,9 @@
                 </div>
             </div>
         </div>
+        <div id="game-end-button-location">
+            <GameEndButton @game-end-clicked="$emit('game-end-clicked')"/>
+        </div>
     </div>
 </template>
 
@@ -40,7 +43,8 @@ import {OverlayConfigData} from "@/interfaces/gamemode-overlay";
 import {Challenge} from "@/interfaces/policies";
 import {ensure} from "@/scripts/arrays";
 import {importImages} from "@/scripts/other";
-import FinalInfoScreen from "@/components/main-menu/game-start-overlay/final-view/FinalInfoScreen.vue";
+import FinalInfoView from "@/components/main-menu/game-start-overlay/final-view/FinalInfoView.vue";
+import GameEndButton from "@/components/main-menu/game-start-overlay/final-view/GameEndButton.vue";
 
 const images: Record<string, string> = importImages(
     require.context('/src/assets/images/', false, /\.(jpg|jpe?g|png|gif|webp)$/)
@@ -48,7 +52,7 @@ const images: Record<string, string> = importImages(
 
 export default defineComponent({
     name: "ChallengerFinalView",
-    components: {FinalInfoScreen},
+    components: {FinalInfoView, GameEndButton},
     props: {
         configData: {
             type: Object as PropType<OverlayConfigData>,
@@ -93,7 +97,6 @@ export default defineComponent({
         },
         challengeClicked(challenge: Challenge, age?: string): void {
             const identifier: string = this.getIdentifier(challenge, age);
-            console.log(identifier)
             this.challengeDone[identifier] = !this.challengeDone[identifier];
         },
         getChallengeDone(challenge: Challenge, age?: string): boolean {
@@ -107,7 +110,15 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+#game-end-button-location {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    margin: 5px;
+}
+
 #final-screen {
+    position: relative;
     height: 100%;
     width: 100%;
     padding: 10px;

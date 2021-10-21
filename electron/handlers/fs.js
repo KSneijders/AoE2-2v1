@@ -126,6 +126,21 @@ ipcMain.handle('fs:editProfile', (_, id, key, value) => {
     });
 });
 
+ipcMain.handle('fs:adjustProfilePoints', (_, id, value) => {
+    verifyCreateFolders();
+
+    return p(() => {
+        if (profileExists(id)) {
+            const profile = getProfile(id);
+            profile['points'] += value;
+            writeProfile(id, profile);
+            return true;
+        } else {
+            return false;
+        }
+    });
+});
+
 ipcMain.handle('fs:getProfileIds', () => {
     verifyCreateFolders();
 

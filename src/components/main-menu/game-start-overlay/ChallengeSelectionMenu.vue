@@ -3,7 +3,9 @@
         <div class="overlay-block-header">Challenges</div>
         <div class="overlay-block-content">
             <PolicySelectRerolls v-if="selectionMode === PolicySelectionMode.REROLLS"
-                                 :policies="challengeDataSorted" @reroll="clickedReroll"/>
+                                 :policies="challengeDataSorted"
+                                 :policyType="'challenges'"
+                                 @reroll="clickedReroll"/>
             <PolicySelectChoice v-if="selectionMode === PolicySelectionMode.CHOICE"
                                 :policies="challengeDataSorted"
                                 :policyType="'challenges'"
@@ -15,18 +17,17 @@
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
 import {ChallengeData, Options, OverlayConfigData} from "@/interfaces/gamemode-overlay";
-import {OverlayTab, Side} from "@/enums/gamemode-overlay";
+import {OverlayTab} from "@/enums/gamemode-overlay";
 import ChallengeCollection from "@/classes/challenge-collection";
 import {GameModeContent} from "@/interfaces/game-mode";
-import {Profile, ProfileEntry} from "@/interfaces/profile";
-import {ensure, sum} from "@/scripts/arrays";
+import {ProfileEntry} from "@/interfaces/profile";
+import {ensure} from "@/scripts/arrays";
 import PolicySelectRerolls
     from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicySelectRerolls.vue";
 import {PolicySelectionMode} from "@/enums/policies";
 import PolicySelectChoice from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicySelectChoice.vue";
 import {Challenge} from "@/interfaces/policies";
 import {getDefaultPolicyData, sortChallenges} from "@/scripts/policies";
-import {calculatePoints} from "@/scripts/points";
 
 export default defineComponent({
     name: "ChallengeSelectionMenu",

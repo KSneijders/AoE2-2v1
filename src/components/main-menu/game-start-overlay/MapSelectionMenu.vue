@@ -31,6 +31,8 @@ export default defineComponent({
         }
     },
     async mounted() {
+        while (!this.$store.state.gameModeInfo.content.maps) await sleep(100);
+
         const maps = this.$store.state.gameModeInfo.content.maps;
         this.maps = (maps?.length > 0) ? maps : this.$store.state.defaultGamemode.maps;
 

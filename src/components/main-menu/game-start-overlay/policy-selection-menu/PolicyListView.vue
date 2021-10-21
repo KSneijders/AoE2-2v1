@@ -12,11 +12,13 @@
                     <img v-bind:src="images['./castle.png']" v-if="policy?.classes?.includes('castle')" alt="">
                 </td>
                 <td>
-                    <span class="name" v-bind:class="{'game-changing': policy?.classes?.includes('game-changing')}">
-                        {{ policy.name }}
+                    <span v-if="policy?.selectedOption && !policyHasDisplay(policy)">
+                        {{ policy.selectedOption }}
                     </span>
-                    <span v-if="policy?.selectedOption">
-                        &nbsp;({{ policy.selectedOption }})
+                </td>
+                <td>
+                    <span class="name" v-bind:class="{'game-changing': policy?.classes?.includes('game-changing')}">
+                        {{ formatPolicy(policy) }}
                     </span>
                     <span v-if="policy?.desc" class="desc-available">
                         *
@@ -31,6 +33,7 @@
 import {defineComponent, PropType} from "vue";
 import {importImages} from "@/scripts/other";
 import {Challenge, Command} from "@/interfaces/policies";
+import {formatPolicy, policyHasDisplay} from "@/scripts/policies";
 
 const images: Record<string, string> = importImages(
     require.context('/src/assets/images/', false, /\.(jpg|jpe?g|png|gif|webp)$/)
@@ -43,7 +46,15 @@ export default defineComponent({
         policies: {
             type: Array as PropType<Challenge[] | Command[]>,
             default: () => []
+        },
+        policyType: {
+            type: String as PropType<string>,
+            default: () => ""
         }
+    },
+    methods: {
+        formatPolicy,
+        policyHasDisplay
     },
     data() {
         return {
@@ -58,6 +69,10 @@ export default defineComponent({
 table {
     tr {
         td {
+            &:not(:first-child) {
+                padding-right: 10px;
+            }
+
             img {
                 display: inline-block;
                 width: 20px;

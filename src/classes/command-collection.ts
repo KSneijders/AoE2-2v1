@@ -1,4 +1,4 @@
-import {CategoryPoints, Command, Commands, PointObject} from "@/interfaces/policies";
+import {CategoryPoints, Command, CommandPointsObject, Commands, PointRepeatObject} from "@/interfaces/policies";
 import {sample, shuffle} from "@/scripts/arrays";
 import {jsonDeepCopy} from "@/scripts/other";
 import {PolicyCategories} from "@/enums/policies";
@@ -96,17 +96,31 @@ class CommandCollection {
 
     private chooseFirstAllowedCommand(key: string, ignoreIndexes: IgnoreIndexes, indexProgress: CategoryPoints): Command | undefined {
         for (let i = indexProgress[key] + 1; i < this.commands[key].length; i++) {
-            if (ignoreIndexes[key].includes(i)) continue
+            if (ignoreIndexes[key].includes(i)) continue;
             indexProgress[key] = i;
 
             const command = this.commands[key][indexProgress[key]];
             let cost: number;
+            console.log(`1:: ${typeof command.points} => ${typeof command.points}`)
+            // Dropdown menu is used in command
             if (typeof command.points === "object") {
-                const selectedOption = this.selectRandomOption(command)
-                if (selectedOption === undefined) continue
-                cost = command.points[selectedOption]
+                const selectedOptionKey = this.selectRandomOption(command);
+                console.log(`Key: '${selectedOptionKey}'`)
+                if (selectedOptionKey === undefined) continue;
+                const selectedOption = command.points[selectedOptionKey];
+
+                // Dropdown menu is also repeat menu
+                console.log(`1:: ${selectedOption} ==> ${typeof selectedOption}`)
+                if (typeof selectedOption === "object") {
+                    const selectedOptionObj: PointRepeatObject = (selectedOption as PointRepeatObject);
+                    command.maxRepeat = selectedOptionObj.repeat
+                    console.log(command.maxRepeat)
+                    cost = selectedOptionObj.cost
+                } else {
+                    cost = command.points[selectedOptionKey] as number;
+                }
             } else {
-                cost = command.points
+                cost = command.points;
             }
 
             if (cost <= this.points) {
@@ -119,8 +133,15 @@ class CommandCollection {
     }
 
     private selectRandomOption(command: Command): string {
-        let options = Object.keys(command.points as PointObject)
-        options = options.filter(k => (command.points as PointObject)[k] <= this.points)
+        const pointObject: CommandPointsObject = (command.points as CommandPointsObject)
+
+        let options: string[] = Object.keys(pointObject)
+        options = options.filter(k => {
+            const optionValue = pointObject[k];
+            if (typeof optionValue === 'number')
+                return optionValue <= this.points;
+            return optionValue.cost <= this.points;
+        })
         return command.selectedOption = sample(options);
     }
 }

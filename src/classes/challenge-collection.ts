@@ -1,4 +1,4 @@
-import {CategoryPoints, Challenge, Challenges, PointObject, Points} from "@/interfaces/policies";
+import {CategoryPoints, Challenge, Challenges, ChallengePointsObject, Points} from "@/interfaces/policies";
 import {randomPoints} from "@/scripts/points";
 import {sample, shuffle} from "@/scripts/arrays";
 import {jsonDeepCopy} from "@/scripts/other";
@@ -187,8 +187,8 @@ class ChallengeCollection {
     }
 
     private selectRandomOption(key: string, challenge: Challenge): string {
-        let options = Object.keys(challenge.points as PointObject)
-        options = options.filter(k => (challenge.points as PointObject)[k] <= this.getSpendable(key))
+        let options = Object.keys(challenge.points as ChallengePointsObject)
+        options = options.filter(k => (challenge.points as ChallengePointsObject)[k] <= this.getSpendable(key))
         return challenge.selectedOption = sample(options);
     }
 }

@@ -4,6 +4,7 @@
         <div class="overlay-block-content">
             <PolicySelectRerolls v-if="selectionMode === PolicySelectionMode.REROLLS"
                                  :policies="commandDataSorted"
+                                 :policyType="'commands'"
                                  @reroll="clickedReroll"/>
             <PolicySelectChoice v-if="selectionMode === PolicySelectionMode.CHOICE"
                                 :policies="commandDataSorted"

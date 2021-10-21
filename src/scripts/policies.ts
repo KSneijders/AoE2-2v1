@@ -2,6 +2,8 @@ import {ChallengeData, CommandData} from "@/interfaces/gamemode-overlay";
 import {Challenge, Command} from "@/interfaces/policies";
 import {jsonDeepCopy} from "@/scripts/other";
 import {classValues} from "@/data/policies";
+import {strFormat} from "@/scripts/strings";
+import {ensure} from "@/scripts/arrays";
 
 function getDefaultPolicyData(): ChallengeData | CommandData {
     return {
@@ -40,4 +42,26 @@ function sortCommands(commands: Command[]): Command[] {
     return jsonDeepCopy(commands).sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export {getDefaultPolicyData, sortChallenges, sortCommands}
+/**
+ * If a policy has a valid display value and selected option
+ *
+ * @param policy The policy that can('t) be formatted
+ */
+function policyHasDisplay(policy: Command | Challenge): boolean {
+    return !!policy.selectedOption && !!policy.display;
+}
+
+/**
+ * Format a policy based on it's display value and selected option
+ *
+ * @param policy The policy to format
+ */
+function formatPolicy(policy: Command | Challenge): string {
+    if (!policyHasDisplay(policy)) return policy.name;
+    return strFormat(
+        ensure(policy.display),
+        ensure(policy.selectedOption)
+    )
+}
+
+export {getDefaultPolicyData, sortChallenges, sortCommands, formatPolicy, policyHasDisplay}
