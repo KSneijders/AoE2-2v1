@@ -41,12 +41,12 @@ export default defineComponent({
         loadGameMode('default').then(gamemodeContent => this.$store.state.defaultGamemode = gamemodeContent)
     },
     methods: {
-        updateTab: function (tab: LayoutTab) {
+        updateTab (tab: LayoutTab) {
             this.selectedTab = tab;
         }
     },
     computed: {
-        backgroundImage: function (): string {
+        backgroundImage (): string {
             return `linear-gradient(to bottom right, rgba(44, 80, 57, 1), rgba(82,121,67,0.8)), url('${this.selectedTab.image}')`
         }
     },

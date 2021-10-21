@@ -149,7 +149,7 @@ export default defineComponent({
         ...mapGetters({
             gamemodeName: 'selectedGameModeTitle'
         }),
-        tabProgress: function (): number {
+        tabProgress (): number {
             let progress = 0;
             for (const i of range(this.tabs.length)) {
                 if (!this.tabIsValid(i)) return progress;
@@ -157,15 +157,15 @@ export default defineComponent({
             }
             return progress;
         },
-        playerTabSwitchConfirmRequired: function (): boolean {
+        playerTabSwitchConfirmRequired (): boolean {
             return (this.tabData.maps !== "");
         },
-        userProfile: function (): ProfileEntry | undefined {
+        userProfile (): ProfileEntry | undefined {
             return this.tabData.players.find(pe => pe.id === 'default');
         }
     },
     methods: {
-        resetTabData: function (): void {
+        resetTabData (): void {
             this.tabs.forEach(tab => this.validTabs[tab] = false);
             this.tabData = {
                 players: [],
@@ -176,12 +176,12 @@ export default defineComponent({
                 commands: getDefaultPolicyData() as CommandData,
             }
         },
-        nextTab: function (): void {
+        nextTab (): void {
             if (this.tabIsValid(this.currentTab)) {
                 this.selectTab(this.currentTab + 1);
             }
         },
-        selectTab: function (tabIndex: number): void {
+        selectTab (tabIndex: number): void {
             if (tabIndex <= this.tabProgress) {
                 if (this.tabs[tabIndex] === "final" && this.tabs[this.currentTab] !== "final") {
                     if (!confirm("After going to the final tab, you cannot go back!\nAre you sure?")) return;
@@ -193,16 +193,16 @@ export default defineComponent({
                 this.currentTab = tabIndex
             }
         },
-        tabIsValid: function (tabIndex: number): boolean {
+        tabIsValid (tabIndex: number): boolean {
             return this.validTabs[this.tabs[tabIndex]];
         },
-        cancelGameModeStart: function (): void {
+        cancelGameModeStart (): void {
             if (this.tabs[this.currentTab] === 'final') return;
 
             if (confirm("Are you sure you want to exit gamemode setup?\nAll progress will be lost."))
                 this.$store.commit('gameModeEnd')
         },
-        overlayTabDataUpdate: function (tab: string, valid: boolean, payload: TabData): void {
+        overlayTabDataUpdate (tab: string, valid: boolean, payload: TabData): void {
             const ltab: string = tab.toLowerCase();
 
             if (tab === OverlayTab.PLAYERS) {

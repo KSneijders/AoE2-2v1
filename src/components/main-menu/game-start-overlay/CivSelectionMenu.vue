@@ -72,7 +72,7 @@ export default defineComponent({
     },
     computed: {},
     methods: {
-        selectCiv: function(civIndex: number) {
+        selectCiv(civIndex: number) {
             this.selectedCiv = this.selection.choiceIndex = civIndex;
             this.$emit('overlay-tab-data-update', OverlayTab.CIVS, true, this.selection);
         }

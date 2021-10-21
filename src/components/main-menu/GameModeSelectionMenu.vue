@@ -38,12 +38,12 @@ export default defineComponent({
         }
     },
     computed: {
-        gameModes: function (): Record<string, GameModeMenuItem> {
+        gameModes (): Record<string, GameModeMenuItem> {
             return GameModes;
         }
     },
     methods: {
-        selectGameMode: function (key: string): void {
+        selectGameMode (key: string): void {
             if (this.selectedGameModeKey === key) key = "";
             this.selectedGameModeKey = key;
             this.$store.commit('selectGameMode', GameModes[key])

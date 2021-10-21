@@ -49,7 +49,7 @@ export default defineComponent({
     },
     computed: {},
     methods: {
-        selectTab: function (index: number): void {
+        selectTab (index: number): void {
             this.selectedTab = index;
             this.$emit('tab-select', this.tabs[index]);
         }

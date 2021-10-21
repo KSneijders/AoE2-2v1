@@ -71,7 +71,7 @@ export default defineComponent({
         }
     },
     computed: {
-        commandDataSorted: function(): CommandData {
+        commandDataSorted(): CommandData {
             return {
                 collection: sortCommands(this.commands.collection),
                 cc: this.commands.cc as CommandCollection,
@@ -81,7 +81,7 @@ export default defineComponent({
         }
     },
     methods: {
-        initialise: function (): void {
+        initialise(): void {
             switch (this.selectionMode) {
                 case PolicySelectionMode.CHOICE:
                     this.commands.collection = [];
@@ -94,21 +94,21 @@ export default defineComponent({
             }
             this.updateTabData(this.commands.collection.length > 0);
         },
-        clickedReroll: function (): void {
+        clickedReroll(): void {
             if (this.commands.cc && this.commands.quantity > 0) {
                 this.commands.collection = this.commands.cc.reroll();
                 this.commands.quantity--;
                 this.updateTabData(true);
             }
         },
-        saveOptions: function (options: Options<Command[]>): void {
+        saveOptions(options: Options<Command[]>): void {
             this.commands.options = options;
             if (options.choiceIndex !== -1) {
                 this.commands.collection = options.options[options.choiceIndex]
             }
             this.updateTabData(options.choiceIndex !== -1);
         },
-        updateTabData: function (valid = true): void {
+        updateTabData(valid = true): void {
             this.$emit('overlay-tab-data-update', OverlayTab.COMMANDS, valid, this.commandDataSorted)
         }
     },

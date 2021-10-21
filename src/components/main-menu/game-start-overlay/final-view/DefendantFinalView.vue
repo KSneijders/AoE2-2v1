@@ -57,7 +57,7 @@ export default defineComponent({
     },
     computed: {},
     methods: {
-        commandClicked: function (event: MouseEvent, command: Command): void {
+        commandClicked (event: MouseEvent, command: Command): void {
             let change = 0;
             switch (event.button) {
                 case 0:   // LMB

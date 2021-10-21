@@ -71,10 +71,10 @@ export default defineComponent({
         }
     },
     computed: {
-        userProfile: function (): ProfileEntry {
+        userProfile (): ProfileEntry {
             return this.configData.players.filter(p => p.id === 'default')[0];
         },
-        challengeDataSorted: function (): ChallengeData {
+        challengeDataSorted (): ChallengeData {
             return {
                 collection: sortChallenges(this.challenges.collection),
                 cc: this.challenges.cc as ChallengeCollection,
@@ -84,7 +84,7 @@ export default defineComponent({
         }
     },
     methods: {
-        initialise: function (): void {
+        initialise (): void {
             switch (this.selectionMode) {
                 case PolicySelectionMode.CHOICE:
                     this.challenges.collection = [];
@@ -97,21 +97,21 @@ export default defineComponent({
             }
             this.updateTabData(this.challenges.collection.length > 0);
         },
-        clickedReroll: function (): void {
+        clickedReroll (): void {
             if (this.challenges.cc && this.challenges.quantity > 0) {
                 this.challenges.collection = this.challenges.cc.reroll();
                 this.challenges.quantity--;
                 this.updateTabData(true);
             }
         },
-        saveOptions: function (options: Options<Challenge[]>): void {
+        saveOptions (options: Options<Challenge[]>): void {
             this.challenges.options = options;
             if (options.choiceIndex !== -1) {
                 this.challenges.collection = options.options[options.choiceIndex]
             }
             this.updateTabData(options.choiceIndex !== -1);
         },
-        updateTabData: function (valid = true): void {
+        updateTabData (valid = true): void {
             this.$emit('overlay-tab-data-update', OverlayTab.CHALLENGES, valid, this.challengeDataSorted)
         }
     },

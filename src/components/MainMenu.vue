@@ -49,7 +49,7 @@ export default defineComponent({
         })
     },
     methods: {
-        gameModeStart: function (): void {
+        gameModeStart (): void {
             this.$store.commit('gameModeStart')
         }
     },

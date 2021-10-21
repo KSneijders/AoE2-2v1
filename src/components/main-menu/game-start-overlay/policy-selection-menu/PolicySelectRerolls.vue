@@ -39,7 +39,7 @@ export default defineComponent({
     },
     computed: {},
     methods: {
-        clickedReroll: function (): void {
+        clickedReroll (): void {
             if (this.policies.quantity > 0) {
                 this.$emit('reroll');
             }

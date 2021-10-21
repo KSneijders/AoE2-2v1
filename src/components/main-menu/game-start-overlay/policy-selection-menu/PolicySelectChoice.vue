@@ -59,7 +59,7 @@ export default defineComponent({
         }
     },
     computed: {
-        sorted: function (): (Command[] | Challenge[])[] {
+        sorted (): (Command[] | Challenge[])[] {
             switch (this.policyType) {
                 case "challenges":
                     return this.options.options.map((o) => sortChallenges(o as Challenge[]))
@@ -71,11 +71,11 @@ export default defineComponent({
         }
     },
     methods: {
-        clickedChoice: function (choiceIndex: number): void {
+        clickedChoice (choiceIndex: number): void {
             this.selectedOption = this.options.choiceIndex = choiceIndex;
             this.emitOptions();
         },
-        emitOptions: function (): void {
+        emitOptions (): void {
             this.$emit('options', this.options);
         }
     },

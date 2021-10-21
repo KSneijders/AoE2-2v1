@@ -71,10 +71,10 @@ export default defineComponent({
     },
     // data() {},
     computed: {
-        defendants: function (): ProfileEntry[] {
+        defendants (): ProfileEntry[] {
             return this.tabData?.players.filter(e => e.side === Side.DEFENDANT)
         },
-        challengers: function (): ProfileEntry[] {
+        challengers (): ProfileEntry[] {
             return this.tabData?.players.filter(e => e.side === Side.CHALLENGER)
         },
     },

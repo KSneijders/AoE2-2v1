@@ -89,21 +89,21 @@ export default defineComponent({
         }
     },
     computed: {
-        defendants: function (): ProfileEntry[] {
+        defendants (): ProfileEntry[] {
             return this.profileEntries.filter(e => e.side === Side.DEFENDANT)
         },
-        challengers: function (): ProfileEntry[] {
+        challengers (): ProfileEntry[] {
             return this.profileEntries.filter(e => e.side === Side.CHALLENGER)
         },
-        selectedEntries: function (): ProfileEntry[] {
+        selectedEntries (): ProfileEntry[] {
             return this.profileEntries.filter(e => e.side !== Side.NONE)
         },
     },
     methods: {
-        profileReset: function(profileEntry: ProfileEntry): void {
+        profileReset(profileEntry: ProfileEntry): void {
             this.handleProfileChange(profileEntry, Side.NONE);
         },
-        profileClicked: function (profileEntry: ProfileEntry, event: MouseEvent): void {
+        profileClicked (profileEntry: ProfileEntry, event: MouseEvent): void {
             let side = undefined;
             switch (event.button) {
                 case 0:   // LMB
@@ -119,7 +119,7 @@ export default defineComponent({
             const newSide: Side = profileEntry.side === side ? Side.NONE : side;
             this.handleProfileChange(profileEntry, newSide);
         },
-        handleProfileChange: function(profileEntry: ProfileEntry, newSide: Side): void {
+        handleProfileChange(profileEntry: ProfileEntry, newSide: Side): void {
             const choice = this.verifyUserSwitch(profileEntry, newSide);
             if (choice === true || choice === undefined) {
                 profileEntry.side = newSide;
@@ -130,11 +130,11 @@ export default defineComponent({
                 this.emitProfileSelectionUpdate();
             }
         },
-        emitProfileSelectionUpdate: function (): void {
+        emitProfileSelectionUpdate (): void {
             const valid: boolean = this.isValidSelection();
             this.$emit('overlay-tab-data-update', OverlayTab.PLAYERS, valid, this.selectedEntries);
         },
-        isValidSelection: function (): boolean {
+        isValidSelection (): boolean {
             return (this.defendants.length > 0 && this.challengers.length > 0) &&
                 this.selectedEntries.filter(pe => pe.id === 'default').length === 1;
         },
