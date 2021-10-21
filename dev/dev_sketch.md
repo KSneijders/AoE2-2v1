@@ -76,7 +76,7 @@ A set of rules that define how the app functions.
         'vills':    [5, 7],
         'military': [4, 6]
     },
-    'max_repeat': 2,
+    'maxRepeat': 2,
     'classes': [''],
     'civs': [''],
     'maps': ['']

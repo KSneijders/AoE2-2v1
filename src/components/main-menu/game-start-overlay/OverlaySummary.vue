@@ -1,7 +1,7 @@
 <template>
     <div id="summary-wrapper">
         <div class="overlay-block-header">Summary</div>
-        <div class="overlay-block-content">
+        <div class="overlay-block-content simple-white-scrollbar">
             <div id="player-summary" class="summary-entry">
                 <h5>Players</h5>
                 <div class="vs">VS</div>
@@ -22,9 +22,27 @@
                 <h5>Map</h5>
                 <p>{{ tabData.maps }}</p>
             </div>
-            <div id="civ-summary" class="summary-entry" v-if="tabData.civs.civChoice !== ''">
+            <div id="civ-summary" class="summary-entry" v-if="tabData.civs.choiceIndex !== -1">
                 <h5>Civ</h5>
-                <p>{{ tabData.civs.civChoice }}</p>
+                <p>{{ tabData.civs.options[tabData.civs.choiceIndex] }}</p>
+            </div>
+            <div id="challenge-summary" class="summary-entry" v-if="tabData.challenges?.collection?.length !== 0">
+                <h5>Challenges</h5>
+                <div v-for="challenge in tabData.challenges.collection" v-bind:key="challenge.id" class="profile-entry final-block">
+                    {{ challenge.name }}
+                    <span v-if="typeof challenge.points === 'object'">
+                        ({{ challenge.selectedOption }})
+                    </span>
+                </div>
+            </div>
+            <div id="command-summary" class="summary-entry" v-if="tabData.commands?.collection?.length !== 0">
+                <h5>Commands</h5>
+                <div v-for="command in tabData.commands.collection" v-bind:key="command.id" class="profile-entry final-block">
+                    {{ command.name }}
+                    <span v-if="typeof command.points === 'object'">
+                        ({{ command.selectedOption }})
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -32,17 +50,20 @@
 
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
-import {OverlayTabData} from "@/interfaces/gamemode-overlay";
+import {OverlayConfigData} from "@/interfaces/gamemode-overlay";
 import {Side} from "@/enums/gamemode-overlay";
 import {ProfileEntry} from "@/interfaces/profile";
 
 export default defineComponent({
     name: "OverlaySummary",
     components: {},
+    emits: ['overlay-tab-data-update'],
     props: {
         tabData: {
-            type: Object as PropType<OverlayTabData>,
-            default: () => {return {}}
+            type: Object as PropType<OverlayConfigData>,
+            default: () => {
+                return {}
+            }
         }
     },
     mounted() {
@@ -50,10 +71,10 @@ export default defineComponent({
     },
     // data() {},
     computed: {
-        defendants: function (): ProfileEntry[] {
+        defendants (): ProfileEntry[] {
             return this.tabData?.players.filter(e => e.side === Side.DEFENDANT)
         },
-        challengers: function (): ProfileEntry[] {
+        challengers (): ProfileEntry[] {
             return this.tabData?.players.filter(e => e.side === Side.CHALLENGER)
         },
     },
@@ -68,7 +89,7 @@ export default defineComponent({
     overflow-y: hidden;
 
     .summary-entry {
-        border-bottom: 2px solid $BORDER_COLOUR;
+        border-bottom: 2px solid $BLUE_BORDER_COLOUR;
         text-align: center;
 
         h5 {
@@ -83,7 +104,8 @@ export default defineComponent({
         }
     }
 
-    #map-summary, #civ-summary {}
+    #map-summary, #civ-summary {
+    }
 
     #player-summary {
         .profiles {

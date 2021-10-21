@@ -3,7 +3,7 @@
         <div class="overlay-block-header">Civs</div>
         <div class="overlay-block-content">
             <div id="civ-list" class="simple-white-scrollbar">
-                <div v-for="(civ, index) in selection.civOptions"
+                <div v-for="(civ, index) in selection.options"
                      v-bind:key="civ"
                      class="civ-entry"
                      v-bind:class="{selected: selectedCiv === index}"
@@ -17,42 +17,63 @@
 
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
-import {CivSelection} from "@/interfaces/gamemode-overlay";
+import {Options} from "@/interfaces/gamemode-overlay";
 import {OverlayTab} from "@/enums/gamemode-overlay";
 import {getRandomCivs} from "@/scripts/civs";
+import {ProfileEntry} from "@/interfaces/profile";
+
+interface ChoiceCount {
+    [key: string]: number;
+
+    challenger: number;
+    defendant: number;
+}
 
 export default defineComponent({
     name: "CivSelectionMenu",
     components: {},
+    emits: ['overlay-tab-data-update'],
     props: {
         initialTabData: {
-            type: Object as PropType<CivSelection>,
-            default: () => { return {} }
-        }
-    },
-    mounted() {
-        if (this.initialTabData.civOptions.length > 0) {
-            this.selection = this.initialTabData;
-            this.selectedCiv = this.selection.civOptions.indexOf(this.selection.civChoice);
-        } else {
-            this.selection.civOptions = getRandomCivs(3);
-            this.selection.civChoice = "";
-
-            this.$emit('overlay-tab-data-update', OverlayTab.CIVS, false, this.selection);
+            type: Object as PropType<Options<string>>,
+            default: () => new Object()
+        },
+        userProfile: {
+            type: Object as PropType<ProfileEntry>,
+            default: () => new Object()
         }
     },
     data() {
         return {
-            civs: [] as string[],
+            choiceCount: {
+                challenger: 1,
+                defendant: 3,
+            } as ChoiceCount,
             selectedCiv: -1 as number,
-            selection: {} as CivSelection,
+            selection: {} as Options<string>,
+        }
+    },
+    mounted() {
+        const choiceCount: number = this.choiceCount[this.userProfile.side.toLowerCase()];
+
+        if (this.initialTabData?.options.length > 0) {
+            this.selection = this.initialTabData;
+            this.selectedCiv = this.selection.choiceIndex;
+        } else {
+            this.selection.options = getRandomCivs(choiceCount).sort();
+            this.selection.choiceIndex = -1;
+            
+            if (this.selection.options.length === 1) {
+                this.selection.choiceIndex = this.selectedCiv = 0;
+            }
+
+            this.$emit('overlay-tab-data-update', OverlayTab.CIVS, this.selection.choiceIndex !== -1, this.selection);
         }
     },
     computed: {},
     methods: {
-        selectCiv: function(civIndex: number) {
-            this.selectedCiv = civIndex;
-            this.selection.civChoice = this.selection.civOptions[civIndex];
+        selectCiv(civIndex: number) {
+            this.selectedCiv = this.selection.choiceIndex = civIndex;
             this.$emit('overlay-tab-data-update', OverlayTab.CIVS, true, this.selection);
         }
     },

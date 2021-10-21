@@ -19,6 +19,7 @@ import layoutTabs from "@/interfaces/layout-tabs";
 export default defineComponent({
     name: "Tabs",
     components: {},
+    emits: ['tab-select'],
     props: {},
     mounted() {
         this.selectTab(0);
@@ -48,7 +49,7 @@ export default defineComponent({
     },
     computed: {},
     methods: {
-        selectTab: function (index: number): void {
+        selectTab (index: number): void {
             this.selectedTab = index;
             this.$emit('tab-select', this.tabs[index]);
         }

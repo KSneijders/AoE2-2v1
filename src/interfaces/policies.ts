@@ -27,12 +27,13 @@ interface Commands {
 }
 
 interface Challenge {
-    [key: string]: string | string[] | number | PointObject | undefined;
+    [key: string]: string | string[] | number | ChallengePointsObject | undefined;
 
     id: string;
     name: string;
-    points: number | PointObject;
+    points: number | ChallengePointsObject;
     selectedOption?: string;  // Added key to show which of PointObject was chosen
+    display?: string;
     desc?: string;
     'dev-desc'?: string;
     classes?: string[];
@@ -40,24 +41,33 @@ interface Challenge {
     maps?: string[];
 }
 
+interface ChallengePointsObject {
+    [key: string]: number;
+}
+
 interface Command {
     id: string;
     name: string;
-    points: number | PointCommandObject;
-    max_repeat?: number;
+    points: number | CommandPointsObject;
+    selectedOption?: string;  // Added key to show which of PointObject was chosen
+    display?: string;
+    maxRepeat?: number;
     desc?: string;
-    dev_desc?: string;
+    'dev-desc'?: string;
     classes?: string[];
     civs?: string[];
     maps?: string[];
 }
 
-interface PointObject {
-    [key: string]: number;
+interface CommandPointsObject {
+    [key: string]: number | PointRepeatObject;
 }
 
-interface PointCommandObject {
-    [key: string]: number | number[];
+interface PointRepeatObject {
+    [key: string]: string | number;
+
+    cost: number;
+    repeat: number;
 }
 
 interface Points {
@@ -81,6 +91,10 @@ interface CategoryPoints {
     miscellaneous: number;
 }
 
-export {Policies, Challenges, Challenge, Commands, Command, PointObject, PointCommandObject, Points, CategoryPoints}
+export {
+    Policies, Challenges, Challenge, Commands, Command,
+    ChallengePointsObject, CommandPointsObject, PointRepeatObject,
+    Points, CategoryPoints
+}
 
 

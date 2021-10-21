@@ -1,5 +1,7 @@
 import {Points} from "@/interfaces/policies";
 import {createArray, sum} from "@/scripts/arrays";
+import {Profile, ProfileEntry} from "@/interfaces/profile";
+import {Side} from "@/enums/gamemode-overlay";
 
 /**
  * Generate random points based on total and wild point percentage
@@ -28,4 +30,15 @@ function randomPoints(totalPoints: number, wildPointPercentage: number): Points 
     } as Points
 }
 
-export {randomPoints}
+/**
+ * Calculates the points of a team of defendants
+ *
+ * @param pes A list of profile entries where challengers are filtered out
+ */
+async function calculatePoints(pes: ProfileEntry[]): Promise<number> {
+    const defendantProfileEntries = pes.filter(p => p.side === Side.DEFENDANT);
+    const defendantProfiles: Profile[] = await window.fs.getProfiles(defendantProfileEntries.map(pe => pe.id));
+    return Math.floor(sum(defendantProfiles.map(p => p.points)) / defendantProfiles.length);
+}
+
+export {randomPoints, calculatePoints}

@@ -77,13 +77,13 @@ export default defineComponent({
         }
     },
     computed: {
-        selectedProfile: function (): Profile | undefined {
+        selectedProfile (): Profile | undefined {
             if (this.selectedProfileIndex === -1) return;
             return this.profiles[this.selectedProfileIndex];
         }
     },
     methods: {
-        removeProfile: function(): void {
+        removeProfile(): void {
             if (!this.selectedProfile || this.selectedProfile.id === 'default') return
             if (!confirm(`Are you sure you want to remove the ${this.selectedProfile.name} profile?`)) return;
 
@@ -95,7 +95,7 @@ export default defineComponent({
                 }
             })
         },
-        updateValue: function ($event: KeyboardEvent, key: string): void {
+        updateValue ($event: KeyboardEvent, key: string): void {
             let value: string | null = ($event.target as HTMLInputElement).value;
             if (!value || !this.selectedProfile) return;
 
@@ -113,7 +113,7 @@ export default defineComponent({
                 }
             })
         },
-        submitNewProfile: function($event: Event) {
+        submitNewProfile($event: Event) {
             const target: HTMLFormElement = $event.target as HTMLFormElement
             const nameInput: HTMLInputElement = target[0] as HTMLInputElement
             const pointInput: HTMLInputElement = target[1] as HTMLInputElement
@@ -141,7 +141,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .block {
-    border: 3px solid $BORDER_COLOUR;
+    border: 3px solid $BLUE_BORDER_COLOUR;
     background: $LIGHT_BLUE_BG;
     display: inline-block;
     padding: 10px;

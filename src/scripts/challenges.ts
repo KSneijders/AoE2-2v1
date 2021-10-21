@@ -16,8 +16,18 @@ async function loadModifiers(gameMode: string): Promise<Modifiers> {
     }
 }
 
+/**
+ * Loads a gamemode based on it's name. Returns the settings for:
+ * - Challenges
+ * - Commands
+ * - Limiters
+ * - Maps
+ *
+ * @param gameMode The gamemode to load
+ */
 async function loadGameMode(gameMode: string): Promise<GameModeContent> {
     const challenges = await window.axios.getChallenges(gameMode);
+    const commands = await window.axios.getCommands(gameMode);
     const onlineLimiters = await window.axios.getChallengeLimiters(gameMode);
     const maps = await window.axios.getMaps(gameMode);
     const modifiers = await loadModifiers(gameMode);
@@ -86,6 +96,7 @@ async function loadGameMode(gameMode: string): Promise<GameModeContent> {
 
     return {
         challenges: challenges,
+        commands: commands,
         limiters: limiters,
         maps: maps
     }

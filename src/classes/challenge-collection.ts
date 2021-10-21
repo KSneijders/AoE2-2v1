@@ -1,8 +1,9 @@
-import {CategoryPoints, Challenge, Challenges, PointObject, Points} from "@/interfaces/policies";
+import {CategoryPoints, Challenge, Challenges, ChallengePointsObject, Points} from "@/interfaces/policies";
 import {randomPoints} from "@/scripts/points";
 import {sample, shuffle} from "@/scripts/arrays";
 import {jsonDeepCopy} from "@/scripts/other";
 import {Limiters} from "@/interfaces/limiters";
+import {PolicyCategories} from "@/enums/policies";
 
 interface ChallengeIdMap {
     [key: string]: (string | number)[];
@@ -14,25 +15,71 @@ interface IgnoreIndexes {
 
 class ChallengeCollection {
     private readonly maxIterations = 1000;
-    private readonly points: Points;
-    private readonly challengeIdMap: ChallengeIdMap;
 
-    readonly challenges: Challenges;
+    private readonly initialChallenges: Challenges;
+    private readonly initialPoints: number;
+    private readonly map: string;
+    private readonly civ: string;
+
     readonly limiters: Limiters;
 
+    private filteredOutChallenges: string[];
+    private challengeIdMap: ChallengeIdMap;
     private shuffled: boolean;
 
-    constructor(challenges: Challenges, limiters: Limiters, shuffle = false) {
+    challenges: Challenges;
+    points: Points;
+
+    constructor(challenges: Challenges, limiters: Limiters, points: number, civ = "", map = "", shuffle = false) {
+        this.initialChallenges = jsonDeepCopy(challenges);
+        this.initialPoints = points;
+
+        this.challenges = jsonDeepCopy(this.initialChallenges);
         this.limiters = limiters;
-        this.challenges = jsonDeepCopy(challenges);
+        this.points = randomPoints(this.initialPoints, .5);
+        this.map = map;
+        this.civ = civ;
+
+        this.filteredOutChallenges = [];
         this.challengeIdMap = {};
-        this.points = randomPoints(25, 0);
         this.shuffled = shuffle;
 
+        this.filterChallenges();
         if (shuffle) this.shuffleChallenges();
     }
 
+    reInitialise(): void {
+        this.points = randomPoints(this.initialPoints, .5);
+        this.challenges = jsonDeepCopy(this.initialChallenges);
+
+        this.filterChallenges();
+    }
+
+    reroll(): Challenge[] {
+        if (!this.shuffled) throw new Error("Cannot reroll if challenges weren't shuffled before")
+
+        this.reInitialise();
+        this.shuffleChallenges();
+        return this.getRandom();
+    }
+
+    private filterFunc(challenge: Challenge): boolean {
+        if (challenge.maps && !challenge.maps.includes(this.map) || challenge.civs && !challenge.civs.includes(this.civ)) {
+            this.filteredOutChallenges.push(challenge.id);
+            return false;
+        }
+        return true;
+    }
+
+    private filterChallenges(): void {
+        this.filteredOutChallenges = [];
+        for (const category of Object.keys(this.challenges)) {
+            this.challenges[category] = this.challenges[category].filter(challenge => this.filterFunc(challenge))
+        }
+    }
+
     resetChallengeIdMap(): void {
+        this.challengeIdMap = {};
         for (const category of Object.keys(this.challenges)) {
             for (const [index, challenge] of this.challenges[category].entries()) {
                 this.challengeIdMap[challenge.id] = [category, index]
@@ -48,10 +95,10 @@ class ChallengeCollection {
         this.resetChallengeIdMap();
     }
 
-    getRandomChallenges(): Challenge[] {
+    getRandom(): Challenge[] {
         if (!this.shuffled) throw Error("Cannot get random challenges without shuffling challenges.");
 
-        let keys = Object.keys(this.points).filter(k => k != "wildPoints");
+        let keys = Object.values(PolicyCategories);
         const ignoreIndexes: IgnoreIndexes = {}
         const challenges: Challenge[] = []
 
@@ -69,6 +116,11 @@ class ChallengeCollection {
             const challenge = this.chooseFirstAllowedChallenge(key, ignoreIndexes, indexProgress);
             if (challenge === undefined) {
                 keys = keys.filter(k => k != key);
+                // Move the points of exhausted category to wild-points
+                if (this.points[key] > 0) {
+                    this.points.wildPoints += this.points[key];
+                    this.points[key] = 0;
+                }
                 continue;
             }
 
@@ -98,18 +150,31 @@ class ChallengeCollection {
             }
 
             if (cost <= spendable) {
-                const wildPointCost = Math.min(Math.floor(cost / 2), this.points['wildPoints']);
+                const wildPoints: number = this.points['wildPoints'];
+                const catPoints: number = this.points[key];
+                const halfCost: number = Math.ceil(cost / 2);
+
+                let wildPointCost: number;
+                let categoryPointCost: number;
+                if (wildPoints > halfCost && catPoints > halfCost) {
+                    wildPointCost = categoryPointCost = halfCost;
+                } else {
+                    wildPointCost = Math.floor(wildPoints / (wildPoints + catPoints) * cost);
+                    categoryPointCost = Math.ceil(catPoints / (wildPoints + catPoints) * cost);
+                }
 
                 for (const limiterElement of this.limiters[challenge.id] || []) {
+                    if (this.filteredOutChallenges.includes(limiterElement)) continue;
+
                     const mapped = this.challengeIdMap[limiterElement];
                     if (mapped === undefined) throw Error(`Limiter ${limiterElement} does not exist in challenges`);
 
-                    const [cat, index] = mapped
-                    if (typeof index === "number") ignoreIndexes[cat].push(index)
+                    const [category, index] = mapped
+                    if (typeof index === "number") ignoreIndexes[category].push(index)
                 }
 
                 this.points['wildPoints'] -= wildPointCost;
-                this.points[key] -= (cost - wildPointCost);
+                this.points[key] -= categoryPointCost;
                 return challenge;
             }
         }
@@ -122,8 +187,8 @@ class ChallengeCollection {
     }
 
     private selectRandomOption(key: string, challenge: Challenge): string {
-        let options = Object.keys(challenge.points as PointObject)
-        options = options.filter(k => (challenge.points as PointObject)[k] <= this.getSpendable(key))
+        let options = Object.keys(challenge.points as ChallengePointsObject)
+        options = options.filter(k => (challenge.points as ChallengePointsObject)[k] <= this.getSpendable(key))
         return challenge.selectedOption = sample(options);
     }
 }
