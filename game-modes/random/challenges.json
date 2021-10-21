@@ -2,6 +2,7 @@
     "economy": [
         {
             "name": "Delete starting vills",
+            "display": "Delete {0} starting vills",
             "points": {
                 "2": 4,
                 "3": 6
@@ -62,6 +63,7 @@
         },
         {
             "name": "Kill % vills per age",
+            "display": "Kill {0}% of vills per age",
             "points": {
                 "20": 4,
                 "40": 10
@@ -75,6 +77,7 @@
         },
         {
             "name": "Max vills in dark age",
+            "display": "Max {0} vills in dark age",
             "points": {
                 "20": 1,
                 "15": 2,
@@ -131,6 +134,7 @@
         },
         {
             "name": "Max farms",
+            "display": "Max {0} farms",
             "points": {
                 "20": 4,
                 "15": 6,
@@ -179,6 +183,7 @@
         },
         {
             "name": "Make n scouts",
+            "display": "Make {0} scouts",
             "points": {
                 "5": 1,
                 "8": 2
@@ -190,6 +195,7 @@
         },
         {
             "name": "Make n man-at-arms",
+            "display": "Make {0} man-at-arms",
             "points": {
                 "3": 1,
                 "6": 2
@@ -201,6 +207,7 @@
         },
         {
             "name": "Make n eagles",
+            "display": "Make {0} eagles",
             "points": {
                 "5": 2,
                 "10": 3
@@ -212,6 +219,7 @@
         },
         {
             "name": "Make n archers",
+            "display": "Make {0} archers",
             "points": {
                 "6": 1,
                 "12": 2
@@ -223,6 +231,7 @@
         },
         {
             "name": "Make n rams",
+            "display": "Make {0} rams",
             "points": {
                 "3": 2,
                 "5": 3,
@@ -235,6 +244,7 @@
         },
         {
             "name": "Make n scorpions",
+            "display": "Make {0} scorpions",
             "points": {
                 "3": 1,
                 "5": 2,
@@ -247,6 +257,7 @@
         },
         {
             "name": "Make n castle unique units",
+            "display": "Make {0} castle unique units",
             "points": {
                 "4": 2,
                 "15": 5
@@ -362,6 +373,7 @@
         },
         {
             "name": "Make n houses",
+            "display": "Make {0} houses",
             "points": {
                 "15": 2,
                 "20": 3
@@ -459,6 +471,7 @@
     "miscellaneous": [
         {
             "name": "Max pop",
+            "display": "Max {0} pop",
             "points": {
                 "150": 2,
                 "100": 4,
@@ -521,6 +534,7 @@
         },
         {
             "name": "Send resources to solo player",
+            "display": "Send {0} to solo player",
             "points": {
                 "300 wood": 2,
                 "200 gold": 2,
