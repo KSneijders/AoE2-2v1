@@ -49,6 +49,7 @@ export default defineComponent({
             this.configData?.players.filter(p => p.side === Side.DEFENDANT).forEach(p => {
                 window.fs.adjustProfilePoints(p.id, pointAdjust);
             });
+            this.$store.dispatch('refreshUser');
             this.$store.commit('gameModeEnd');
         }
     }

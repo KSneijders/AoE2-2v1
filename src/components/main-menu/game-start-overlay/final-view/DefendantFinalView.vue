@@ -1,6 +1,6 @@
 <template>
-    <div id="final-screen">
-        <FinalInfoView :config-data="configData"/>
+    <div id="final-screen" class="simple-white-scrollbar">
+        <InfoBlockPartial :config-data="configData"/>
         <hr>
         <div id="command-overview">
             <h3>Commands</h3>
@@ -10,7 +10,7 @@
                         @mouseup="commandClicked($event, command)"
                         v-bind:class="{emptied: this.commandUsage[command.id] === 0}">
                         <td>
-                            {{ command.name }}
+                            {{ formatPolicy(command) }}
                         </td>
                         <td>
                             {{ this.commandUsage[command.id] }} / {{ command?.maxRepeat || 1 }}
@@ -29,14 +29,15 @@
 import {defineComponent, PropType} from "vue";
 import {OverlayConfigData} from "@/interfaces/gamemode-overlay";
 import {Command} from "@/interfaces/policies";
-import FinalInfoView from "@/components/main-menu/game-start-overlay/final-view/FinalInfoView.vue";
+import InfoBlockPartial from "@/components/main-menu/game-start-overlay/final-view/InfoBlockPartial.vue";
 import GameEndButton from "@/components/main-menu/game-start-overlay/final-view/GameEndButton.vue";
+import {formatPolicy} from "@/scripts/policies";
 
 export default defineComponent({
     name: "DefendantFinalView",
     emits: ["game-end-clicked"],
     components: {
-        FinalInfoView,
+        InfoBlockPartial,
         GameEndButton,
     },
     props: {
@@ -57,6 +58,7 @@ export default defineComponent({
     },
     computed: {},
     methods: {
+        formatPolicy,
         commandClicked (event: MouseEvent, command: Command): void {
             let change = 0;
             switch (event.button) {

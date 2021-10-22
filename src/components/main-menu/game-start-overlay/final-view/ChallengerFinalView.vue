@@ -1,6 +1,6 @@
 <template>
-    <div id="final-screen">
-        <FinalInfoView :config-data="configData"/>
+    <div id="final-screen" class="simple-white-scrollbar">
+        <InfoBlockPartial :config-data="configData"/>
         <hr>
         <div id="challenge-overview">
             <h3>Challenges</h3>
@@ -14,7 +14,7 @@
                              v-bind:class="{done: getChallengeDone(challenge, age)}"
                         >
                             <img v-bind:src="images[`./${age}.png`]" v-bind:alt="age">
-                            {{ challenge.name }}
+                            {{ formatPolicy(challenge) }}
                         </div>
                     </div>
                 </div>
@@ -24,7 +24,10 @@
                     <h6>Other challenges</h6>
                     <div class="challenge-entry" v-for="challenge in challengesWithoutAge" v-bind:key="challenge.id"
                          @click="challengeClicked(challenge)"
-                         v-bind:class="{done: getChallengeDone(challenge)}"
+                         v-bind:class="{
+                             'done': getChallengeDone(challenge),
+                             'game-changing-challenge': challenge.classes?.includes('game-changing')
+                         }"
                     >
                         {{ challenge.name }}
                     </div>
@@ -43,8 +46,9 @@ import {OverlayConfigData} from "@/interfaces/gamemode-overlay";
 import {Challenge} from "@/interfaces/policies";
 import {ensure} from "@/scripts/arrays";
 import {importImages} from "@/scripts/other";
-import FinalInfoView from "@/components/main-menu/game-start-overlay/final-view/FinalInfoView.vue";
+import InfoBlockPartial from "@/components/main-menu/game-start-overlay/final-view/InfoBlockPartial.vue";
 import GameEndButton from "@/components/main-menu/game-start-overlay/final-view/GameEndButton.vue";
+import {formatPolicy} from "@/scripts/policies";
 
 const images: Record<string, string> = importImages(
     require.context('/src/assets/images/', false, /\.(jpg|jpe?g|png|gif|webp)$/)
@@ -52,7 +56,7 @@ const images: Record<string, string> = importImages(
 
 export default defineComponent({
     name: "ChallengerFinalView",
-    components: {FinalInfoView, GameEndButton},
+    components: {InfoBlockPartial, GameEndButton},
     props: {
         configData: {
             type: Object as PropType<OverlayConfigData>,
@@ -89,6 +93,7 @@ export default defineComponent({
         },
     },
     methods: {
+        formatPolicy,
         challengesPerAge(age: string): Challenge[] {
             return ensure(this.configData?.challenges?.collection).filter(c => c.classes?.includes(age))
         },

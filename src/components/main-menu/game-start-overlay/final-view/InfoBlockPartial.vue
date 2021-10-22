@@ -36,7 +36,7 @@ import {Side} from "@/enums/gamemode-overlay";
 import {ensure} from "@/scripts/arrays";
 
 export default defineComponent({
-    name: "FinalInfoView",
+    name: "InfoBlockPartial",
     components: {},
     props: {
         configData: {
@@ -76,10 +76,6 @@ export default defineComponent({
     td {
         text-transform: capitalize;
         padding: 2px 10px;
-    }
-
-    #game-end-button {
-
     }
 }
 </style>

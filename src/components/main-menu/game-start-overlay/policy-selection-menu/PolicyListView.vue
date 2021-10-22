@@ -17,7 +17,9 @@
                     </span>
                 </td>
                 <td>
-                    <span class="name" v-bind:class="{'game-changing': policy?.classes?.includes('game-changing')}">
+                    <span class="name" v-bind:class="{
+                        'game-changing-challenge': policy?.classes?.includes('game-changing')
+                    }">
                         {{ formatPolicy(policy) }}
                     </span>
                     <span v-if="policy?.desc" class="desc-available">
@@ -78,11 +80,6 @@ table {
                 width: 20px;
                 height: 20px;
                 image-rendering: auto;
-            }
-
-            .name.game-changing {
-                font-weight: bold;
-                color: #ff4141;
             }
 
             .desc-available {
