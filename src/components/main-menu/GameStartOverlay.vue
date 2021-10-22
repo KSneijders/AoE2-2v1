@@ -37,7 +37,9 @@
                 <CivSelectionMenu
                     :initialTabData="tabData.civs"
                     :userProfile="userProfile"
+                    :switchConfirmRequired="civTabSwitchConfirmRequired"
                     @overlay-tab-data-update="overlayTabDataUpdate"
+                    @overlay-tab-reset="resetPolicyTab"
                 />
             </div>
             <div id="challenge-selection-block" class="gamemode-box" v-if="currentTab === tabs.indexOf('challenges')">
@@ -160,6 +162,13 @@ export default defineComponent({
         playerTabSwitchConfirmRequired (): boolean {
             return (this.tabData.maps !== "");
         },
+        civTabSwitchConfirmRequired (): boolean {
+            if (this.userProfile?.side === Side.DEFENDANT) return false;
+
+            const challengesLoaded = !!(this.tabData.challenges.collection.length || this.tabData.challenges.options.options.length);
+            const commandsLoaded = !!(this.tabData.commands.collection.length || this.tabData.commands.options.options.length);
+            return (challengesLoaded || commandsLoaded);
+        },
         userProfile (): ProfileEntry | undefined {
             return this.tabData.players.find(pe => pe.id === 'default');
         }
@@ -175,6 +184,11 @@ export default defineComponent({
                 challenges: getDefaultPolicyData() as ChallengeData,
                 commands: getDefaultPolicyData() as CommandData,
             }
+        },
+        resetPolicyTab (): void {
+            ['challenges', 'commands'].forEach(tab => this.validTabs[tab] = false);
+            this.tabData.challenges = getDefaultPolicyData() as ChallengeData;
+            this.tabData.commands = getDefaultPolicyData() as CommandData;
         },
         nextTab (): void {
             if (this.tabIsValid(this.currentTab)) {

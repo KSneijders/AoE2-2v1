@@ -101,20 +101,16 @@ class CommandCollection {
 
             const command = this.commands[key][indexProgress[key]];
             let cost: number;
-            console.log(`1:: ${typeof command.points} => ${typeof command.points}`)
             // Dropdown menu is used in command
             if (typeof command.points === "object") {
                 const selectedOptionKey = this.selectRandomOption(command);
-                console.log(`Key: '${selectedOptionKey}'`)
                 if (selectedOptionKey === undefined) continue;
                 const selectedOption = command.points[selectedOptionKey];
 
                 // Dropdown menu is also repeat menu
-                console.log(`1:: ${selectedOption} ==> ${typeof selectedOption}`)
                 if (typeof selectedOption === "object") {
                     const selectedOptionObj: PointRepeatObject = (selectedOption as PointRepeatObject);
                     command.maxRepeat = selectedOptionObj.repeat
-                    console.log(command.maxRepeat)
                     cost = selectedOptionObj.cost
                 } else {
                     cost = command.points[selectedOptionKey] as number;
