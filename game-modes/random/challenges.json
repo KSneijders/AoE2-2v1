@@ -325,17 +325,17 @@
             "points": 4
         },
         {
-            "name": "Disable Archer line",
+            "name": "Disable archer line",
             "id": "disable_archer_line",
             "points": 6
         },
         {
-            "name": "Disable Ram line",
+            "name": "Disable ram line",
             "id": "disable_ram_line",
             "points": 2
         },
         {
-            "name": "Disable Mangonal line",
+            "name": "Disable mangonal line",
             "id": "disable_mangonal_line",
             "points": 4
         }
