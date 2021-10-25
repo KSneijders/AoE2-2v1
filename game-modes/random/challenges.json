@@ -4,8 +4,8 @@
             "name": "Delete starting vills",
             "display": "Delete {0} starting vills",
             "points": {
-                "2": 4,
-                "3": 6
+                "2": 8,
+                "3": 12
             },
             "classes": [
                 "instant"
@@ -15,7 +15,7 @@
         },
         {
             "name": "No sheep",
-            "points": 2,
+            "points": 4,
             "id": "no_sheep",
             "classes": [
                 "instant"
@@ -24,7 +24,7 @@
         },
         {
             "name": "Send sheep to solo player",
-            "points": 3,
+            "points": 6,
             "id": "send_sheep_to_solo",
             "classes": [
                 "instant"
@@ -32,41 +32,41 @@
         },
         {
             "name": "No hunt",
-            "points": 2,
+            "points": 4,
             "desc": "Your ally is not allowed to hunt your hunt either!",
             "id": "no_hunt"
         },
         {
             "name": "No forage bush",
-            "points": 1,
+            "points": 2,
             "id": "no_forage_bush"
         },
         {
             "name": "No miningcamps",
-            "points": 3,
+            "points": 6,
             "id": "no_mining_camps"
         },
         {
             "name": "No lumbercamps",
-            "points": 6,
+            "points": 12,
             "id": "no_lumber_camps"
         },
         {
             "name": "No mills (Only 1 at TC)",
-            "points": 3,
+            "points": 6,
             "id": "no_mills"
         },
         {
             "name": "No extra TCs",
-            "points": 3,
+            "points": 6,
             "id": "no_extra_tcs"
         },
         {
             "name": "Kill % vills per age",
             "display": "Kill {0}% of vills per age",
             "points": {
-                "20": 4,
-                "40": 10
+                "20": 8,
+                "40": 20
             },
             "id": "kill_vills_per_age",
             "classes": [
@@ -79,9 +79,9 @@
             "name": "Max vills in dark age",
             "display": "Max {0} vills in dark age",
             "points": {
-                "20": 1,
-                "15": 2,
-                "12": 4
+                "20": 2,
+                "15": 4,
+                "12": 8
             },
             "id": "max_vills_in_dark_age",
             "classes": [
@@ -90,42 +90,42 @@
         },
         {
             "name": "No mining upgrades",
-            "points": 1,
+            "points": 2,
             "id": "no_mining_upgrades"
         },
         {
             "name": "No lumber upgrades",
-            "points": 2,
+            "points": 4,
             "id": "no_lumber_upgrades"
         },
         {
             "name": "No mill upgrades",
-            "points": 1,
+            "points": 2,
             "id": "no_mill_upgrades"
         },
         {
             "name": "No eco upgrades",
-            "points": 7,
+            "points": 14,
             "id": "no_eco_upgrades"
         },
         {
             "name": "No stone",
-            "points": 3,
+            "points": 6,
             "id": "no_stone"
         },
         {
             "name": "No selling/buying",
-            "points": 4,
+            "points": 8,
             "id": "no_selling_buying"
         },
         {
             "name": "No wheelbarrow line",
-            "points": 2,
+            "points": 4,
             "id": "no_wheelbarrow_line"
         },
         {
             "name": "All farms must touch a mill",
-            "points": 5,
+            "points": 10,
             "id": "all_farms_must_touch_mill",
             "desc": "Farms don't have to actually touch the mill. Just max of 4 per mill and none at TC.",
             "classes": [
@@ -136,9 +136,9 @@
             "name": "Max farms",
             "display": "Max {0} farms",
             "points": {
-                "20": 4,
-                "15": 6,
-                "10": 8
+                "20": 8,
+                "15": 12,
+                "10": 16
             },
             "id": "max_farms"
         }
@@ -146,7 +146,7 @@
     "military": [
         {
             "name": "No gold units (except siege)",
-            "points": 8,
+            "points": 16,
             "id": "no_gold_units",
             "classes": [
                 "game-changing"
@@ -154,7 +154,7 @@
         },
         {
             "name": "No trash units",
-            "points": 5,
+            "points": 10,
             "id": "no_trash",
             "classes": [
                 "game-changing"
@@ -162,12 +162,12 @@
         },
         {
             "name": "No unique castle unit",
-            "points": 1,
+            "points": 2,
             "id": "no_uu"
         },
         {
             "name": "Delete starting scout",
-            "points": 2,
+            "points": 4,
             "id": "delete_starting_scout",
             "classes": [
                 "instant"
@@ -175,7 +175,7 @@
         },
         {
             "name": "No units from civ identity",
-            "points": 5,
+            "points": 10,
             "id": "no_good_civ_units",
             "classes": [
                 "game-changing"
@@ -185,10 +185,34 @@
             "name": "Make n scouts",
             "display": "Make {0} scouts",
             "points": {
-                "5": 1,
-                "8": 2
+                "5": 2,
+                "8": 4
             },
             "id": "make_scouts",
+            "classes": [
+                "feudal"
+            ]
+        },
+        {
+            "name": "Make n spearman",
+            "display": "Make {0} spearman",
+            "points": {
+                "6": 2,
+                "10": 4
+            },
+            "id": "make_spearman",
+            "classes": [
+                "feudal"
+            ]
+        },
+        {
+            "name": "Make n skirmisher",
+            "display": "Make {0} skirmisher",
+            "points": {
+                "5": 2,
+                "10": 4
+            },
+            "id": "make_skirmisher",
             "classes": [
                 "feudal"
             ]
@@ -197,8 +221,8 @@
             "name": "Make n man-at-arms",
             "display": "Make {0} man-at-arms",
             "points": {
-                "3": 1,
-                "6": 2
+                "3": 2,
+                "6": 4
             },
             "id": "make_maa",
             "classes": [
@@ -209,8 +233,8 @@
             "name": "Make n eagles",
             "display": "Make {0} eagles",
             "points": {
-                "5": 2,
-                "10": 3
+                "5": 4,
+                "10": 6
             },
             "id": "make_eagle_scouts",
             "classes": [
@@ -221,8 +245,8 @@
             "name": "Make n archers",
             "display": "Make {0} archers",
             "points": {
-                "6": 1,
-                "12": 2
+                "6": 2,
+                "12": 4
             },
             "id": "make_archers",
             "classes": [
@@ -233,9 +257,8 @@
             "name": "Make n rams",
             "display": "Make {0} rams",
             "points": {
-                "3": 2,
-                "5": 3,
-                "7": 4
+                "3": 4,
+                "5": 6
             },
             "id": "make_rams",
             "classes": [
@@ -246,9 +269,8 @@
             "name": "Make n scorpions",
             "display": "Make {0} scorpions",
             "points": {
-                "3": 1,
-                "5": 2,
-                "10": 4
+                "3": 2,
+                "10": 8
             },
             "id": "make_scorpions",
             "classes": [
@@ -259,8 +281,8 @@
             "name": "Make n castle unique units",
             "display": "Make {0} castle unique units",
             "points": {
-                "4": 2,
-                "15": 5
+                "4": 4,
+                "15": 10
             },
             "id": "make_uu",
             "classes": [
@@ -268,96 +290,121 @@
             ]
         },
         {
-            "name": "Disable Militia line",
+            "name": "Disable militia line",
             "id": "disable_militia_line",
-            "points": 1
+            "points": 2
         },
         {
-            "name": "Disable Spearman line",
+            "name": "Disable spearman line",
             "id": "disable_spearman_line",
-            "points": 2
+            "points": 4
         },
         {
-            "name": "Disable Scout line",
+            "name": "Disable scout line",
             "id": "disable_scout_line",
-            "points": 2
+            "points": 4
         },
         {
-            "name": "Disable Knight line",
+            "name": "Disable eagle line",
+            "id": "disable_eagle_line",
+            "points": 6
+        },
+        {
+            "name": "Disable knight line",
             "id": "disable_knight_line",
-            "points": 3
+            "points": 6
         },
         {
-            "name": "Disable Camel line",
+            "name": "Disable camel line",
             "id": "disable_camel_line",
-            "points": 1
+            "points": 2
         },
         {
-            "name": "Disable Skirmisher line",
+            "name": "Disable skirmisher line",
             "id": "disable_skirmisher_line",
-            "points": 2
+            "points": 4
         },
         {
             "name": "Disable Archer line",
             "id": "disable_archer_line",
-            "points": 3
+            "points": 6
         },
         {
             "name": "Disable Ram line",
             "id": "disable_ram_line",
-            "points": 1
+            "points": 2
         },
         {
             "name": "Disable Mangonal line",
             "id": "disable_mangonal_line",
-            "points": 2
+            "points": 4
         }
     ],
     "building": [
         {
             "name": "No walls",
-            "points": 4,
+            "points": 8,
             "id": "no_walls",
             "classes": [
                 "game-changing"
             ]
         },
         {
+            "name": "No palisade walls",
+            "points": 4,
+            "id": "no_palisade_walls"
+        },
+        {
+            "name": "No stone walls",
+            "points": 2,
+            "id": "no_stone_walls"
+        },
+        {
             "name": "Leave gaps between walls",
-            "points": 3,
+            "points": 6,
             "classes": [
                 "game-changing"
             ],
             "id": "leave_gaps_between_walls"
         },
         {
-            "name": "No towers / donjons",
-            "points": 4,
-            "id": "no_towers_donjons"
+            "name": "No towers",
+            "points": 8,
+            "id": "no_towers"
+        },
+        {
+            "name": "No donjons",
+            "points": 8,
+            "id": "no_donjons"
         },
         {
             "name": "No university",
-            "points": 1,
+            "points": 3,
             "id": "no_university"
         },
         {
             "name": "No monastery",
-            "points": 1,
+            "points": 3,
             "id": "no_monastery"
         },
         {
-            "name": "No castles / kreposts",
-            "points": 5,
+            "name": "No kreposts",
+            "points": 4,
+            "id": "no_kreposts"
+        },
+        {
+            "name": "No castles",
+            "points": 10,
             "id": "no_castle"
         },
         {
             "name": "No market",
-            "points": 6,
+            "points": 12,
             "id": "no_market"
         },
         {
             "name": "Instant 8 houses",
-            "points": 2,
+            "points": 4,
             "id": "instant_8_houses",
             "classes": [
                 "instant"
@@ -365,7 +412,7 @@
         },
         {
             "name": "Instant barracks",
-            "points": 3,
+            "points": 6,
             "id": "instant_barracks",
             "classes": [
                 "instant"
@@ -375,8 +422,8 @@
             "name": "Make n houses",
             "display": "Make {0} houses",
             "points": {
-                "15": 2,
-                "20": 3
+                "15": 4,
+                "20": 6
             },
             "id": "make_n_houses",
             "classes": [
@@ -388,64 +435,65 @@
         {
             "name": "No blacksmith techs",
             "id": "no_blacksmith_techs",
-            "points": 9
+            "points": 18
         },
         {
             "name": "Get all blacksmith techs",
-            "points": 4,
+            "points": 8,
             "id": "get_all_blacksmith_techs",
             "classes": [
-                "feudal", "castle"
+                "feudal",
+                "castle"
             ]
         },
         {
             "name": "No current age blacksmith techs",
-            "points": 5,
+            "points": 10,
             "id": "no_current_age_blacksmith_techs"
         },
         {
             "name": "No archer range & attack",
-            "points": 5,
+            "points": 10,
             "id": "no_archer_attack"
         },
         {
             "name": "No archer defence",
-            "points": 3,
+            "points": 6,
             "id": "no_archer_defence"
         },
         {
             "name": "No melee attack",
-            "points": 2,
+            "points": 4,
             "id": "no_melee_attack"
         },
         {
             "name": "No infantry defence",
-            "points": 2,
+            "points": 4,
             "id": "no_infantry_defence"
         },
         {
             "name": "No cavalry defence",
-            "points": 4,
+            "points": 8,
             "id": "no_cavalry_defence"
         },
         {
             "name": "No unique castle techs",
-            "points": 1,
+            "points": 2,
             "id": "no_unique_techs"
         },
         {
             "name": "No bloodlines",
-            "points": 1,
+            "points": 4,
             "id": "no_bloodlines"
         },
         {
             "name": "No ballistics",
-            "points": 1,
+            "points": 3,
             "id": "no_ballistics"
         },
         {
             "name": "Get murder holes",
-            "points": 1,
+            "points": 2,
             "id": "get_murder_holes",
             "classes": [
                 "castle"
@@ -453,7 +501,7 @@
         },
         {
             "name": "Get heresy",
-            "points": 3,
+            "points": 6,
             "id": "get_heresy",
             "classes": [
                 "castle"
@@ -461,7 +509,7 @@
         },
         {
             "name": "No loom",
-            "points": 4,
+            "points": 8,
             "id": "no_loom",
             "classes": [
                 "instant"
@@ -473,9 +521,9 @@
             "name": "Max pop",
             "display": "Max {0} pop",
             "points": {
-                "150": 2,
-                "100": 4,
-                "75": 7
+                "150": 4,
+                "100": 8,
+                "75": 14
             },
             "id": "max_pop",
             "classes": [
@@ -484,7 +532,7 @@
         },
         {
             "name": "No scouting (except vills)",
-            "points": 4,
+            "points": 8,
             "id": "no_scouting",
             "classes": [
                 "instant"
@@ -492,7 +540,7 @@
         },
         {
             "name": "Only auto-scout",
-            "points": 1,
+            "points": 3,
             "id": "only_auto_scout",
             "classes": [
                 "instant"
@@ -500,7 +548,7 @@
         },
         {
             "name": "Migrate to ally",
-            "points": 7,
+            "points": 15,
             "id": "ally_migration",
             "classes": [
                 "instant"
@@ -521,7 +569,7 @@
         },
         {
             "name": "Sacrifice 10 monks",
-            "points": 4,
+            "points": 8,
             "id": "sacrifice_10_monks",
             "classes": [
                 "castle"
@@ -529,18 +577,18 @@
         },
         {
             "name": "Kill 5 vills each time housed",
-            "points": 3,
+            "points": 6,
             "id": "kill_vills_when_housed"
         },
         {
             "name": "Send resources to solo player",
             "display": "Send {0} to solo player",
             "points": {
-                "300 wood": 2,
-                "200 gold": 2,
-                "200 stone": 2,
-                "400 food": 3,
-                "400 gold": 4
+                "300 wood": 4,
+                "200 gold": 4,
+                "200 stone": 3,
+                "400 food": 6,
+                "400 gold": 8
             },
             "id": "send_resource_to_solo",
             "classes": [
@@ -549,7 +597,7 @@
         },
         {
             "name": "Delay age until solo aged",
-            "points": 2,
+            "points": 6,
             "classes": [
                 "dark",
                 "feudal",

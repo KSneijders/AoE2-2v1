@@ -13,14 +13,15 @@
             "make_scouts",
             "no_stable",
             "no_cavalry_defence",
-            "no_bloodlines"
+            "disable_scout_line",
+            "disable_camel_line"
         ]
     },
     {
-        "civs-have-access-to-challenges": true,
-        "civs": ["aztecs", "incas", "mayans"],
+        "civs-have-access-to-challenges": false,
+        "civs": ["aztecs", "bohemians", "britons", "bulgarians", "byzantines", "celts", "ethiopians", "franks", "incas", "koreans","malay", "mayans", "vikings"],
         "challenges": [
-            "make_eagle_scouts"
+            "no_bloodlines"
         ]
     },
     {
@@ -32,9 +33,70 @@
     },
     {
         "civs-have-access-to-challenges": true,
+        "civs": ["aztecs", "incas", "mayans"],
+        "challenges": [
+            "make_eagle_scouts",
+            "disable_eagle_line"
+        ]
+    },
+    {
+        "civs-have-access-to-challenges": true,
         "civs": ["berbers", ",byzantines", "chinese", "cumans", "ethiopians", "indians", "malians", "mongols", "persians", "saracens", "tatars", "turks"],
         "challenges": [
             "disable_camel_line"
+        ]
+    },
+    {
+        "civs-have-access-to-challenges": false,
+        "civs": ["goths", "cumans"],
+        "challenges": [
+            "no_stone_walls"
+        ]
+    },
+    {
+        "civs-have-access-to-challenges": true,
+        "civs": ["bulgarians"],
+        "challenges": [
+            "no_kreposts"
+        ]
+    },
+    {
+        "civs-have-access-to-challenges": false,
+        "civs": ["sicilians"],
+        "challenges": [
+            "no_towers"
+        ]
+    },
+    {
+        "civs-have-access-to-challenges": true,
+        "civs": ["sicilians"],
+        "challenges": [
+            "no_donjons"
+        ]
+    },
+    {
+        "civs-have-access-to-challenges": false,
+        "civs": ["huns"],
+        "challenges": [
+            "instant_8_houses",
+            "make_n_houses",
+            "instant_barracks",
+            "kill_vills_when_housed"
+        ]
+    },
+    {
+        "civs-have-access-to-challenges": false,
+        "civs": ["chinese"],
+        "challenges": [
+            "instant_8_houses",
+            "instant_barracks"
+        ]
+    },
+    {
+        "civs-have-access-to-challenges": false,
+        "civs": ["teutons"],
+        "challenges": [
+            "get_murder_holes"
         ]
     }
 ]

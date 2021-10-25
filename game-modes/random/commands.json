@@ -2,7 +2,7 @@
     "economy": [
         {
             "name": "Delete all TCs",
-            "points": 5,
+            "points": 10,
             "classes": [
                 "feudal+"
             ],
@@ -12,11 +12,11 @@
             "name": "Even out vills",
             "points": {
                 "1x": {
-                    "cost": 5,
+                    "cost": 10,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 7,
+                    "cost": 14,
                     "repeat": 2
                 }
             },
@@ -26,11 +26,11 @@
             "name": "Kill 30/40/50% vills",
             "points": {
                 "1x": {
-                    "cost": 5,
+                    "cost": 10,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 8,
+                    "cost": 16,
                     "repeat": 2
                 }
             },
@@ -42,7 +42,7 @@
         },
         {
             "name": "Delete all farms & eco buildings",
-            "points": 4,
+            "points": 8,
             "desc": "Lumber camps, Mills, Mining camps and Farms",
             "id": "delete_all_farms_and_eco_buildings"
         },
@@ -50,11 +50,11 @@
             "name": "Send all vills to resources for x seconds",
             "points": {
                 "2x 30s": {
-                    "cost": 2,
+                    "cost": 4,
                     "repeat": 2
                 },
                 "2x 60s": {
-                    "cost": 4,
+                    "cost": 8,
                     "repeat": 2
                 }
             },
@@ -65,22 +65,22 @@
     "military": [
         {
             "name": "Delete all forwards",
-            "points": 6,
+            "points": 12,
             "id": "delete_all_forwards"
         },
         {
             "name": "Send all army to X",
             "points": {
                 "1x": {
-                    "cost": 1,
+                    "cost": 2,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 2,
+                    "cost": 4,
                     "repeat": 2
                 },
                 "3x": {
-                    "cost": 3,
+                    "cost": 6,
                     "repeat": 3
                 }
             },
@@ -90,11 +90,11 @@
             "name": "All players delete all military",
             "points": {
                 "1x": {
-                    "cost": 5,
+                    "cost": 10,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 7,
+                    "cost": 14,
                     "repeat": 2
                 }
             },
@@ -104,11 +104,11 @@
             "name": "Even out military",
             "points": {
                 "1x": {
-                    "cost": 5,
+                    "cost": 10,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 7,
+                    "cost": 14,
                     "repeat": 2
                 }
             },
@@ -118,11 +118,11 @@
             "name": "Deny a specific unit",
             "points": {
                 "1x": {
-                    "cost": 2,
+                    "cost": 4,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 4,
+                    "cost": 8,
                     "repeat": 2
                 }
             },
@@ -135,11 +135,11 @@
             "name": "Delete all houses",
             "points": {
                 "1x": {
-                    "cost": 2,
+                    "cost": 4,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 4,
+                    "cost": 8,
                     "repeat": 2
                 }
             },
@@ -149,11 +149,11 @@
             "name": "Delete all walls",
             "points": {
                 "1x": {
-                    "cost": 2,
+                    "cost": 4,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 4,
+                    "cost": 8,
                     "repeat": 2
                 }
             },
@@ -163,15 +163,15 @@
             "name": "Create gap in wall at X",
             "points": {
                 "1x": {
-                    "cost": 1,
+                    "cost": 2,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 2,
+                    "cost": 4,
                     "repeat": 2
                 },
                 "3x": {
-                    "cost": 3,
+                    "cost": 6,
                     "repeat": 3
                 }
             },
@@ -181,11 +181,11 @@
             "name": "Delete all buildings of type",
             "points": {
                 "1x": {
-                    "cost": 3,
+                    "cost": 6,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 5,
+                    "cost": 10,
                     "repeat": 2
                 }
             },
@@ -194,7 +194,7 @@
         },
         {
             "name": "Delete all flagged buildings",
-            "points": 4,
+            "points": 8,
             "classes": [
                 "feudal+"
             ],
@@ -204,7 +204,7 @@
             "name": "Ping TCs",
             "points": {
                 "3x": {
-                    "cost": 1,
+                    "cost": 2,
                     "repeat": 3
                 }
             },
@@ -218,15 +218,15 @@
             "name": "Send all of resource x",
             "points": {
                 "1x": {
-                    "cost": 3,
+                    "cost": 6,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 6,
+                    "cost": 12,
                     "repeat": 2
                 },
                 "3x": {
-                    "cost": 9,
+                    "cost": 18,
                     "repeat": 3
                 }
             },
@@ -237,11 +237,11 @@
             "name": "Cancel all queues for 30s",
             "points": {
                 "1x": {
-                    "cost": 2,
+                    "cost": 4,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 4,
+                    "cost": 8,
                     "repeat": 2
                 }
             },
@@ -251,11 +251,11 @@
             "name": "Deny aging until you aged",
             "points": {
                 "1x": {
-                    "cost": 2,
+                    "cost": 4,
                     "repeat": 1
                 },
                 "2x": {
-                    "cost": 3,
+                    "cost": 6,
                     "repeat": 2
                 }
             },
@@ -265,12 +265,12 @@
             "name": "Sacrifice 2/4/10 Trade Carts",
             "desc": "You cannot ADD (!!!!) anything to the global queue until all trade carts have been sacrificed. This means that if you have upgrades in the queue they do not have to be cancelled! \n\nFEUDAL = 2 Carts\nCASTLE = 4 Carts\nIMP = 10 Carts",
             "dev-comment": "Trade cart creation time is 51s.",
-            "points": 3,
+            "points": 6,
             "id": "sacrifice_trade_carts"
         },
         {
             "name": "Request information",
-            "points": 1,
+            "points": 2,
             "desc": "Send an image of the top of your screen. This has to include all 4 resources, pop & villager count, the age bar, your production queue",
             "id": "request_info"
         }
