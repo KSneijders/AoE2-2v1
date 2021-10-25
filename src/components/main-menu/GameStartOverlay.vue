@@ -12,7 +12,7 @@
                     {{ tab }}
                 </span>
             </span>
-            <div id="exit-button" @click="cancelGameModeStart" v-if="tabs[currentTab] !== 'final'">x</div>
+            <div id="exit-button" @click="cancelGameModeStart" v-if="tabs[currentTab] !== 'final' && tabs[currentTab] !== 'game-end'">x</div>
         </div>
         <div id="overlay-content">
             <div id="summary-block" class="gamemode-box"
@@ -211,7 +211,7 @@ export default defineComponent({
             return this.validTabs[this.tabs[tabIndex]];
         },
         cancelGameModeStart (): void {
-            if (this.tabs[this.currentTab] === 'final') return;
+            if (['final', 'game-end'].includes(this.tabs[this.currentTab])) return;
 
             if (confirm("Are you sure you want to exit gamemode setup?\nAll progress will be lost."))
                 this.$store.commit('gameModeEnd')

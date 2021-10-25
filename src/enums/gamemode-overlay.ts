@@ -12,4 +12,9 @@ enum OverlayTab {
     COMMANDS = "Commands",
 }
 
-export {Side, OverlayTab}
+enum SelectionMode {
+    CHOICE = "choice",
+    REROLLS = "rerolls"
+}
+
+export {Side, OverlayTab, SelectionMode}

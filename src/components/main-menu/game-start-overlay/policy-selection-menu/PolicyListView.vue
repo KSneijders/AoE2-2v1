@@ -13,7 +13,9 @@
                 </td>
                 <td>
                     <span v-if="policy?.selectedOption && !policyHasDisplay(policy)">
-                        {{ policy.selectedOption }}
+                        <span v-if="(policyType === 'commands' && policy?.maxRepeat > 1) || policyType === 'challenges'">
+                            {{ policy.selectedOption }}
+                        </span>
                     </span>
                 </td>
                 <td>

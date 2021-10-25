@@ -17,14 +17,13 @@
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
 import {ChallengeData, Options, OverlayConfigData} from "@/interfaces/gamemode-overlay";
-import {OverlayTab} from "@/enums/gamemode-overlay";
+import {OverlayTab, SelectionMode} from "@/enums/gamemode-overlay";
 import ChallengeCollection from "@/classes/challenge-collection";
 import {GameModeContent} from "@/interfaces/game-mode";
 import {ProfileEntry} from "@/interfaces/profile";
 import {ensure} from "@/scripts/arrays";
 import PolicySelectRerolls
     from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicySelectRerolls.vue";
-import {PolicySelectionMode} from "@/enums/policies";
 import PolicySelectChoice from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicySelectChoice.vue";
 import {Challenge} from "@/interfaces/policies";
 import {getDefaultPolicyData, sortChallenges} from "@/scripts/policies";
@@ -44,17 +43,17 @@ export default defineComponent({
     },
     data() {
         return {
-            PolicySelectionMode: PolicySelectionMode, // For in-template usage
+            PolicySelectionMode: SelectionMode, // For in-template usage
 
             challenges: {} as ChallengeData,
-            selectionMode: PolicySelectionMode.REROLLS
+            selectionMode: SelectionMode.REROLLS
         }
     },
     async mounted() {
         const gmc: GameModeContent = this.$store.state.gameModeInfo.content;
 
-        const choiceMode: boolean = this.selectionMode === PolicySelectionMode.CHOICE
-        const rerollsMode: boolean = this.selectionMode === PolicySelectionMode.REROLLS
+        const choiceMode: boolean = this.selectionMode === SelectionMode.CHOICE
+        const rerollsMode: boolean = this.selectionMode === SelectionMode.REROLLS
         const optionsFound: boolean = this.configData?.challenges?.options?.options.length !== 0
         const collectionFound: boolean = this.configData?.challenges?.collection.length !== 0
 
@@ -86,11 +85,11 @@ export default defineComponent({
     methods: {
         initialise (): void {
             switch (this.selectionMode) {
-                case PolicySelectionMode.CHOICE:
+                case SelectionMode.CHOICE:
                     this.challenges.collection = [];
                     this.challenges.quantity = 3;
                     break;
-                case PolicySelectionMode.REROLLS:
+                case SelectionMode.REROLLS:
                     this.challenges.collection = ensure(this.challenges?.cc?.getRandom());
                     this.challenges.quantity = 3;
                     break;

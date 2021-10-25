@@ -29,7 +29,7 @@
                              'game-changing-challenge': challenge.classes?.includes('game-changing')
                          }"
                     >
-                        {{ challenge.name }}
+                        {{ formatPolicy(challenge) }}
                     </div>
                 </div>
             </div>

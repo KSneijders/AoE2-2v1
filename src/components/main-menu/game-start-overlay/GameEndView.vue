@@ -45,7 +45,7 @@ export default defineComponent({
     },
     methods: {
         clickedSide(side: Side): void {
-            const pointAdjust: number = side === Side.DEFENDANT ? +1 : -1;
+            const pointAdjust: number = side === Side.DEFENDANT ? -2 : +2;
             this.configData?.players.filter(p => p.side === Side.DEFENDANT).forEach(p => {
                 window.fs.adjustProfilePoints(p.id, pointAdjust);
             });
