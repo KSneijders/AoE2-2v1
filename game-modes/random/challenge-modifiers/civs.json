@@ -98,5 +98,33 @@
         "challenges": [
             "get_murder_holes"
         ]
+    },
+    {
+        "civs-have-access-to-challenges": false,
+        "civs": ["bohemians"],
+        "challenges": [
+            "no_mining_upgrades"
+        ]
+    },
+    {
+        "civs-have-access-to-challenges": false,
+        "civs": ["burmese"],
+        "challenges": [
+            "no_lumber_upgrades"
+        ]
+    },
+    {
+        "civs-have-access-to-challenges": false,
+        "civs": ["franks"],
+        "challenges": [
+            "no_mill_upgrades"
+        ]
+    },
+    {
+        "civs-have-access-to-challenges": false,
+        "civs": ["vikings"],
+        "challenges": [
+            "no_wheelbarrow_line"
+        ]
     }
 ]
