@@ -26,5 +26,25 @@ module.exports = {
                 `
             }
         }
+    },
+    pluginOptions: {
+        electronBuilder: {
+            // Use this to change the entrypoint of your app's main process
+            mainProcessFile: 'electron/main.js',
+            // Use this to change the entry point of your app's render process. default src/[main|index].[js|ts]
+            rendererProcessFile: 'src/main.ts',
+            builderOptions: {
+                productName: 'AoE2 2v1',
+                extraResources: [
+                    // {
+                    //     "from": "./extraResources/",
+                    //     "to": "extraResources",
+                    //     "filter": [
+                    //         "**/*"
+                    //     ]
+                    // }
+                ]
+            }
+        }
     }
 }
