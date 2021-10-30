@@ -3,12 +3,12 @@
     "version": "0.1.0",
     "description": "An application to play 2v1 matches (or other configurations) with extra challenges and commands!",
     "author": "KSneijders & Prelusion",
-    "private": true,
-    "main": "electron/main.js",
+    "main": "./electron/main.js",
     "build": {
         "appId": "aoe2.2v1.app",
         "directories": {
-            "output": "dist"
+            "output": "dist",
+            "app": "./"
         },
         "target": [
             "nsis"
