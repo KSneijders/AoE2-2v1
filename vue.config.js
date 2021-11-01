@@ -2,6 +2,7 @@ module.exports = {
     // Needs to be '' so that the built html file doesn't output asset filenames with a forward slash.
     publicPath: '',
     configureWebpack: {
+        mode: "production",
         output: {
             // The filenames need to have a ./ otherwise Electron won't be able to find the files.
             filename: './[name].js',
@@ -29,6 +30,10 @@ module.exports = {
     },
     pluginOptions: {
         electronBuilder: {
+            // List native deps here if they don't work
+            externals: [],
+
+            preload: './electron/preload.js',
             // Use this to change the entrypoint of your app's main process
             mainProcessFile: './electron/main.js',
             // Use this to change the entry point of your app's render process. default src/[main|index].[js|ts]
