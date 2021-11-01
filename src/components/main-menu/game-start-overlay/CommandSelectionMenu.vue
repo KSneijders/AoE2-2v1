@@ -17,14 +17,13 @@
 <script lang="ts">
 import {defineComponent, PropType} from "vue";
 import {CommandData, Options, OverlayConfigData} from "@/interfaces/gamemode-overlay";
-import {OverlayTab, Side} from "@/enums/gamemode-overlay";
+import {OverlayTab, SelectionMode, Side} from "@/enums/gamemode-overlay";
 import {ensure, sum} from "@/scripts/arrays";
 import {Profile} from "@/interfaces/profile";
 import CommandCollection from "@/classes/command-collection";
 import {GameModeContent} from "@/interfaces/game-mode";
 import PolicySelectRerolls
     from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicySelectRerolls.vue";
-import {PolicySelectionMode} from "@/enums/policies";
 import PolicySelectChoice from "@/components/main-menu/game-start-overlay/policy-selection-menu/PolicySelectChoice.vue";
 import {Command} from "@/interfaces/policies";
 import {getDefaultPolicyData, sortCommands} from "@/scripts/policies";
@@ -44,10 +43,10 @@ export default defineComponent({
     },
     data() {
         return {
-            PolicySelectionMode: PolicySelectionMode, // For in-template usage
+            PolicySelectionMode: SelectionMode, // For in-template usage
 
             commands: {} as CommandData,
-            selectionMode: PolicySelectionMode.CHOICE,
+            selectionMode: SelectionMode.CHOICE,
         }
     },
     async mounted() {
@@ -55,8 +54,8 @@ export default defineComponent({
         const defendantProfileEntries = this.configData?.players.filter(p => p.side === Side.DEFENDANT);
         const defendantProfiles: Profile[] = await window.fs.getProfiles(defendantProfileEntries.map(pe => pe.id));
 
-        const choiceMode: boolean = this.selectionMode === PolicySelectionMode.CHOICE
-        const rerollsMode: boolean = this.selectionMode === PolicySelectionMode.REROLLS
+        const choiceMode: boolean = this.selectionMode === SelectionMode.CHOICE
+        const rerollsMode: boolean = this.selectionMode === SelectionMode.REROLLS
         const optionsFound: boolean = this.configData?.commands?.options?.options.length !== 0
         const collectionFound: boolean = this.configData?.commands?.collection.length !== 0
 
@@ -83,11 +82,11 @@ export default defineComponent({
     methods: {
         initialise(): void {
             switch (this.selectionMode) {
-                case PolicySelectionMode.CHOICE:
+                case SelectionMode.CHOICE:
                     this.commands.collection = [];
                     this.commands.quantity = 3;
                     break;
-                case PolicySelectionMode.REROLLS:
+                case SelectionMode.REROLLS:
                     this.commands.collection = ensure(this.commands?.cc?.getRandom());
                     this.commands.quantity = 3;
                     break;

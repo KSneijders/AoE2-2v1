@@ -88,7 +88,7 @@ ipcMain.handle('fs:getProfile', (_, id) => {
     verifyCreateFolders();
 
     return p(() => {
-        createProfile(id, 25);
+        createProfile(id, 50);
         return getProfile(id)
     });
 })

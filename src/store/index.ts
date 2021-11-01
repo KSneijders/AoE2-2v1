@@ -38,6 +38,10 @@ export default createStore({
             state.gameModeInfo.selectedMode = newMode;
         }
     },
-    actions: {},
+    actions: {
+        async refreshUser(context) {
+            context.state.user = await window.fs.getProfile('default');
+        }
+    },
     modules: {},
 })

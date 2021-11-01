@@ -21,7 +21,7 @@ export default defineComponent({
     computed: {},
     methods: {
         GameEndView(): void {
-            if (confirm("Please confirm the game finished")) this.$emit('game-end-clicked')
+            if (confirm("gg wp!\n\nAre you sure the game finished? :)")) this.$emit('game-end-clicked')
         }
     },
     watch: {}

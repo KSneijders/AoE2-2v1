@@ -32,7 +32,7 @@ interface ChoiceCount {
 export default defineComponent({
     name: "CivSelectionMenu",
     components: {},
-    emits: ['overlay-tab-data-update'],
+    emits: ['overlay-tab-data-update', 'overlay-tab-reset'],
     props: {
         initialTabData: {
             type: Object as PropType<Options<string>>,
@@ -41,6 +41,10 @@ export default defineComponent({
         userProfile: {
             type: Object as PropType<ProfileEntry>,
             default: () => new Object()
+        },
+        switchConfirmRequired: {
+            type: Boolean,
+            default: () => false
         }
     },
     data() {
@@ -73,6 +77,15 @@ export default defineComponent({
     computed: {},
     methods: {
         selectCiv(civIndex: number) {
+            if (this.switchConfirmRequired && this.selectedCiv !== civIndex) {
+                if (!confirm("The civ change you're about to make will impact the upcoming tabs.\n" +
+                    "If you continue, all upcoming configuration tabs will get reset!")) {
+                    return;
+                } else {
+                    this.$emit('overlay-tab-reset');
+                }
+            }
+
             this.selectedCiv = this.selection.choiceIndex = civIndex;
             this.$emit('overlay-tab-data-update', OverlayTab.CIVS, true, this.selection);
         }

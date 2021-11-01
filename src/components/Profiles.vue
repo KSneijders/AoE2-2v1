@@ -174,6 +174,7 @@ export default defineComponent({
 
     input {
         padding: 2px;
+        width: 100%;
     }
 
     #delete-profile {
