@@ -30,9 +30,12 @@ module.exports = {
     },
     pluginOptions: {
         electronBuilder: {
+            // If you want to use the file:// protocol, add win.loadURL(`file://${__dirname}/index.html`) to your main process file
+            // In place of win.loadURL('app://./index.html'), and set customFileProtocol to './'
+            customFileProtocol: './',
+
             // List native deps here if they don't work
             externals: [],
-
             preload: './electron/preload.js',
             // Use this to change the entrypoint of your app's main process
             mainProcessFile: './electron/main.js',
@@ -44,7 +47,12 @@ module.exports = {
 
             builderOptions: {
                 productName: 'AoE2 2v1',
-                extraResources: [
+
+                // Electron packing. Setting this to false results in a warning when building.
+                // I'm not sure why it is not recommended. I might get back to this in the future^tm.
+                asar: false,
+
+                // extraResources: [
                     // {
                     //     "from": "./extraResources/",
                     //     "to": "extraResources",
@@ -52,7 +60,7 @@ module.exports = {
                     //         "**/*"
                     //     ]
                     // }
-                ]
+                // ]
             }
         }
     }

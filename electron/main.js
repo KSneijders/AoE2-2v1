@@ -45,7 +45,7 @@ const createWindow = async () => {
     });
 
     // the `dist` directory.
-    win.loadFile(path.join(__dirname, '..', 'dist', 'index.html'));
+    win.loadFile(path.join(__dirname, '..', 'app', 'index.html'));
 
     // Open the dev tools if in development. This can also be removed if not needed.
     if (isDev) win.webContents.openDevTools();
