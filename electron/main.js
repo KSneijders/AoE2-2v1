@@ -21,7 +21,7 @@ try {
 } catch (_) {
 }
 
-const isDev = process.env.MODE === 'development';
+const isDev = process.env.NODE_ENV === 'development';
 
 // Keep a global reference of the window object. If you don't, the window will
 // be closed automatically when the JS object is garbage collected.
@@ -44,11 +44,14 @@ const createWindow = async () => {
         },
     });
 
-    // the `dist` directory.
-    win.loadFile(path.join(__dirname, '..', 'app', 'index.html'));
-
-    // Open the dev tools if in development. This can also be removed if not needed.
-    if (isDev) win.webContents.openDevTools();
+    if (isDev) {
+        await win.loadFile(path.join(__dirname, '..', 'dist', 'index.html'));
+        win.webContents.openDevTools();
+    }
+    // Production
+    else {
+        await win.loadFile(path.join(__dirname, '..', 'app', 'index.html'));
+    }
 };
 
 /**
