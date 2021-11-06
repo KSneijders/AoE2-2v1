@@ -6,6 +6,7 @@ interface Profile {
     name: string;
     points: number;
     id: string;
+    colour: string;
 }
 
 interface ProfileEntry {
@@ -14,6 +15,7 @@ interface ProfileEntry {
     name: string;
     id: string;
     side: Side;
+    colour: string;
 }
 
 export {Profile, ProfileEntry};

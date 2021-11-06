@@ -50,12 +50,13 @@ function profileExists(id) {
     return fs.existsSync(`${PROFILES_PATH + id}.json`)
 }
 
-function createProfile(id, points) {
+function createProfile(id, points, colour) {
     if (!profileExists(id)) {
         let profileData = {
             "name": id,
             "id": id.toLowerCase(),
-            "points": points
+            "points": points,
+            "colour": colour
         };
         return writeProfile(id, profileData)
     } else {
@@ -101,9 +102,9 @@ ipcMain.handle('fs:removeProfile', (_, id) => {
     });
 })
 
-ipcMain.handle('fs:createProfile', (_, id, points) => {
+ipcMain.handle('fs:createProfile', (_, id, points, colour) => {
     return p(() => {
-        return createProfile(id, points);
+        return createProfile(id, points, colour);
     });
 })
 

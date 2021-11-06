@@ -32,7 +32,7 @@ declare global {
             getProfile(id: string): Promise<Profile>;
             getProfiles(ids?: string[]): Promise<Profile[]>;
             getProfileIds(): Promise<string[]>;
-            createProfile(id: string, points: number): Promise<boolean>;
+            createProfile(id: string, points: number, colour: string): Promise<boolean>;
             editProfile(id: string, key: string, value: string | number): Promise<boolean>;
             adjustProfilePoints(id: string, value: number): Promise<boolean>;
             removeProfile(id: string): Promise<boolean>;

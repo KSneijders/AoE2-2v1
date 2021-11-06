@@ -23,7 +23,7 @@ contextBridge.exposeInMainWorld("fs", {
     getProfile: (id) => ipcRenderer.invoke('fs:getProfile', id),
     getProfiles: (ids=[]) => ipcRenderer.invoke('fs:getProfiles', ids),
     getProfileIds: () => ipcRenderer.invoke('fs:getProfileIds'),
-    createProfile: (id, points) => ipcRenderer.invoke('fs:createProfile', id, points),
+    createProfile: (id, points, colour) => ipcRenderer.invoke('fs:createProfile', id, points, colour),
     editProfile: (id, key, value) => ipcRenderer.invoke('fs:editProfile', id, key, value),
     adjustProfilePoints: (id, value) => ipcRenderer.invoke('fs:adjustProfilePoints', id, value),
     removeProfile: (id) => ipcRenderer.invoke('fs:removeProfile', id),

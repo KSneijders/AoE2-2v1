@@ -8,6 +8,7 @@
 
              class="profile-entry"
         >
+            <span class="colour-prefix" v-bind:style="{'background-color': profile.colour}"></span>
             {{ profile.name }}
             <span v-if="profile.id === 'default'" class="you-identifier">(You)</span>
             ({{ profile.points }})
@@ -38,6 +39,20 @@
                     />
                 </td>
             </tr>
+            <tr class="colour-selection">
+                <td>Colour:</td>
+                <td>{{ selectedProfile.colour }}</td>
+                <td>
+                    <select @change="updateValue($event, 'colour')">
+                        <option v-for="(colour, index) in colours" v-bind:key="colour"
+                                v-bind:selected="selectedProfile.colour.toLowerCase() === colour.toLowerCase()"
+                                v-bind:value="colour"
+                        >
+                            {{index + 1}} | {{colour}}
+                        </option>
+                    </select>
+                </td>
+            </tr>
         </table>
         <div id="delete-profile"
              @click="removeProfile"
@@ -51,6 +66,11 @@
         <form v-on:submit.prevent="submitNewProfile($event)">
             <input placeholder="Profile name" type="text"> <br/>
             <input placeholder="Points" type="number"> <br/>
+            <select>
+                <option v-for="(colour, index) in colours" v-bind:key="colour">
+                    {{index + 1}} | {{colour}}
+                </option>
+            </select> <br/>
             <button>Add profile</button>
         </form>
     </div>
@@ -73,7 +93,10 @@ export default defineComponent({
     data() {
         return {
             profiles: [] as Profile[],
-            selectedProfileIndex: -1
+            selectedProfileIndex: -1,
+            colours: [
+                "Blue", "Red", "Green", "Yellow", "Cyan", "Purple", "Grey", "Orange"
+            ]
         }
     },
     computed: {
@@ -117,11 +140,12 @@ export default defineComponent({
             const target: HTMLFormElement = $event.target as HTMLFormElement
             const nameInput: HTMLInputElement = target[0] as HTMLInputElement
             const pointInput: HTMLInputElement = target[1] as HTMLInputElement
+            const colour: HTMLSelectElement = target[2] as HTMLSelectElement
 
             const name: string = stripIllegalChars(nameInput.value)
 
             if (!name || !pointInput.value) return
-            window.fs.createProfile(name, parseInt(pointInput.value)).then(success => {
+            window.fs.createProfile(name, parseInt(pointInput.value), colour.value).then(success => {
                 if (success) {
                     window.fs.getProfile(name).then(profile => {
                         this.profiles.push(profile);
@@ -155,6 +179,12 @@ export default defineComponent({
 
     input {
         margin-bottom: 5px;
+    }
+}
+
+.colour-selection {
+    select option, td {
+        text-transform: capitalize;
     }
 }
 
@@ -205,6 +235,14 @@ export default defineComponent({
         margin: 0 0 5px 0;
         font-size: 16px;
         transition: width .25s;
+
+        .colour-prefix {
+            margin-bottom: -2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 16px;
+            display: inline-block;
+        }
 
         .you-identifier {
         }
