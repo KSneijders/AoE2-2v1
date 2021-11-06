@@ -71,7 +71,7 @@ export default defineComponent({
                     name: profile.name,
                     side: Side.NONE,
                     id: profile.id,
-                    colour: profile.colour
+                    colour: profile.colour as string,
                 })
             );
 

@@ -1,6 +1,6 @@
 <template>
     <div id="profile-list" class="simple-white-scrollbar block">
-        <h5>Profiles</h5>
+        <h2>Profiles</h2>
         <div v-for="(profile, index) of profiles"
              v-bind:key="profile.name"
              @click="selectedProfileIndex=index"
@@ -15,7 +15,7 @@
         </div>
     </div>
     <div id="player-inspection" class="block" v-if="selectedProfile">
-        <h5>Information</h5>
+        <h2>Information</h2>
         <table>
             <tr>
                 <td>Name:</td>
@@ -62,7 +62,7 @@
         </div>
     </div>
     <div id="new-profile" class="block">
-        <h5>New Profile</h5>
+        <h2>New Profile</h2>
         <form v-on:submit.prevent="submitNewProfile($event)">
             <input placeholder="Profile name" type="text"> <br/>
             <input placeholder="Points" type="number"> <br/>
@@ -235,14 +235,6 @@ export default defineComponent({
         margin: 0 0 5px 0;
         font-size: 16px;
         transition: width .25s;
-
-        .colour-prefix {
-            margin-bottom: -2px;
-            width: 16px;
-            height: 16px;
-            border-radius: 16px;
-            display: inline-block;
-        }
 
         .you-identifier {
         }

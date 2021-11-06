@@ -11,6 +11,13 @@
                     <td>Points:</td>
                     <td>{{ profile.points }}</td>
                 </tr>
+                <tr>
+                    <td>Colour:</td>
+                    <td>
+                        <span class="colour-prefix" v-bind:style="{'background-color': profile.colour}"></span>
+                        {{ profile.colour }}
+                    </td>
+                </tr>
             </table>
         </div>
     </div>

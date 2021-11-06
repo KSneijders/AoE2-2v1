@@ -1,11 +1,11 @@
 <template>
     <div id="window" v-bind:style="{backgroundImage: backgroundImage}">
-        <Tabs v-on:tab-select="updateTab" />
+        <Tabs v-on:tab-select="updateTab"/>
         <div id="tab-container">
             <MainMenu v-if="selectedTab.title === 'Main menu'"/>
-            <History v-if="selectedTab.title === 'History'" />
-            <Statistics v-if="selectedTab.title === 'Statistics'" />
-            <Profiles v-if="selectedTab.title === 'Profiles'" />
+            <History v-if="selectedTab.title === 'History'"/>
+            <Statistics v-if="selectedTab.title === 'Statistics'"/>
+            <Profiles v-if="selectedTab.title === 'Profiles'"/>
         </div>
     </div>
 </template>
@@ -41,12 +41,12 @@ export default defineComponent({
         loadGameMode('default').then(gamemodeContent => this.$store.state.defaultGamemode = gamemodeContent)
     },
     methods: {
-        updateTab (tab: LayoutTab) {
+        updateTab(tab: LayoutTab) {
             this.selectedTab = tab;
         }
     },
     computed: {
-        backgroundImage (): string {
+        backgroundImage(): string {
             return `linear-gradient(to bottom right, rgba(44, 80, 57, 1), rgba(82,121,67,0.8)), url('${this.selectedTab.image}')`
         }
     },
@@ -59,6 +59,7 @@ body {
     padding: 0;
     margin: 0;
 }
+
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -66,6 +67,14 @@ body {
     text-align: left;
     color: #2c3e50;
     width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: white;
+    margin-top: 0;
+    margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
 }
 
 * {
