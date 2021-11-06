@@ -67,7 +67,12 @@ export default defineComponent({
     mounted() {
         window.fs.getProfiles().then(profiles => {
             profiles.forEach(
-                profile => this.profileEntries.push({name: profile.name, side: Side.NONE, id:profile.id})
+                profile => this.profileEntries.push({
+                    name: profile.name,
+                    side: Side.NONE,
+                    id: profile.id,
+                    colour: profile.colour
+                })
             );
 
             for (const entry of (this.initialTabData || [])) {
