@@ -37,5 +37,8 @@ declare global {
             adjustProfilePoints(id: string, value: number): Promise<boolean>;
             removeProfile(id: string): Promise<boolean>;
         };
+        clipboard: {
+            copy(text: string): Promise<void>;
+        };
     }
 }
