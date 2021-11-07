@@ -1,5 +1,8 @@
 <template>
-    <div id="game-end-button" @click="GameEndView">
+    <div class="button" id="copy-challenges-button" @click="CopyChallenges">
+        {{ copyText || "Copy policies" }}
+    </div>
+    <div class="button" id="game-end-button" @click="GameEndView">
         Game Finished
     </div>
 </template>
@@ -9,11 +12,13 @@ import {defineComponent} from "vue";
 
 export default defineComponent({
     name: "GameEndButton",
-    emits: ['game-end-clicked'],
+    emits: ['game-end-clicked', 'copy-policies'],
     components: {},
     props: {},
     data() {
-        // Data
+        return {
+            copyText: "",
+        }
     },
     mounted() {
         // Execute on creation
@@ -21,7 +26,13 @@ export default defineComponent({
     computed: {},
     methods: {
         GameEndView(): void {
-            if (confirm("gg wp!\n\nAre you sure the game finished? :)")) this.$emit('game-end-clicked')
+            if (confirm("gg wp!\n\nAre you sure the game finished? :)"))
+                this.$emit('game-end-clicked');
+        },
+        CopyChallenges(): void {
+            this.$emit('copy-policies');
+            this.copyText = "Copied!";
+            setTimeout(() => this.copyText = "", 500);
         }
     },
     watch: {}
@@ -30,7 +41,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-#game-end-button {
+.button {
     margin: 5px;
     padding: 5px;
     background: $GREEN_BG_NORMAL;
@@ -42,6 +53,17 @@ export default defineComponent({
         background: $GREEN_BG_HOVER;
         box-shadow: 0 2px 5px 1px #588653;
         cursor: pointer;
+    }
+
+    &#copy-challenges-button {
+        text-align: center;
+        background: $GREY_BG_NORMAL;
+        box-shadow: 0 2px 5px 1px #575757;
+
+        &:hover {
+            background: $GREY_BG_HOVER;
+            box-shadow: 0 2px 5px 1px #969696;
+        }
     }
 }
 </style>

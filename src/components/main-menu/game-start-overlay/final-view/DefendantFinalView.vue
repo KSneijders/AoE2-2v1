@@ -20,7 +20,10 @@
             </div>
         </div>
         <div id="game-end-button-location">
-            <GameEndButton @game-end-clicked="$emit('game-end-clicked')"/>
+            <GameEndButton
+                @game-end-clicked="$emit('game-end-clicked')"
+                @copy-policies="copyCommands"
+            />
         </div>
     </div>
 </template>
@@ -59,6 +62,9 @@ export default defineComponent({
     computed: {},
     methods: {
         formatPolicy,
+        copyCommands (): void {
+            window.clipboard.copy(btoa(JSON.stringify(this.configData)));
+        },
         commandClicked (event: MouseEvent, command: Command): void {
             let change = 0;
             switch (event.button) {

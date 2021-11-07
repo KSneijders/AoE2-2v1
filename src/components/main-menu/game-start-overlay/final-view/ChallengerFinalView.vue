@@ -39,7 +39,10 @@
             </div>
         </div>
         <div id="game-end-button-location">
-            <GameEndButton @game-end-clicked="$emit('game-end-clicked')"/>
+            <GameEndButton
+                @game-end-clicked="$emit('game-end-clicked')"
+                @copy-policies="copyChallenges"
+            />
         </div>
     </div>
 </template>
@@ -53,6 +56,7 @@ import {importImages} from "@/scripts/other";
 import InfoBlockPartial from "@/components/main-menu/game-start-overlay/final-view/InfoBlockPartial.vue";
 import GameEndButton from "@/components/main-menu/game-start-overlay/final-view/GameEndButton.vue";
 import {formatPolicy} from "@/scripts/policies";
+import {filterObject} from "@/scripts/objects";
 
 const images: Record<string, string> = importImages(
     require.context('/src/assets/images/', false, /\.(jpg|jpe?g|png|gif|webp)$/)
@@ -98,6 +102,12 @@ export default defineComponent({
     },
     methods: {
         formatPolicy,
+        copyChallenges (): void {
+            const disallowed: string[] = ['challenges.cc']
+            window.clipboard.copy(btoa(
+                JSON.stringify(filterObject(this.configData, disallowed))
+            ));
+        },
         challengesPerAge(age: string): Challenge[] {
             return ensure(this.configData?.challenges?.collection).filter(c => c.classes?.includes(age))
         },
@@ -106,14 +116,11 @@ export default defineComponent({
         },
         challengeClicked($event: MouseEvent, challenge: Challenge, age?: string): void {
             const identifier: string = this.getIdentifier(challenge, age);
-            console.log("\n\n\n")
-            console.log($event.button)
-            console.log(this.challengeInfo[identifier])
             switch ($event.button) {
                 case 0:   // LMB
                     this.challengeInfo[identifier].done = !this.challengeInfo[identifier].done;
                     break;
-                case 2:  // RMB
+                case 2:   // RMB
                     this.challengeInfo[identifier].important = !this.challengeInfo[identifier].important;
                     break;
                 default:

@@ -28,3 +28,8 @@ contextBridge.exposeInMainWorld("fs", {
     adjustProfilePoints: (id, value) => ipcRenderer.invoke('fs:adjustProfilePoints', id, value),
     removeProfile: (id) => ipcRenderer.invoke('fs:removeProfile', id),
 });
+
+// ALL THE CONTEXT BRIDGE CONSTRUCTIONS NEED TO BE DEFINED IN: '/src/main.ts'
+contextBridge.exposeInMainWorld("clipboard", {
+    copy: (text) => ipcRenderer.invoke('clipboard:copy', text),
+});

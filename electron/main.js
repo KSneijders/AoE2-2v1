@@ -90,3 +90,6 @@ require('./handlers/axios')
 
 // Fs - Handling network requests
 require('./handlers/fs')
+
+// Clipboard - Handling clipboard requests
+require('./handlers/clipboard')
