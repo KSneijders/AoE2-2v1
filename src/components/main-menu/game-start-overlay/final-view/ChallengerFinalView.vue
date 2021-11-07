@@ -10,8 +10,11 @@
                         <h6>{{ age }}</h6>
                         <div class="challenge-entry" v-for="challenge in challengesPerAge(age)"
                              v-bind:key="challenge.id"
-                             @click="challengeClicked(challenge, age)"
-                             v-bind:class="{done: getChallengeDone(challenge, age)}"
+                             @mouseup="challengeClicked($event, challenge, age)"
+                             v-bind:class="{
+                                 done: getChallengeDone(challenge, age),
+                                 important: getChallengeImportant(challenge, age),
+                             }"
                         >
                             <img v-bind:src="images[`./${age}.png`]" v-bind:alt="age">
                             {{ formatPolicy(challenge) }}
@@ -23,9 +26,10 @@
                 <div v-if="challengesWithoutAge.length > 0">
                     <h6>Other challenges</h6>
                     <div class="challenge-entry" v-for="challenge in challengesWithoutAge" v-bind:key="challenge.id"
-                         @click="challengeClicked(challenge)"
+                         @mouseup="challengeClicked($event, challenge)"
                          v-bind:class="{
-                             'done': getChallengeDone(challenge),
+                             done: getChallengeDone(challenge),
+                             important: getChallengeImportant(challenge),
                              'game-changing-challenge': challenge.classes?.includes('game-changing')
                          }"
                     >
@@ -67,17 +71,17 @@ export default defineComponent({
         return {
             images: images,
             ages: ['instant', 'dark', 'feudal', 'castle', 'imp'],
-            challengeDone: {} as Record<string, boolean>,
+            challengeInfo: {} as Record<string, Record<string, boolean>>,
         }
     },
     mounted() {
         this.configData?.challenges.collection.forEach(c => {
             for (const cls of c.classes || []) {
                 const identifier: string = this.getIdentifier(c, this.ages.includes(cls) ? cls : undefined);
-                this.challengeDone[identifier] = false;
+                this.challengeInfo[identifier] = {done: false, important: false};
             }
             if ((c.classes || []).length === 0) {
-                this.challengeDone[this.getIdentifier(c)] = false;
+                this.challengeInfo[this.getIdentifier(c)] = {done: false, important: false};
             }
         })
     },
@@ -100,13 +104,29 @@ export default defineComponent({
         getIdentifier(challenge: Challenge, age?: string): string {
             return age ? challenge.id + age : challenge.id;
         },
-        challengeClicked(challenge: Challenge, age?: string): void {
+        challengeClicked($event: MouseEvent, challenge: Challenge, age?: string): void {
             const identifier: string = this.getIdentifier(challenge, age);
-            this.challengeDone[identifier] = !this.challengeDone[identifier];
+            console.log("\n\n\n")
+            console.log($event.button)
+            console.log(this.challengeInfo[identifier])
+            switch ($event.button) {
+                case 0:   // LMB
+                    this.challengeInfo[identifier].done = !this.challengeInfo[identifier].done;
+                    break;
+                case 2:  // RMB
+                    this.challengeInfo[identifier].important = !this.challengeInfo[identifier].important;
+                    break;
+                default:
+                    return;
+            }
         },
         getChallengeDone(challenge: Challenge, age?: string): boolean {
             const identifier: string = this.getIdentifier(challenge, age);
-            return this.challengeDone[identifier];
+            return this.challengeInfo[identifier]?.done || false;
+        },
+        getChallengeImportant(challenge: Challenge, age?: string): boolean {
+            const identifier: string = this.getIdentifier(challenge, age);
+            return this.challengeInfo[identifier]?.important || false;
         }
     },
     watch: {}
@@ -164,6 +184,12 @@ export default defineComponent({
                 display: inline-block;
                 height: 20px;
                 width: 20px;
+            }
+
+            &.important {
+                color: #ffc738;
+                font-weight: bold;
+                text-decoration: underline;
             }
 
             &.done {
