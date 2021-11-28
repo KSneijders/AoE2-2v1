@@ -126,5 +126,12 @@
         "challenges": [
             "no_wheelbarrow_line"
         ]
+    },
+    {
+        "civs-have-access-to-challenges": false,
+        "civs": ["mayans", "chinese"],
+        "challenges": [
+            "instant_loom"
+        ]
     }
 ]
