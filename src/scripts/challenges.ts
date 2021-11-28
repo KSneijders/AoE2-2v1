@@ -34,21 +34,31 @@ async function loadGameMode(gameMode: string): Promise<GameModeContent> {
 
     // ----------------------------------- CIVS Modifier ----------------------------------- \\
     if (modifiers?.civs?.length) {
-        const remappedCivModifiers: Record<string, CivModifier> = {};
+        const civModifiers: Record<string, Record<string, boolean>> = {};
         for (const entry of (modifiers.civs)) {
-            if (!entry["civs-have-access-to-challenges"]) {  // Invert civ list
-                entry.civs = Object.values(Civ).filter(c => !entry.civs.includes(c))
-            }
-
             for (const challenge of entry.challenges) {
-                remappedCivModifiers[challenge] = entry;
+                const challengeCivMods = getDefault(civModifiers, challenge, {});
+                entry.civs.forEach(civ => {
+                    challengeCivMods[civ] = entry["civs-have-access-to-challenges"];
+                })
             }
+        }
+
+        const remappedCivModifiers: Record<string, Array<string>> = {};
+        for (const [challenge, civMods] of Object.entries(civModifiers)) {
+
+            remappedCivModifiers[challenge] =
+                Object.values(Civ)
+                    .filter(civ => {
+                        if (civ in civMods) return civMods[civ];
+                        return true;
+                    })
         }
 
         for (const category of Object.keys(challenges)) {
             for (const challenge of challenges[category]) {
                 if (challenge.id in remappedCivModifiers) {
-                    challenge.civs = remappedCivModifiers[challenge.id].civs
+                    challenge.civs = Array.from(remappedCivModifiers[challenge.id]);
                 }
             }
         }
@@ -78,7 +88,7 @@ async function loadGameMode(gameMode: string): Promise<GameModeContent> {
 
     // ----------------------------------- Limiters ----------------------------------- \\
     const limiters: Limiters = {};
-    if (onlineLimiters){
+    if (onlineLimiters) {
         for (const mu of onlineLimiters["mutually-exclusive"] || []) {
             for (let i = 0; i < mu.length; i++) {
                 getDefault(limiters, mu[i], []).push(...mu.filter(k => k !== mu[i]))
