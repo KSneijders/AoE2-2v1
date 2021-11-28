@@ -35,6 +35,7 @@ import {Command} from "@/interfaces/policies";
 import InfoBlockPartial from "@/components/main-menu/game-start-overlay/final-view/InfoBlockPartial.vue";
 import GameEndButton from "@/components/main-menu/game-start-overlay/final-view/GameEndButton.vue";
 import {formatPolicy} from "@/scripts/policies";
+import {filterObject} from "@/scripts/objects";
 
 export default defineComponent({
     name: "DefendantFinalView",
@@ -63,7 +64,10 @@ export default defineComponent({
     methods: {
         formatPolicy,
         copyCommands (): void {
-            window.clipboard.copy(btoa(JSON.stringify(this.configData)));
+            const disallowed: string[] = ['commands.cc', 'commands.options']
+            window.clipboard.copy(btoa(
+                JSON.stringify(filterObject(this.configData, disallowed))
+            ));
         },
         commandClicked (event: MouseEvent, command: Command): void {
             let change = 0;
