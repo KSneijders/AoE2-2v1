@@ -216,7 +216,7 @@
                 }
             },
             "id": "send_all_x_resource",
-            "desc": "If a duo player does not have a market, he has to build one. Unless they're not allowed to."
+            "desc": "If a duo player does not have a market, he has to build one. Unless they're not allowed to. \n\nIf this command is called after another command that cancelled a duo player's AGE upgrade (i.e. Cancel queues / Delete TCs etc.), the max amount of food that can be send is 600. The cap only applies if the duo player requeued their age upgrade when they were able to."
         },
         {
             "name": "Cancel all queues for 30s",
