@@ -1,6 +1,6 @@
 {
     "name": "aoe2-2v1",
-    "version": "0.1.0",
+    "version": "1.0.1",
     "description": "An application to play 2v1 matches (or other configurations) with extra challenges and commands!",
     "author": "KSneijders & Prelusion",
     "scripts": {

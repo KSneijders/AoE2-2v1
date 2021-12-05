@@ -1,8 +1,11 @@
+const argv = process.argv;
+const isBuildCall = argv[2] === "electron:build"
+
 module.exports = {
     // Needs to be '' so that the built html file doesn't output asset filenames with a forward slash.
     publicPath: '',
     configureWebpack: {
-        mode: "production",
+        mode: isBuildCall ? "production" : "development",
         output: {
             // The filenames need to have a ./ otherwise Electron won't be able to find the files.
             filename: './[name].js',
