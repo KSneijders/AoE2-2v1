@@ -46,12 +46,13 @@ async function loadGameMode(gameMode: string): Promise<GameModeContent> {
 
         const remappedCivModifiers: Record<string, Array<string>> = {};
         for (const [challenge, civMods] of Object.entries(civModifiers)) {
+            const hasTrueCivs = Object.values(civMods).some(e => e)
 
             remappedCivModifiers[challenge] =
                 Object.values(Civ)
                     .filter(civ => {
                         if (civ in civMods) return civMods[civ];
-                        return true;
+                        return !hasTrueCivs;
                     })
         }
 
